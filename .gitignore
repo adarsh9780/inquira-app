@@ -24,3 +24,5 @@ logs
 !.env.example
 .kilo
 commit_message.txt
+wrangler.toml
+commands.txt

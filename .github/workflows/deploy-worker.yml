@@ -1,0 +1,55 @@
+name: Deploy Public Site Worker
+
+on:
+  push:
+    branches: ["master"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-public-site-worker
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      NITRO_PRESET: cloudflare_module
+      NUXT_CLOUDFLARE_D1_BINDING: DB
+      NUXT_PUBLIC_SHOW_PRICING: ${{ vars.NUXT_PUBLIC_SHOW_PRICING || 'false' }}
+      NUXT_PUBLIC_DOWNLOADS_MANIFEST_URL: ${{ vars.NUXT_PUBLIC_DOWNLOADS_MANIFEST_URL || 'https://downloads.inquiraai.com/latest.json' }}
+      SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+      SUPABASE_KEY: ${{ vars.SUPABASE_KEY }}
+      CLOUDFLARE_WORKER_NAME: ${{ vars.CLOUDFLARE_WORKER_NAME }}
+      CLOUDFLARE_D1_DATABASE_NAME: ${{ vars.CLOUDFLARE_D1_DATABASE_NAME }}
+      CLOUDFLARE_D1_DATABASE_ID: ${{ vars.CLOUDFLARE_D1_DATABASE_ID }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Generate Wrangler config
+        run: npm run wrangler:config
+
+      - name: Build standalone Worker
+        run: npm run build:worker
+
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy

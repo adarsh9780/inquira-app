@@ -1,4 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+const cloudflareD1Binding = process.env.NUXT_CLOUDFLARE_D1_BINDING || ''
+const isCloudflareWorkerBuild =
+  process.env.NITRO_PRESET === 'cloudflare_module' || cloudflareD1Binding.length > 0
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -8,11 +12,23 @@ export default defineNuxtConfig({
     configPath: '~/tailwind.config.ts'
   },
   nitro: {
+    preset: isCloudflareWorkerBuild ? 'cloudflare_module' : undefined,
     prerender: {
       autoSubfolderIndex: false
+    },
+    cloudflare: {
+      nodeCompat: true
     }
   },
   content: {
+    ...(cloudflareD1Binding
+      ? {
+          database: {
+            type: 'd1',
+            bindingName: cloudflareD1Binding
+          }
+        }
+      : {}),
     build: {
       markdown: {
         highlight: {

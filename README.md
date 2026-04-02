@@ -23,24 +23,61 @@ npm test
 npm run build
 ```
 
-## Cloudflare Pages
+## Cloudflare Workers
 
-This app is prepared for Cloudflare Pages with Nuxt Content. Use the following settings in the Cloudflare dashboard:
+This app is prepared for a standalone Cloudflare Worker deployment backed by static assets and a D1 database for Nuxt Content.
 
-- Framework preset: `None`
-- Build command: `npm run build:cloudflare`
-- Build output directory: `dist`
-- Root directory: `/`
-- Production branch: `main` or your chosen release branch
+Create these resources in Cloudflare:
 
-Cloudflare Pages also needs a D1 binding named `DB` for `@nuxt/content` to work in the Cloudflare runtime.
-Enable the `nodejs_compat` compatibility flag as well; the included `wrangler.toml` captures that repo-side setting.
+1. Create a Worker for the public site.
+2. Create a D1 database for docs/content and use binding name `DB`.
+3. Keep the R2 bucket that serves `downloads.inquiraai.com`.
+4. Attach a custom domain to the Worker such as `inquiraai.com` or `www.inquiraai.com`.
+5. Reserve `app.inquiraai.com` for future account and billing features.
 
 Recommended environment variables:
 
 - `NUXT_PUBLIC_SHOW_PRICING=false`
 - `NUXT_PUBLIC_DOWNLOADS_MANIFEST_URL=https://downloads.inquiraai.com/latest.json`
+- `NUXT_CLOUDFLARE_D1_BINDING=DB`
 - `SUPABASE_URL=<your project url>`
 - `SUPABASE_KEY=<your anon key>`
+- `CLOUDFLARE_WORKER_NAME=<worker name>`
+- `CLOUDFLARE_D1_DATABASE_NAME=<d1 database name>`
+- `CLOUDFLARE_D1_DATABASE_ID=<d1 database id>`
+- `CLOUDFLARE_ACCOUNT_ID=<cloudflare account id>`
 
 The landing page download buttons read `latest.json` from Cloudflare R2 so new desktop releases show up automatically without editing this repo.
+
+Generate a local Wrangler config after exporting the Cloudflare identifiers:
+
+```bash
+npm run wrangler:config
+```
+
+Build or deploy the standalone Worker with:
+
+```bash
+npm run build:worker
+npm run deploy:worker
+```
+
+## GitHub Actions Deploy
+
+The repository includes a Worker deployment workflow at
+`.github/workflows/deploy-worker.yml`.
+
+Set these GitHub repository secrets:
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
+Set these GitHub repository variables:
+
+- `CLOUDFLARE_WORKER_NAME`
+- `CLOUDFLARE_D1_DATABASE_NAME`
+- `CLOUDFLARE_D1_DATABASE_ID`
+- `NUXT_PUBLIC_SHOW_PRICING`
+- `NUXT_PUBLIC_DOWNLOADS_MANIFEST_URL`
+- `SUPABASE_URL`
+- `SUPABASE_KEY`
