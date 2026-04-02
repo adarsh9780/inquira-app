@@ -20,9 +20,12 @@ test('nuxt config switches content to D1 for Cloudflare worker builds', () => {
   assert.match(nuxtConfig, /nodeCompat: true/)
 })
 
-test('wrangler config generator writes the worker, assets, and D1 settings', () => {
+test('wrangler config generator writes the worker, custom domains, assets, and D1 settings', () => {
   const script = readFileSync(resolve(root, 'scripts/writeWranglerConfig.mjs'), 'utf8')
   assert.match(script, /main = "\.output\/server\/index\.mjs"/)
+  assert.match(script, /CLOUDFLARE_CUSTOM_DOMAIN_PATTERNS/)
+  assert.match(script, /\[\[routes\]\]/)
+  assert.match(script, /custom_domain = true/)
   assert.match(script, /\[assets\]/)
   assert.match(script, /\[\[d1_databases\]\]/)
   assert.match(script, /binding = "DB"/)
@@ -33,6 +36,7 @@ test('deploy workflow uses wrangler action against the master branch', () => {
   const workflow = readFileSync(resolve(root, '.github/workflows/deploy-worker.yml'), 'utf8')
   assert.match(workflow, /branches: \["master"\]/)
   assert.match(workflow, /cloudflare\/wrangler-action@v3/)
+  assert.match(workflow, /CLOUDFLARE_CUSTOM_DOMAIN_PATTERNS/)
   assert.match(workflow, /npm run build:worker/)
   assert.match(workflow, /npm run wrangler:config/)
 })

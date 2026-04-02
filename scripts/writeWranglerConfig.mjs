@@ -18,11 +18,19 @@ function quote(value) {
   return JSON.stringify(value)
 }
 
+function optionalListEnv(name) {
+  return optionalEnv(name)
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean)
+}
+
 function buildWranglerConfig() {
   const workerName = requireEnv('CLOUDFLARE_WORKER_NAME')
   const databaseName = requireEnv('CLOUDFLARE_D1_DATABASE_NAME')
   const databaseId = requireEnv('CLOUDFLARE_D1_DATABASE_ID')
   const accountId = optionalEnv('CLOUDFLARE_ACCOUNT_ID')
+  const customDomainPatterns = optionalListEnv('CLOUDFLARE_CUSTOM_DOMAIN_PATTERNS')
   const showPricing = optionalEnv('NUXT_PUBLIC_SHOW_PRICING') || 'false'
   const downloadsManifestUrl =
     optionalEnv('NUXT_PUBLIC_DOWNLOADS_MANIFEST_URL') || 'https://downloads.inquiraai.com/latest.json'
@@ -40,6 +48,10 @@ function buildWranglerConfig() {
 
   if (accountId) {
     lines.push(`account_id = ${quote(accountId)}`)
+  }
+
+  for (const pattern of customDomainPatterns) {
+    lines.push('', '[[routes]]', `pattern = ${quote(pattern)}`, 'custom_domain = true')
   }
 
   lines.push(

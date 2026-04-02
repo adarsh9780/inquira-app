@@ -29,10 +29,10 @@ This app is prepared for a standalone Cloudflare Worker deployment backed by sta
 
 Create these resources in Cloudflare:
 
-1. Create a Worker for the public site.
-2. Create a D1 database for docs/content and use binding name `DB`.
-3. Keep the R2 bucket that serves `downloads.inquiraai.com`.
-4. Attach a custom domain to the Worker such as `inquiraai.com` or `www.inquiraai.com`.
+1. Create the D1 database for docs/content and use binding name `DB`.
+2. Keep the R2 bucket that serves `downloads.inquiraai.com`.
+3. Reserve the public Worker name, for example `inquira-public`. The Worker itself is created on the first deploy.
+4. Reserve the custom domains you want the Worker to own, such as `inquiraai.com` and `www.inquiraai.com`.
 5. Reserve `app.inquiraai.com` for future account and billing features.
 
 Recommended environment variables:
@@ -43,6 +43,7 @@ Recommended environment variables:
 - `SUPABASE_URL=<your project url>`
 - `SUPABASE_KEY=<your anon key>`
 - `CLOUDFLARE_WORKER_NAME=<worker name>`
+- `CLOUDFLARE_CUSTOM_DOMAIN_PATTERNS=inquiraai.com,www.inquiraai.com`
 - `CLOUDFLARE_D1_DATABASE_NAME=<d1 database name>`
 - `CLOUDFLARE_D1_DATABASE_ID=<d1 database id>`
 - `CLOUDFLARE_ACCOUNT_ID=<cloudflare account id>`
@@ -75,6 +76,7 @@ Set these GitHub repository secrets:
 Set these GitHub repository variables:
 
 - `CLOUDFLARE_WORKER_NAME`
+- `CLOUDFLARE_CUSTOM_DOMAIN_PATTERNS`
 - `CLOUDFLARE_D1_DATABASE_NAME`
 - `CLOUDFLARE_D1_DATABASE_ID`
 - `NUXT_PUBLIC_SHOW_PRICING`
