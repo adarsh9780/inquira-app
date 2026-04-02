@@ -489,17 +489,35 @@
 </template>
 
 <script setup lang="ts">
+import { getDownloadUrl, isPricingEnabled, normalizeDownloadManifest } from '~/utils/publicDownloads.js'
+
 const config = useRuntimeConfig()
-const showPricing = config.public.showPricing
+const showPricing = computed(() => isPricingEnabled(config.public.showPricing))
+const downloadsManifestUrl = computed(() =>
+  String(config.public.downloadsManifestUrl || 'https://downloads.inquiraai.com/latest.json')
+)
+
+const { data: publicDownloadManifest } = await useAsyncData(
+  'public-download-manifest',
+  async () => {
+    try {
+      const manifest = await $fetch(downloadsManifestUrl.value)
+      return normalizeDownloadManifest(manifest)
+    } catch (error) {
+      console.error('Could not load public download manifest:', error)
+      return normalizeDownloadManifest(null)
+    }
+  },
+)
+
+const downloadManifest = computed(() =>
+  publicDownloadManifest.value ?? normalizeDownloadManifest(null)
+)
 
 const { saveEmail, download } = useEmailSignup()
 
 const email = ref('')
 const DOWNLOAD_SOURCE = 'inquira-acc-landing-page'
-const VERSION = 'latest'
-
-const MACOS_FALLBACK_URL = 'https://github.com/adarsh9780/inquira-ce/releases/latest'
-const WINDOWS_FALLBACK_URL = 'https://github.com/adarsh9780/inquira-ce/releases/latest'
 
 async function handleDownload(platform: 'macOS' | 'Windows') {
   if (email.value) {
@@ -507,10 +525,10 @@ async function handleDownload(platform: 'macOS' | 'Windows') {
       email: email.value,
       platform,
       source: DOWNLOAD_SOURCE,
-      version: VERSION,
+      version: downloadManifest.value.version,
     })
   }
-  const downloadUrl = platform === 'macOS' ? MACOS_FALLBACK_URL : WINDOWS_FALLBACK_URL
+  const downloadUrl = getDownloadUrl(downloadManifest.value, platform)
   download(downloadUrl)
 }
 </script>

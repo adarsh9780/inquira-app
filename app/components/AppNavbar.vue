@@ -59,6 +59,8 @@
 </template>
 
 <script setup lang="ts">
+import { isPricingEnabled } from '~/utils/publicDownloads.js'
+
 const config = useRuntimeConfig()
-const showPricing = config.public.showPricing
+const showPricing = computed(() => isPricingEnabled(config.public.showPricing))
 </script>

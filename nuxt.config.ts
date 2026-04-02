@@ -7,6 +7,11 @@ export default defineNuxtConfig({
   tailwindcss: {
     configPath: '~/tailwind.config.ts'
   },
+  nitro: {
+    prerender: {
+      autoSubfolderIndex: false
+    }
+  },
   content: {
     build: {
       markdown: {
@@ -17,11 +22,14 @@ export default defineNuxtConfig({
     }
   },
   supabase: {
-    redirect: false
+    redirect: false,
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_KEY,
   },
   runtimeConfig: {
     public: {
-      showPricing: false,
+      showPricing: process.env.NUXT_PUBLIC_SHOW_PRICING || 'false',
+      downloadsManifestUrl: process.env.NUXT_PUBLIC_DOWNLOADS_MANIFEST_URL || 'https://downloads.inquiraai.com/latest.json',
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseKey: process.env.SUPABASE_KEY,
     }
