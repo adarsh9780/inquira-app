@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inquira | Desktop AI Workspace</title>
+  <meta name="description" content="Privacy-first, local AI data analysis desktop application. Your data never leaves your machine.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0b0f;
+      --bg-secondary: #0f1117;
+      --bg-card: #12141c;
+      --bg-card-hover: #1a1d28;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-indigo: #6366f1;
+      --gradient-primary: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      --gradient-glow: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+      --border-color: rgba(255, 255, 255, 0.06);
+      --shadow-glow: 0 0 60px rgba(59, 130, 246, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--accent-purple);
+      color: white;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--bg-card);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 16px 0;
+      background: rgba(10, 11, 15, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .nav-brand svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    .nav-brand span {
+      font-family: 'Sora', sans-serif;
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-cta {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border-color: var(--text-muted);
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 100%;
+      background: var(--gradient-glow);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content {
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--accent-blue);
+      margin-bottom: 24px;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent-blue);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .hero h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero h1 span {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-description {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      max-width: 500px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+    }
+
+    .stat {
+      text-align: left;
+    }
+
+    .stat-value {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .hero-logo {
+      width: 320px;
+      height: 320px;
+      filter: drop-shadow(0 0 60px rgba(59, 130, 246, 0.3));
+    }
+
+    /* Features Section */
+    .features {
+      padding: 120px 0;
+      background: var(--bg-secondary);
+      position: relative;
+    }
+
+    .features::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-eyebrow {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-blue);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .feature-icon svg {
+      width: 24px;
+      height: 24px;
+      color: white;
+    }
+
+    .feature-card h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* How It Works */
+    .how-it-works {
+      padding: 120px 0;
+    }
+
+    .steps {
+      display: flex;
+      justify-content: space-between;
+      gap: 32px;
+      position: relative;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 15%;
+      right: 15%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-indigo));
+      opacity: 0.3;
+    }
+
+    .step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-number {
+      width: 80px;
+      height: 80px;
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-family: 'Sora', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .step h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .step p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    /* Pricing Section */
+    .pricing {
+      padding: 120px 0;
+      background: var(--bg-secondary);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 40px 32px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .pricing-card.featured {
+      border-color: var(--accent-blue);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .pricing-card.featured::before {
+      content: 'Most Popular';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradient-primary);
+      padding: 4px 16px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .pricing-name {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .pricing-description {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+
+    .pricing-features li {
+      padding: 8px 0;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    .pricing-card .btn {
+      width: 100%;
+      text-align: center;
+    }
+
+    /* CTA Section */
+    .cta {
+      padding: 120px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: var(--gradient-glow);
+      pointer-events: none;
+    }
+
+    .cta .section-title {
+      font-size: 2.75rem;
+      margin-bottom: 16px;
+    }
+
+    .cta .section-subtitle {
+      margin-bottom: 40px;
+    }
+
+    .download-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--text-muted);
+      transform: translateY(-2px);
+    }
+
+    .download-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .download-btn span {
+      font-weight: 600;
+    }
+
+    /* Footer */
+    footer {
+      padding: 64px 0 32px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 16px;
+      max-width: 300px;
+    }
+
+    .footer-column h4 {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column li {
+      margin-bottom: 8px;
+    }
+
+    .footer-column a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-column a:hover {
+      color: var(--text-primary);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 32px;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .hero-logo {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        text-align: center;
+      }
+
+      .hero-content {
+        order: 1;
+      }
+
+      .hero-visual {
+        order: 0;
+      }
+
+      .hero-description {
+        margin: 0 auto 32px;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .hero-stats {
+        justify-content: center;
+      }
+
+      .hero-logo {
+        width: 240px;
+        height: 240px;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
+        flex-direction: column;
+      }
+
+      .steps::before {
+        display: none;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <a href="#" class="nav-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <rect x="18" y="18" width="164" height="164" fill="#0f172a" rx="34" />
+          <g transform="translate(100, 100)" filter="url(#glow)">
+            <circle r="20" fill="url(#grad1)" />
+            <g>
+              <circle cx="60" cy="0" r="10" fill="#3b82f6" opacity="0.8">
+                <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="10s" repeatCount="indefinite" />
+              </circle>
+              <line x1="20" y1="0" x2="50" y2="0" stroke="url(#grad1)" stroke-width="4">
+                 <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="10s" repeatCount="indefinite" />
+              </line>
+            </g>
+            <g transform="rotate(120)">
+              <circle cx="60" cy="0" r="10" fill="#8b5cf6" opacity="0.8">
+                <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="15s" repeatCount="indefinite" />
+              </circle>
+              <line x1="20" y1="0" x2="50" y2="0" stroke="url(#grad1)" stroke-width="4">
+                 <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="15s" repeatCount="indefinite" />
+              </line>
+            </g>
+            <g transform="rotate(240)">
+              <circle cx="60" cy="0" r="10" fill="#6366f1" opacity="0.8">
+                <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite" />
+              </circle>
+               <line x1="20" y1="0" x2="50" y2="0" stroke="url(#grad1)" stroke-width="4">
+                 <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite" />
+              </line>
+            </g>
+          </g>
+        </svg>
+        <span>Inquira</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="https://docs.inquiraai.com/docs" target="_blank">Docs</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="https://github.com/adarsh9780/inquira-ce" target="_blank" class="btn btn-ghost">GitHub</a>
+        <a href="#download" class="btn btn-primary">Download</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-badge">Privacy-First AI</div>
+          <h1>Local AI Data Analysis <span>That Never Leaves Your Machine</span></h1>
+          <p class="hero-description">Ask questions about your data in natural language. Inquira generates Python scripts, executes them locally, and delivers insights—all while keeping your sensitive data 100% private.</p>
+          <div class="hero-buttons">
+            <a href="#download" class="btn btn-primary">Download Free</a>
+            <a href="https://docs.inquiraai.com/docs" target="_blank" class="btn btn-ghost">Read Docs</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <div class="stat-value">100%</div>
+              <div class="stat-label">Local Processing</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">0</div>
+              <div class="stat-label">Cloud Dependencies</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">DuckDB</div>
+              <div class="stat-label">Powered Engine</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <svg class="hero-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+            <defs>
+              <linearGradient id="hero-grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+              </linearGradient>
+              <filter id="hero-glow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            <rect x="18" y="18" width="164" height="164" fill="#0f172a" rx="34" />
+            <g transform="translate(100, 100)" filter="url(#hero-glow)">
+              <circle r="24" fill="url(#hero-grad1)" />
+              <g>
+                <circle cx="70" cy="0" r="12" fill="#3b82f6" opacity="0.9">
+                  <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="10s" repeatCount="indefinite" />
+                </circle>
+                <line x1="24" y1="0" x2="58" y2="0" stroke="url(#hero-grad1)" stroke-width="4">
+                   <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="10s" repeatCount="indefinite" />
+                </line>
+              </g>
+              <g transform="rotate(120)">
+                <circle cx="70" cy="0" r="12" fill="#8b5cf6" opacity="0.9">
+                  <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="15s" repeatCount="indefinite" />
+                </circle>
+                <line x1="24" y1="0" x2="58" y2="0" stroke="url(#hero-grad1)" stroke-width="4">
+                   <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="15s" repeatCount="indefinite" />
+                </line>
+              </g>
+              <g transform="rotate(240)">
+                <circle cx="70" cy="0" r="12" fill="#6366f1" opacity="0.9">
+                  <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite" />
+                </circle>
+                 <line x1="24" y1="0" x2="58" y2="0" stroke="url(#hero-grad1)" stroke-width="4">
+                   <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite" />
+                </line>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Core Features</div>
+        <h2 class="section-title">Everything You Need for Local AI Analysis</h2>
+        <p class="section-subtitle">A complete desktop application that combines the power of AI with absolute data privacy.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+          </div>
+          <h3>Autonomous AI-Assisted Analysis</h3>
+          <p>Translate natural language prompts into Python workflows. The AI independently executes them and returns answers, charts, and insights.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+          </div>
+          <h3>Local Python Execution</h3>
+          <p> Bundled Jupyter kernel running locally. AI generates exact installation commands for new packages, keeping your environment secure.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+          </div>
+          <h3>Seamless Local Data Handling</h3>
+          <p>Connect to Excel, CSV, JSON, and Parquet files. Dynamically converted into fast DuckDB workspaces for analyzing data of any size.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+          </div>
+          <h3>Integrated Code Editor</h3>
+          <p>Full control with built-in code editor with autocomplete. Manually tweak AI-generated code and debug in a dedicated error pane.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          </div>
+          <h3>Interactive Visualization</h3>
+          <p>Explore Plotly charts instantly. AG Grid with streaming backend handles up to 2000 rows at a time for massive datasets.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <h3>Flawless Resume & Persistence</h3>
+          <p>Intermediate variables, artifacts, and results are saved continuously. Close the app and resume exactly where you left off.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">How It Works</div>
+        <h2 class="section-title">Three Steps to AI-Powered Insights</h2>
+        <p class="section-subtitle">From raw data to actionable insights in minutes, not hours.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Drop Your Data</h3>
+          <p>Import CSV, Excel, Parquet, or JSON files. Inquira instantly creates a local DuckDB workspace.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Ask in Plain English</h3>
+          <p>Type your question naturally. The AI understands your intent and generates the appropriate analysis code.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Get Results</h3>
+          <p>Watch the AI execute code locally and return charts, tables, and natural language explanations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Pricing</div>
+        <h2 class="section-title">Three Editions, One Mission</h2>
+        <p class="section-subtitle">From individual users to enterprise teams, there's an Inquira edition for everyone.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-name">Free</div>
+          <p class="pricing-description">Core desktop experience for individuals.</p>
+          <ul class="pricing-features">
+            <li>No forced login for basic usage</li>
+            <li>Single-workspace experience</li>
+            <li>Local DuckDB engine</li>
+            <li>AI code generation</li>
+            <li>Interactive visualizations</li>
+          </ul>
+          <a href="#download" class="btn btn-ghost">Download Free</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-name">Pro</div>
+          <p class="pricing-description">Advanced workflows for power users.</p>
+          <ul class="pricing-features">
+            <li>Everything in Free</li>
+            <li>RAG support</li>
+            <li>Multiple workspaces</li>
+            <li>Priority support</li>
+            <li>Advanced visualization themes</li>
+          </ul>
+          <a href="#download" class="btn btn-primary">Get Pro</a>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-name">Enterprise</div>
+          <p class="pricing-description">Pro plus organizational integration.</p>
+          <ul class="pricing-features">
+            <li>Everything in Pro</li>
+            <li>Data connectors</li>
+            <li>MCP support</li>
+            <li>Team collaboration</li>
+            <li>Custom integrations</li>
+          </ul>
+          <a href="mailto:enterprise@inquiraai.com" class="btn btn-ghost">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="download">
+    <div class="container">
+      <div class="section-eyebrow">Get Started</div>
+      <h2 class="section-title">Download Inquira Today</h2>
+      <p class="section-subtitle">Available for macOS and Windows. Your data stays on your machine.</p>
+      <div class="download-buttons">
+        <a href="https://github.com/adarsh9780/inquira-ce/releases/latest" target="_blank" class="download-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.37 12.44c.02 2.46 2.16 3.28 2.18 3.29-.02.06-.34 1.17-1.12 2.32-.67 1-1.37 2-2.46 2.02-1.07.02-1.42-.64-2.65-.64-1.24 0-1.62.62-2.62.66-1.04.04-1.83-1.05-2.5-2.04-1.37-1.98-2.42-5.59-1.01-8.03.7-1.2 1.95-1.96 3.3-1.98 1.03-.02 2 .69 2.65.69.65 0 1.87-.85 3.16-.73.54.02 2.06.22 3.04 1.66-.08.05-1.82 1.06-1.8 2.78Zm-2.13-5.07c.56-.68.94-1.64.84-2.58-.81.03-1.79.54-2.37 1.22-.52.6-.98 1.57-.86 2.5.91.07 1.83-.46 2.39-1.14Z"/></svg>
+          <span>Download for macOS</span>
+        </a>
+        <a href="https://github.com/adarsh9780/inquira-ce/releases/latest" target="_blank" class="download-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5L10.5 4.4v7.1H3V5.5Zm8.5-1.22L21 3v8.5h-9.5V4.28ZM3 12.5h7.5v7.1L3 18.5v-6Zm8.5 0H21V21l-9.5-1.33V12.5Z"/></svg>
+          <span>Download for Windows</span>
+        </a>
+        <a href="https://github.com/adarsh9780/inquira-ce" target="_blank" class="download-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          <span>View on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="nav-brand">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="36" height="36">
+              <defs>
+                <linearGradient id="footer-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                </linearGradient>
+              </defs>
+              <rect x="18" y="18" width="164" height="164" fill="#0f172a" rx="34" />
+              <g transform="translate(100, 100)">
+                <circle r="20" fill="url(#footer-grad)" />
+              </g>
+            </svg>
+            <span>Inquira</span>
+          </a>
+          <p>Privacy-first, local AI data analysis. Your data never leaves your machine.</p>
+        </div>
+        <div class="footer-column">
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="https://docs.inquiraai.com/docs">Overview</a></li>
+            <li><a href="https://docs.inquiraai.com/docs/architecture">Architecture</a></li>
+            <li><a href="https://docs.inquiraai.com/docs/getting_data_in">Getting Started</a></li>
+            <li><a href="https://docs.inquiraai.com/docs/roadmap">Roadmap</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="https://github.com/adarsh9780/inquira-ce" target="_blank">GitHub</a></li>
+            <li><a href="https://github.com/adarsh9780/inquira-ce/issues" target="_blank">Issues</a></li>
+            <li><a href="https://github.com/adarsh9780/inquira-ce/discussions" target="_blank">Discussions</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="https://docs.inquiraai.com/docs/privacy-policy">Privacy Policy</a></li>
+            <li><a href="https://docs.inquiraai.com/docs/terms-of-service">Terms of Service</a></li>
+            <li><a href="https://docs.inquiraai.com/docs/contributing">Contributing</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Copyright © 2026 Inquira CE (Alpha). Built with Docusaurus.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
