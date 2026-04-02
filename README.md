@@ -60,8 +60,11 @@ Build or deploy the standalone Worker with:
 
 ```bash
 npm run build:worker
+npm run content:seed:sql
 npm run deploy:worker
 ```
+
+Nuxt Content generates compressed SQL dumps during the Worker build. Before a deploy goes live, the D1 database must be seeded from those dumps so `/docs` and other content routes do not 404 on an empty database.
 
 ## GitHub Actions Deploy
 
