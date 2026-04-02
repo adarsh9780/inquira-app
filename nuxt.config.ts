@@ -8,10 +8,10 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
     head: {
-      title: 'Inquira',
+      title: 'Inquira-CE',
       meta: [
-        { name: 'application-name', content: 'Inquira' },
-        { name: 'apple-mobile-web-app-title', content: 'Inquira' },
+        { name: 'application-name', content: 'Inquira-CE' },
+        { name: 'apple-mobile-web-app-title', content: 'Inquira-CE' },
         { name: 'theme-color', content: '#0f172a' }
       ],
       link: [
