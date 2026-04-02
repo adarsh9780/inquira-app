@@ -27,6 +27,20 @@ npm run build
 
 This app is prepared for a standalone Cloudflare Worker deployment backed by static assets and a D1 database for Nuxt Content.
 
+## Brand Assets
+
+The canonical public-site logo assets live under `public/brand/`.
+
+- `public/brand/inquira-mark.svg` is the shared source mark.
+- `public/brand/icon-1024.png` is the master raster export for future desktop packaging and splash screens.
+- `public/brand/inquira-mark.icns` and `public/brand/macos.iconset/` are generated for future macOS packaging.
+
+Regenerate the browser and desktop icon set with:
+
+```bash
+npm run brand:icons
+```
+
 Create these resources in Cloudflare:
 
 1. Create the D1 database for docs/content and use binding name `DB`.

@@ -403,50 +403,7 @@
         <div class="grid gap-8 md:grid-cols-4">
           <div>
             <a href="#" class="flex items-center gap-3">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="h-8 w-8">
-                <defs>
-                  <linearGradient id="footer-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
-                  </linearGradient>
-                  <filter id="footer-glow">
-                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                    <feMerge>
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-                <rect x="18" y="18" width="164" height="164" fill="#0f172a" rx="34" />
-                <g transform="translate(100, 100)" filter="url(#footer-glow)">
-                  <circle r="20" fill="url(#footer-grad)" />
-                  <g>
-                    <circle cx="60" cy="0" r="10" fill="#3b82f6" opacity="0.8">
-                      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="10s" repeatCount="indefinite" />
-                    </circle>
-                    <line x1="20" y1="0" x2="50" y2="0" stroke="url(#footer-grad)" stroke-width="4">
-                      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="10s" repeatCount="indefinite" />
-                    </line>
-                  </g>
-                  <g transform="rotate(120)">
-                    <circle cx="60" cy="0" r="10" fill="#f97316" opacity="0.8">
-                      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="15s" repeatCount="indefinite" />
-                    </circle>
-                    <line x1="20" y1="0" x2="50" y2="0" stroke="url(#footer-grad)" stroke-width="4">
-                      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="15s" repeatCount="indefinite" />
-                    </line>
-                  </g>
-                  <g transform="rotate(240)">
-                    <circle cx="60" cy="0" r="10" fill="#fb923c" opacity="0.8">
-                      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite" />
-                    </circle>
-                    <line x1="20" y1="0" x2="50" y2="0" stroke="url(#footer-grad)" stroke-width="4">
-                      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite" />
-                    </line>
-                  </g>
-                </g>
-              </svg>
-              <span class="font-sans text-lg font-semibold">Inquira</span>
+              <AppLogo />
             </a>
             <p class="mt-4 text-sm text-gray-600">Privacy-first, local AI data analysis. Your data never leaves your machine.</p>
           </div>

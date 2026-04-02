@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="title desc">
+  <title id="title">Inquira logo mark</title>
+  <desc id="desc">A dark rounded square with a central gradient node and three orbiting accent nodes.</desc>
+  <defs>
+    <linearGradient id="inquira-mark-gradient" x1="20%" y1="20%" x2="80%" y2="80%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#f97316" />
+    </linearGradient>
+  </defs>
+  <rect x="18" y="18" width="164" height="164" rx="34" fill="#0f172a" />
+  <g transform="translate(100 100)">
+    <circle r="20" fill="url(#inquira-mark-gradient)" />
+    <g stroke="url(#inquira-mark-gradient)" stroke-linecap="round" stroke-width="4">
+      <line x1="20" y1="0" x2="50" y2="0" />
+      <line x1="-10" y1="17.32" x2="-25" y2="43.3" />
+      <line x1="-10" y1="-17.32" x2="-25" y2="-43.3" />
+    </g>
+    <circle cx="60" cy="0" r="10" fill="#3b82f6" opacity="0.9" />
+    <circle cx="-30" cy="51.96" r="10" fill="#f97316" opacity="0.85" />
+    <circle cx="-30" cy="-51.96" r="10" fill="#fb923c" opacity="0.85" />
+  </g>
+</svg>

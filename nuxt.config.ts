@@ -6,6 +6,23 @@ const isCloudflareWorkerBuild =
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  app: {
+    head: {
+      title: 'Inquira',
+      meta: [
+        { name: 'application-name', content: 'Inquira' },
+        { name: 'apple-mobile-web-app-title', content: 'Inquira' },
+        { name: 'theme-color', content: '#0f172a' }
+      ],
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/brand/inquira-mark.svg' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/brand/favicon-32x32.png' },
+        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/brand/favicon-16x16.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/brand/apple-touch-icon.png' },
+        { rel: 'manifest', href: '/site.webmanifest' }
+      ]
+    }
+  },
   modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxtjs/supabase'],
   css: ['~/assets/css/main.css'],
   tailwindcss: {

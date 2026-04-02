@@ -8,6 +8,7 @@ const root = resolve(import.meta.dirname, '..')
 test('package scripts include the standalone worker build and deploy flow', () => {
   const packageJson = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'))
   assert.equal(packageJson.scripts['build:worker'], 'NUXT_CLOUDFLARE_D1_BINDING=DB NITRO_PRESET=cloudflare_module nuxt build')
+  assert.equal(packageJson.scripts['brand:icons'], 'node scripts/generateBrandIcons.mjs')
   assert.equal(packageJson.scripts['content:seed:sql'], 'node scripts/writeContentSeedSql.mjs')
   assert.match(packageJson.scripts['deploy:worker'], /npm run content:seed:sql/)
   assert.match(packageJson.scripts['deploy:worker'], /wrangler d1 execute/)
@@ -44,6 +45,15 @@ test('content seed generator expands Nuxt Content dumps into executable SQL', ()
   assert.match(script, /content-seed\.sql/)
 })
 
+test('brand icon generator creates browser and desktop assets from the shared SVG', () => {
+  const script = readFileSync(resolve(root, 'scripts/generateBrandIcons.mjs'), 'utf8')
+  assert.match(script, /qlmanage/)
+  assert.match(script, /sips/)
+  assert.match(script, /iconutil/)
+  assert.match(script, /macos\.iconset/)
+  assert.match(script, /inquira-mark\.icns/)
+})
+
 test('deploy workflow uses wrangler action against the master branch', () => {
   const workflow = readFileSync(resolve(root, '.github/workflows/deploy-worker.yml'), 'utf8')
   assert.match(workflow, /branches: \["master"\]/)
@@ -59,4 +69,14 @@ test('deploy workflow uses wrangler action against the master branch', () => {
 test('gitignore keeps the generated wrangler config local', () => {
   const gitignore = readFileSync(resolve(root, '.gitignore'), 'utf8')
   assert.match(gitignore, /wrangler\.toml/)
+})
+
+test('brand assets are available for web icons and future desktop packaging', () => {
+  const markSvg = readFileSync(resolve(root, 'public/brand/inquira-mark.svg'), 'utf8')
+  const appLogo = readFileSync(resolve(root, 'app/components/AppLogo.vue'), 'utf8')
+  const manifest = readFileSync(resolve(root, 'public/site.webmanifest'), 'utf8')
+
+  assert.match(markSvg, /Inquira logo mark/)
+  assert.match(appLogo, /\/brand\/inquira-mark\.svg/)
+  assert.match(manifest, /android-chrome-512x512\.png/)
 })

@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "build:worker": "NUXT_CLOUDFLARE_D1_BINDING=DB NITRO_PRESET=cloudflare_module nuxt build",
+    "brand:icons": "node scripts/generateBrandIcons.mjs",
     "dev": "nuxt dev",
     "content:seed:sql": "node scripts/writeContentSeedSql.mjs",
     "deploy:worker": "npm run build:worker && npm run content:seed:sql && npm run wrangler:config && npx wrangler d1 execute \"$CLOUDFLARE_D1_DATABASE_NAME\" --remote --file .output/content-seed.sql --yes && npx wrangler deploy",
