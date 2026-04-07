@@ -11,6 +11,7 @@ test('package scripts include the standalone worker build and deploy flow', () =
   assert.equal(packageJson.scripts['brand:icons'], 'node scripts/generateBrandIcons.mjs')
   assert.equal(packageJson.scripts['content:seed:sql'], 'node scripts/writeContentSeedSql.mjs')
   assert.equal(packageJson.scripts['verify:deployment'], 'node scripts/verifyDeployment.mjs')
+  assert.equal(packageJson.optionalDependencies['@oxc-parser/binding-linux-x64-gnu'], '^0.117.0')
   assert.match(packageJson.scripts['deploy:worker'], /npm run content:seed:sql/)
   assert.match(packageJson.scripts['deploy:worker'], /wrangler d1 execute/)
   assert.match(packageJson.scripts['deploy:worker'], /npm run wrangler:config/)
@@ -46,6 +47,11 @@ test('content seed generator expands Nuxt Content dumps into executable SQL', ()
   assert.match(script, /decompressSQLDump/)
   assert.match(script, /dump\\\..\+\\\.sql/)
   assert.match(script, /content-seed\.sql/)
+})
+
+test('lockfile includes the Linux oxc-parser binding required by GitHub Actions runners', () => {
+  const lockfile = readFileSync(resolve(root, 'package-lock.json'), 'utf8')
+  assert.match(lockfile, /node_modules\/@oxc-parser\/binding-linux-x64-gnu/)
 })
 
 test('brand icon generator creates browser and desktop assets from the shared SVG', () => {
