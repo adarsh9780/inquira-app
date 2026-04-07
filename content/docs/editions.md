@@ -65,4 +65,4 @@ Includes:
 - **Community**: Sustainable Use License (free for personal/academic/internal use)
 - **Pro/Enterprise**: Commercial license required for managed services
 
-For pricing details, visit our [pricing page](/pricing).
+For pricing details, visit the [pricing section](/#pricing) on the homepage.

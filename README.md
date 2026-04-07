@@ -23,6 +23,17 @@ npm test
 npm run build
 ```
 
+## Make Shortcuts
+
+If you prefer `make`, this repository now includes a small wrapper `Makefile` for the main automation steps:
+
+```bash
+make test
+make build-worker
+make deploy-worker
+make verify-deployment
+```
+
 ## Cloudflare Workers
 
 This app is prepared for a standalone Cloudflare Worker deployment backed by static assets and a D1 database for Nuxt Content.
@@ -49,6 +60,8 @@ Create these resources in Cloudflare:
 4. Reserve the custom domains you want the Worker to own, such as `inquiraai.com` and `www.inquiraai.com`.
 5. Reserve `app.inquiraai.com` for future account and billing features.
 
+About the D1 binding name: `DB` is the name your Worker uses to find the database at runtime. Think of it like a variable name injected by Cloudflare. This repo is wired to look for that exact name in the Worker config and Nuxt Content setup, so if you rename the binding to something else, the app will build but the docs queries will not find the database.
+
 Recommended environment variables:
 
 - `NUXT_PUBLIC_SHOW_PRICING=false`
@@ -63,6 +76,8 @@ Recommended environment variables:
 - `CLOUDFLARE_ACCOUNT_ID=<cloudflare account id>`
 
 The landing page download buttons read `latest.json` from Cloudflare R2 so new desktop releases show up automatically without editing this repo.
+
+Important: this repository consumes `latest.json`, but it does not publish that file. A website deploy from `master` updates the site and docs, while download targets only change when the separate release process updates the R2 manifest.
 
 Generate a local Wrangler config after exporting the Cloudflare identifiers:
 
@@ -88,10 +103,10 @@ The repository includes a Worker deployment workflow at
 Set these GitHub repository secrets:
 
 - `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
 
 Set these GitHub repository variables:
 
+- `CLOUDFLARE_ACCOUNT_ID`
 - `CLOUDFLARE_WORKER_NAME`
 - `CLOUDFLARE_CUSTOM_DOMAIN_PATTERNS`
 - `CLOUDFLARE_D1_DATABASE_NAME`
@@ -100,3 +115,5 @@ Set these GitHub repository variables:
 - `NUXT_PUBLIC_DOWNLOADS_MANIFEST_URL`
 - `SUPABASE_URL`
 - `SUPABASE_KEY`
+
+Every push to `master` runs the deploy workflow, rebuilds the Worker, regenerates the Nuxt Content SQL dump, seeds D1, deploys the Worker, and then runs a smoke check against the homepage, `/docs`, and the configured download manifest URL.

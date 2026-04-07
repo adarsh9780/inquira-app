@@ -14,6 +14,7 @@
     "postinstall": "nuxt prepare",
     "preview:worker": "npm run build:worker && npm run wrangler:config && npx wrangler dev",
     "test": "node --test tests/*.test.mjs",
+    "verify:deployment": "node scripts/verifyDeployment.mjs",
     "wrangler:config": "node scripts/writeWranglerConfig.mjs"
   },
   "dependencies": {
