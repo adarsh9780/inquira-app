@@ -443,7 +443,7 @@
                   </p>
                   <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-gray-700 marker:text-gray-400">
                     <li>Installs Homebrew if your Mac does not already have it.</li>
-                    <li>Installs Inquira through Homebrew and asks before it runs the extra macOS fix some Macs may need.</li>
+                    <li>Installs Inquira through Homebrew and, if you approve, gives macOS the manual permission it needs to run the app without Apple’s paid developer ID.</li>
                     <li>Leaves future upgrades to Homebrew with `brew upgrade --cask inquira`.</li>
                   </ul>
                 </div>
@@ -499,6 +499,11 @@
                   </p>
                   <p class="mt-2 text-sm text-gray-600">
                     We plan to move to proper signed and notarized macOS distribution once the project has sustainable support to cover Apple’s developer program costs responsibly. Until then, we are keeping the source public and the install flow explicit.
+                  </p>
+                  <p class="mt-3 text-sm text-gray-600">
+                    <NuxtLink to="/docs/getting-started/distribution#why-apple-gatekeeping-makes-this-harder" class="underline hover:text-gray-900">
+                      Read why Apple’s gatekeeping makes this harder for independent developers
+                    </NuxtLink>
                   </p>
                 </div>
 

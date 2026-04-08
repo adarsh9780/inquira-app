@@ -25,6 +25,19 @@ Rather than pretending otherwise, we want to be explicit:
 - it is not the same as a signed and notarized App Store-style install
 - the source code is public so you can inspect it and build it yourself if that better matches your trust model
 
+## Why Apple Gatekeeping Makes This Harder
+
+Apple presents Gatekeeper and notarization as a trust and safety layer, but for independent developers it also functions as a paid distribution gate. In practice, that means a solo developer shipping a free or early-stage app is asked to pay Apple first before macOS will treat the app like a normal citizen.
+
+That does not mean Gatekeeper is useless. It does mean the current system puts meaningful distribution power in Apple’s hands, even when the developer is being explicit, publishing the source, and not trying to hide what the installer does.
+
+So the current Inquira install flow is intentionally honest:
+
+- we tell you the app is not yet signed or notarized
+- we tell you exactly what the installer script does
+- we leave the source public so you can inspect or build it yourself
+- we do not pretend Apple’s paid trust signals are the same thing as transparency
+
 ## What the Current macOS Experience Means
 
 If you download or install the current macOS app, Gatekeeper may warn that the app is from an unidentified developer or may mark it as damaged. That does **not** automatically mean the app contains malware. It means the app does not yet carry Apple's paid trust signals for public Mac distribution.
