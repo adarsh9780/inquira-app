@@ -31,6 +31,8 @@ test('public site links to an honest distribution doc and the doc explains the u
 
   assert.match(homePage, /\/docs\/getting-started\/distribution/)
   assert.match(homePage, /brew tap adarsh9780\/inquira && brew install --cask inquira/)
+  assert.match(homePage, /Copy macOS install command/)
+  assert.match(homePage, /Click the copy icon to grab the install command/)
   assert.doesNotMatch(homePage, /Download for macOS/)
   assert.match(homePage, /Download for Windows/)
   assert.match(welcomeDoc, /\/docs\/getting-started\/distribution/)

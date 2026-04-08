@@ -376,16 +376,48 @@
             <p class="mb-3 text-sm text-gray-600">
               We are temporarily routing macOS installs through our Homebrew tap instead of a direct DMG download.
             </p>
-            <div class="rounded-lg bg-gray-950 px-4 py-3 font-mono text-xs text-white sm:text-sm">
-              {{ macInstallCommand }}
+            <div class="relative rounded-lg bg-gray-950 px-4 py-3 pr-14 font-mono text-xs text-white sm:text-sm">
+              <button
+                type="button"
+                class="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50"
+                :aria-label="macInstallCopied ? 'macOS install command copied' : 'Copy macOS install command'"
+                @click="handleMacInstall"
+              >
+                <svg
+                  v-if="!macInstallCopied"
+                  class="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                <svg
+                  v-else
+                  class="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              </button>
+              <span class="block leading-relaxed">
+                {{ macInstallCommand }}
+              </span>
             </div>
-            <button
-              type="button"
-              class="mt-3 inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 transition-colors hover:border-gray-400 hover:bg-gray-50"
-              @click="handleMacInstall"
-            >
-              {{ macInstallCopied ? 'Copied command' : 'Copy macOS install command' }}
-            </button>
+            <p class="mt-2 text-xs text-amber-900/80">
+              Click the copy icon to grab the install command.
+            </p>
           </div>
 
           <div class="flex flex-col gap-3">
