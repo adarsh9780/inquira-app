@@ -367,7 +367,7 @@
           Available for macOS and Windows. Your data stays on your machine.
         </p>
 
-        <div class="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
+        <div class="mx-auto max-w-2xl rounded-2xl border border-gray-200 bg-white p-8 shadow-lg">
           <div class="mb-4 text-left">
             <label for="email-signup" class="block text-sm font-medium text-gray-700 mb-1">
               Email for product updates <span class="text-gray-400">(optional)</span>
@@ -384,10 +384,10 @@
             </p>
           </div>
 
-          <div class="grid gap-3 sm:grid-cols-2">
+          <div class="grid gap-4 sm:grid-cols-2">
             <button
               type="button"
-              class="group rounded-xl border border-gray-200 bg-white px-5 py-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#cc8252] hover:bg-[#cc8252] hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#cc8252]/40"
+              class="group flex min-h-[172px] flex-col rounded-xl border border-gray-200 bg-white px-6 py-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#cc8252] hover:bg-[#cc8252] hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#cc8252]/40"
               @click="openMacInstallDialog"
             >
               <div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-amber-100 text-gray-900 transition-colors group-hover:bg-white/15 group-hover:text-white">
@@ -405,7 +405,7 @@
 
             <button
               type="button"
-              class="group flex min-h-[148px] flex-col items-start justify-center gap-3 rounded-xl border border-gray-200 bg-white px-5 py-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#cc8252] hover:bg-[#cc8252] hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#cc8252]/40"
+              class="group flex min-h-[172px] flex-col items-start justify-center gap-3 rounded-xl border border-gray-200 bg-white px-6 py-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#cc8252] hover:bg-[#cc8252] hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#cc8252]/40"
               @click="handleWindowsDownload"
             >
               <div class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-amber-100 text-gray-900 transition-colors group-hover:bg-white/15 group-hover:text-white">
