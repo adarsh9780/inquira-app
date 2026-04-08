@@ -14,12 +14,13 @@ In plain terms: you ask a question about your data in natural language, and Inqu
 ## Core Features
 
 - **Autonomous AI-Assisted Analysis**: Translates your natural language prompts into Python workflows, independently executes them, and rapidly returns the final answers and charts.
-- **Local Python Execution**: Comes with a bundled Jupyter kernel running locally. For robust security, the AI cannot modify your virtual environment arbitrarily; if a new package is needed, it generates the exact `uv` installation command for you to safely run in the integrated terminal.
+- **Local Python Execution & Model Flexibility**: Comes with a bundled Jupyter kernel running locally, supports Ollama-hosted local models, and can connect to 100+ providers through BYOK via OpenRouter.
 - **Seamless Local Data Handling**: Inquira natively connects to your Excel, CSV, JSON, and Parquet files. It dynamically converts them into extremely fast, local DuckDB workspaces capable of analyzing data of any size that fits on your machine.
-- **Integrated Code Editor**: Want full control? The workspace includes a built-in code editor with autocomplete. You can manually tweak the AI-generated code, execute it, and debug any issues in a dedicated error pane.
+- **Integrated Code Editor**: Want full control? The workspace includes a built-in code editor with data-aware autocomplete suggestions. You can manually tweak the AI-generated code, execute it, and debug any issues in a dedicated error pane.
+- **Slash Commands for Fast Starts**: Use built-in `/` commands to insert common analysis and workflow patterns quickly. In future releases, users will also be able to define their own commands.
 - **Interactive Visualization & Exploring**: Explore generated Plotly charts instantly. Data tables are rendered using AG Grid with a streaming backend (handling up to 2000 rows at a time) to ensure a high-performance, low-memory footprint view of massive datasets.
 - **Flawless Resume & Persistence**: Never lose your context. Intermediate variables, artifacts, and local results are saved continuously. You can close the app and resume exactly where you left off later without having to reconnect datasets or rerun expensive computations.
-- **Real-Time Visibility & Built-in Terminal**: Watch the agent's thought process through real-time chat token streaming, and leverage the built-in workspace terminal for manual execution and debugging.
+- **Real-Time Visibility & Built-in Terminal**: Watch the agent's thought process through real-time chat token streaming, and leverage the built-in workspace terminal for extra control, manual execution, and debugging.
 
 ## Who is this for?
 

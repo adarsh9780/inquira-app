@@ -135,7 +135,7 @@
               </svg>
             </div>
             <h3 class="mb-2 font-sans text-lg font-semibold text-gray-900">Local Python Execution</h3>
-            <p class="text-gray-600">Bundled Jupyter kernel running locally. AI generates exact installation commands for new packages, keeping your environment secure.</p>
+            <p class="text-gray-600">Bundled Jupyter kernel running locally with support for Ollama-hosted local models and BYOK access to 100+ providers through OpenRouter.</p>
           </div>
 
           <div class="rounded-2xl border border-gray-200 bg-white p-6 transition-all hover:shadow-lg hover:-translate-y-1">
@@ -155,7 +155,7 @@
               </svg>
             </div>
             <h3 class="mb-2 font-sans text-lg font-semibold text-gray-900">Integrated Code Editor</h3>
-            <p class="text-gray-600">Full control with built-in code editor with autocomplete. Manually tweak AI-generated code and debug in a dedicated error pane.</p>
+            <p class="text-gray-600">Full control with a built-in editor, data-aware autocomplete, and slash commands for quick standard code patterns. Custom commands are planned next.</p>
           </div>
 
           <div class="rounded-2xl border border-gray-200 bg-white p-6 transition-all hover:shadow-lg hover:-translate-y-1">
@@ -176,6 +176,16 @@
             </div>
             <h3 class="mb-2 font-sans text-lg font-semibold text-gray-900">Flawless Resume & Persistence</h3>
             <p class="text-gray-600">Intermediate variables, artifacts, and results are saved continuously. Close the app and resume exactly where you left off.</p>
+          </div>
+
+          <div class="rounded-2xl border border-gray-200 bg-white p-6 transition-all hover:shadow-lg hover:-translate-y-1">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-orange-500">
+              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M4 5h16a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1z"></path>
+              </svg>
+            </div>
+            <h3 class="mb-2 font-sans text-lg font-semibold text-gray-900">Power-User Controls</h3>
+            <p class="text-gray-600">Built-in terminal access for extra control, package installs, and debugging when you want to step beyond the chat interface.</p>
           </div>
         </div>
       </div>

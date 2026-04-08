@@ -54,3 +54,22 @@ test('public site links to an honest distribution doc and the doc explains the u
   assert.match(installerScript, /xattr -dr com\.apple\.quarantine/)
   assert.match(installerScript, /Do you want to run xattr -dr/)
 })
+
+test('landing and docs highlight the expanded model, editor, and power-user feature set', () => {
+  const homePage = readFileSync(resolve(root, 'app/pages/index.vue'), 'utf8')
+  const welcomeDoc = readFileSync(resolve(root, 'content/docs/welcome.md'), 'utf8')
+
+  assert.match(homePage, /Ollama-hosted local models/)
+  assert.match(homePage, /100\+ providers through OpenRouter/)
+  assert.match(homePage, /data-aware autocomplete/)
+  assert.match(homePage, /slash commands/)
+  assert.match(homePage, /Power-User Controls/)
+  assert.match(homePage, /Built-in terminal access/)
+
+  assert.match(welcomeDoc, /supports Ollama-hosted local models/)
+  assert.match(welcomeDoc, /100\+ providers through BYOK via OpenRouter/)
+  assert.match(welcomeDoc, /data-aware autocomplete suggestions/)
+  assert.match(welcomeDoc, /built-in `\/` commands/)
+  assert.match(welcomeDoc, /define their own commands/)
+  assert.match(welcomeDoc, /extra control, manual execution, and debugging/)
+})
