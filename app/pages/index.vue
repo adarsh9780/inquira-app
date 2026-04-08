@@ -369,36 +369,36 @@
           <div class="grid gap-3 sm:grid-cols-2">
             <button
               type="button"
-              class="group rounded-xl border border-gray-200 bg-white px-5 py-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/60"
+              class="group rounded-xl border border-gray-200 bg-white px-5 py-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#cc8252] hover:bg-[#cc8252] hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#cc8252]/40"
               @click="openMacInstallDialog"
             >
-              <div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-amber-100 text-gray-900">
+              <div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-amber-100 text-gray-900 transition-colors group-hover:bg-white/15 group-hover:text-white">
                 <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M16.37 12.44c.02 2.46 2.16 3.28 2.18 3.29-.02.06-.34 1.17-1.12 2.32-.67 1-1.37 2-2.46 2.02-1.07.02-1.42-.64-2.65-.64-1.24 0-1.62.62-2.62.66-1.04.04-1.83-1.05-2.5-2.04-1.37-1.98-2.42-5.59-1.01-8.03.7-1.2 1.95-1.96 3.3-1.98 1.03-.02 2 .69 2.65.69.65 0 1.87-.85 3.16-.73.54.02 2.06.22 3.04 1.66-.08.05-1.82 1.06-1.8 2.78Zm-2.13-5.07c.56-.68.94-1.64.84-2.58-.81.03-1.79.54-2.37 1.22-.52.6-.98 1.57-.86 2.5.91.07 1.83-.46 2.39-1.14Z"/>
                 </svg>
               </div>
-              <div class="text-base font-semibold text-gray-900">
+              <div class="text-base font-semibold text-gray-900 transition-colors group-hover:text-white">
                 Download for macOS
               </div>
-              <p class="mt-1 text-sm text-gray-600">
+              <p class="mt-1 text-sm text-gray-600 transition-colors group-hover:text-white/85">
                 Opens the guided installer instructions with the shell command.
               </p>
             </button>
 
             <button
               type="button"
-              class="btn flex min-h-[148px] flex-col items-start justify-center gap-3 rounded-xl px-5 py-4 text-left"
+              class="group flex min-h-[148px] flex-col items-start justify-center gap-3 rounded-xl border border-gray-200 bg-white px-5 py-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#cc8252] hover:bg-[#cc8252] hover:text-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#cc8252]/40"
               @click="handleWindowsDownload"
             >
-              <div class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-white">
+              <div class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-amber-100 text-gray-900 transition-colors group-hover:bg-white/15 group-hover:text-white">
                 <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M3 5.5L10.5 4.4v7.1H3V5.5Zm8.5-1.22L21 3v8.5h-9.5V4.28ZM3 12.5h7.5v7.1L3 18.5v-6Zm8.5 0H21V21l-9.5-1.33V12.5Z"/>
                 </svg>
               </div>
-              <div class="text-base font-semibold text-white">
+              <div class="text-base font-semibold text-gray-900 transition-colors group-hover:text-white">
                 Download for Windows
               </div>
-              <p class="text-sm text-white/80">
+              <p class="text-sm text-gray-600 transition-colors group-hover:text-white/85">
                 Direct installer download.
               </p>
             </button>
@@ -428,37 +428,20 @@
           <div class="fixed inset-0 bg-black/45 backdrop-blur-sm" @click="closeMacInstallDialog"></div>
           <div class="relative mx-auto mt-[6vh] w-full max-w-2xl">
             <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl">
-              <div class="flex items-start justify-between gap-4 border-b border-gray-100 px-6 py-5">
+              <div class="border-b border-gray-100 px-6 py-5">
                 <div class="text-left">
                   <p class="text-sm font-medium uppercase tracking-[0.18em] text-amber-600">
                     macOS Install
                   </p>
-                  <h3 class="mt-1 text-2xl font-semibold text-gray-900">
-                    Guided shell installer
-                  </h3>
-                  <p class="mt-2 max-w-xl text-sm text-gray-600">
-                    This keeps the Homebrew setup transparent and asks before it removes the quarantine flag that macOS may attach to the app.
-                  </p>
                 </div>
-                <button
-                  type="button"
-                  class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-900"
-                  aria-label="Close macOS install instructions"
-                  @click="closeMacInstallDialog"
-                >
-                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M18 6 6 18" />
-                    <path d="m6 6 12 12" />
-                  </svg>
-                </button>
               </div>
 
               <div class="space-y-5 px-6 py-6 text-left">
-                <div class="rounded-xl border border-amber-200 bg-amber-50/70 p-4">
+                <div>
                   <p class="text-sm font-medium text-gray-900">
                     What the script does
                   </p>
-                  <ul class="mt-3 space-y-2 text-sm text-gray-700">
+                  <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-gray-700 marker:text-gray-400">
                     <li>Installs Homebrew if your Mac does not already have it.</li>
                     <li>Taps `adarsh9780/inquira` and installs the `inquira` Homebrew cask.</li>
                     <li>Asks before running `xattr -dr` on `/Applications/Inquira.app` if you want help with macOS quarantine.</li>
@@ -628,6 +611,20 @@ const openMacInstallDialog = () => {
 const closeMacInstallDialog = () => {
   isMacInstallDialogOpen.value = false
 }
+
+const handleMacInstallDialogKeydown = (event: KeyboardEvent) => {
+  if (event.key === 'Escape' && isMacInstallDialogOpen.value) {
+    closeMacInstallDialog()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleMacInstallDialogKeydown)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleMacInstallDialogKeydown)
+})
 
 async function saveOptionalEmail(platform: 'macOS' | 'Windows') {
   if (email.value) {

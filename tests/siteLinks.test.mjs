@@ -32,9 +32,10 @@ test('public site links to an honest distribution doc and the doc explains the u
 
   assert.match(homePage, /\/docs\/getting-started\/distribution/)
   assert.match(homePage, /Download for macOS/)
-  assert.match(homePage, /Guided shell installer/)
   assert.match(homePage, /curl -fsSL https:\/\/inquiraai\.com\/install\.sh \| bash/)
   assert.match(homePage, /What the script does/)
+  assert.match(homePage, /event\.key === 'Escape'/)
+  assert.doesNotMatch(homePage, /Guided shell installer/)
   assert.match(homePage, /Download for Windows/)
   assert.match(welcomeDoc, /\/docs\/getting-started\/distribution/)
   assert.match(distributionDoc, /single developer/i)
