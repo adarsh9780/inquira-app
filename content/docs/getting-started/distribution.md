@@ -12,7 +12,7 @@ This page explains exactly how the current desktop builds are distributed.
 - The macOS and Windows installers are built by a single independent developer.
 - Windows is currently distributed as a direct installer download from our public download bucket.
 - On macOS, the app is **not yet signed or notarized through Apple's paid developer program**.
-- For technical users on macOS, we currently route installs through a Homebrew tap instead of showing a direct DMG download on the website.
+- On macOS, the recommended install path is a small shell script hosted at `https://inquiraai.com/install.sh`.
 - If you do not want to trust the distributed binary, you are free to build the app yourself from source on GitHub.
 
 ## Why We Are Doing It This Way
@@ -29,13 +29,12 @@ Rather than pretending otherwise, we want to be explicit:
 
 If you download or install the current macOS app, Gatekeeper may warn that the app is from an unidentified developer or may mark it as damaged. That does **not** automatically mean the app contains malware. It means the app does not yet carry Apple's paid trust signals for public Mac distribution.
 
-For users who are comfortable with that tradeoff, we provide a Homebrew tap to make installation easier. The tap currently applies the quarantine-removal step automatically after install so technical users do not have to run it by hand.
+For users who are comfortable with that tradeoff, we provide a small installer script that uses Homebrew under the hood. The script explains what it will do, installs Homebrew if needed, installs the `inquira` cask, and explicitly asks before removing the quarantine flag from the installed app.
 
 The current macOS install command is:
 
 ```bash
-brew tap adarsh9780/inquira
-brew install --cask inquira
+curl -fsSL https://inquiraai.com/install.sh | bash
 ```
 
 ## Build It Yourself

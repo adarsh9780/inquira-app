@@ -366,72 +366,47 @@
             </p>
           </div>
 
-          <div class="mb-3 rounded-xl border border-amber-200 bg-amber-50/70 p-4 text-left">
-            <div class="mb-2 flex items-center gap-2 text-sm font-medium text-gray-900">
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M16.37 12.44c.02 2.46 2.16 3.28 2.18 3.29-.02.06-.34 1.17-1.12 2.32-.67 1-1.37 2-2.46 2.02-1.07.02-1.42-.64-2.65-.64-1.24 0-1.62.62-2.62.66-1.04.04-1.83-1.05-2.5-2.04-1.37-1.98-2.42-5.59-1.01-8.03.7-1.2 1.95-1.96 3.3-1.98 1.03-.02 2 .69 2.65.69.65 0 1.87-.85 3.16-.73.54.02 2.06.22 3.04 1.66-.08.05-1.82 1.06-1.8 2.78Zm-2.13-5.07c.56-.68.94-1.64.84-2.58-.81.03-1.79.54-2.37 1.22-.52.6-.98 1.57-.86 2.5.91.07 1.83-.46 2.39-1.14Z"/>
-              </svg>
-              Install on macOS via Homebrew
-            </div>
-            <p class="mb-3 text-sm text-gray-600">
-              We are temporarily routing macOS installs through our Homebrew tap instead of a direct DMG download.
-            </p>
-            <div class="relative rounded-lg bg-gray-950 px-4 py-3 pr-14 font-mono text-xs text-white sm:text-sm">
-              <button
-                type="button"
-                class="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50"
-                :aria-label="macInstallCopied ? 'macOS install command copied' : 'Copy macOS install command'"
-                @click="handleMacInstall"
-              >
-                <svg
-                  v-if="!macInstallCopied"
-                  class="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                </svg>
-                <svg
-                  v-else
-                  class="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M20 6 9 17l-5-5" />
-                </svg>
-              </button>
-              <span class="block leading-relaxed">
-                {{ macInstallCommand }}
-              </span>
-            </div>
-            <p class="mt-2 text-xs text-amber-900/80">
-              Click the copy icon to grab the install command.
-            </p>
-          </div>
-
-          <div class="flex flex-col gap-3">
+          <div class="grid gap-3 sm:grid-cols-2">
             <button
               type="button"
-              class="btn flex-1 flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium"
+              class="group rounded-xl border border-gray-200 bg-white px-5 py-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/60"
+              @click="openMacInstallDialog"
+            >
+              <div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-amber-100 text-gray-900">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M16.37 12.44c.02 2.46 2.16 3.28 2.18 3.29-.02.06-.34 1.17-1.12 2.32-.67 1-1.37 2-2.46 2.02-1.07.02-1.42-.64-2.65-.64-1.24 0-1.62.62-2.62.66-1.04.04-1.83-1.05-2.5-2.04-1.37-1.98-2.42-5.59-1.01-8.03.7-1.2 1.95-1.96 3.3-1.98 1.03-.02 2 .69 2.65.69.65 0 1.87-.85 3.16-.73.54.02 2.06.22 3.04 1.66-.08.05-1.82 1.06-1.8 2.78Zm-2.13-5.07c.56-.68.94-1.64.84-2.58-.81.03-1.79.54-2.37 1.22-.52.6-.98 1.57-.86 2.5.91.07 1.83-.46 2.39-1.14Z"/>
+                </svg>
+              </div>
+              <div class="text-base font-semibold text-gray-900">
+                Download for macOS
+              </div>
+              <p class="mt-1 text-sm text-gray-600">
+                Opens the guided installer instructions with the shell command.
+              </p>
+            </button>
+
+            <button
+              type="button"
+              class="btn flex min-h-[148px] flex-col items-start justify-center gap-3 rounded-xl px-5 py-4 text-left"
               @click="handleWindowsDownload"
             >
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M3 5.5L10.5 4.4v7.1H3V5.5Zm8.5-1.22L21 3v8.5h-9.5V4.28ZM3 12.5h7.5v7.1L3 18.5v-6Zm8.5 0H21V21l-9.5-1.33V12.5Z"/>
-              </svg>
-              Download for Windows
+              <div class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-white">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M3 5.5L10.5 4.4v7.1H3V5.5Zm8.5-1.22L21 3v8.5h-9.5V4.28ZM3 12.5h7.5v7.1L3 18.5v-6Zm8.5 0H21V21l-9.5-1.33V12.5Z"/>
+                </svg>
+              </div>
+              <div class="text-base font-semibold text-white">
+                Download for Windows
+              </div>
+              <p class="text-sm text-white/80">
+                Direct installer download.
+              </p>
             </button>
           </div>
+
+          <p class="mt-4 text-xs text-gray-500">
+            macOS uses a guided shell installer for now because the app is not yet signed and notarized.
+          </p>
 
           <p class="mt-4 text-xs text-gray-400">
             <a href="https://github.com/adarsh9780/inquira-ce" target="_blank" class="underline hover:text-gray-600">View source on GitHub</a>
@@ -443,6 +418,125 @@
           </p>
         </div>
       </div>
+
+      <Teleport to="body">
+        <div
+          v-if="isMacInstallDialogOpen"
+          class="fixed inset-0 z-50 overflow-y-auto px-6 py-10"
+          @click.self="closeMacInstallDialog"
+        >
+          <div class="fixed inset-0 bg-black/45 backdrop-blur-sm" @click="closeMacInstallDialog"></div>
+          <div class="relative mx-auto mt-[6vh] w-full max-w-2xl">
+            <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl">
+              <div class="flex items-start justify-between gap-4 border-b border-gray-100 px-6 py-5">
+                <div class="text-left">
+                  <p class="text-sm font-medium uppercase tracking-[0.18em] text-amber-600">
+                    macOS Install
+                  </p>
+                  <h3 class="mt-1 text-2xl font-semibold text-gray-900">
+                    Guided shell installer
+                  </h3>
+                  <p class="mt-2 max-w-xl text-sm text-gray-600">
+                    This keeps the Homebrew setup transparent and asks before it removes the quarantine flag that macOS may attach to the app.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-900"
+                  aria-label="Close macOS install instructions"
+                  @click="closeMacInstallDialog"
+                >
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div class="space-y-5 px-6 py-6 text-left">
+                <div class="rounded-xl border border-amber-200 bg-amber-50/70 p-4">
+                  <p class="text-sm font-medium text-gray-900">
+                    What the script does
+                  </p>
+                  <ul class="mt-3 space-y-2 text-sm text-gray-700">
+                    <li>Installs Homebrew if your Mac does not already have it.</li>
+                    <li>Taps `adarsh9780/inquira` and installs the `inquira` Homebrew cask.</li>
+                    <li>Asks before running `xattr -dr` on `/Applications/Inquira.app` if you want help with macOS quarantine.</li>
+                    <li>Leaves future upgrades to Homebrew with `brew upgrade --cask inquira`.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p class="mb-3 text-sm font-medium text-gray-900">
+                    Run this command in Terminal
+                  </p>
+                  <div class="relative rounded-xl bg-gray-950 px-4 py-4 pr-14 font-mono text-sm text-white">
+                    <button
+                      type="button"
+                      class="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50"
+                      :aria-label="macInstallCopied ? 'macOS install command copied' : 'Copy macOS install command'"
+                      @click="handleMacInstallCopy"
+                    >
+                      <svg
+                        v-if="!macInstallCopied"
+                        class="h-4 w-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                      </svg>
+                      <svg
+                        v-else
+                        class="h-4 w-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M20 6 9 17l-5-5" />
+                      </svg>
+                    </button>
+                    <span class="block leading-relaxed">
+                      {{ macInstallCommand }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-4">
+                  <p class="text-sm font-medium text-gray-900">
+                    Future notarization plan
+                  </p>
+                  <p class="mt-2 text-sm text-gray-600">
+                    We plan to move to proper signed and notarized macOS distribution once the project has sustainable support to cover Apple’s developer program costs responsibly. Until then, we are keeping the source public and the install flow explicit.
+                  </p>
+                </div>
+
+                <div class="flex flex-col gap-3 border-t border-gray-100 pt-2 sm:flex-row sm:items-center sm:justify-between">
+                  <NuxtLink to="/docs/getting-started/distribution" class="text-sm font-medium text-gray-600 underline hover:text-gray-900">
+                    Read the full distribution note
+                  </NuxtLink>
+                  <button
+                    type="button"
+                    class="inline-flex items-center justify-center rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-800"
+                    @click="handleMacInstallCopy"
+                  >
+                    {{ macInstallCopied ? 'Copied install command' : 'Copy install command' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Teleport>
     </section>
 
     <!-- Footer -->
@@ -523,8 +617,17 @@ const { saveEmail, download } = useEmailSignup()
 
 const email = ref('')
 const DOWNLOAD_SOURCE = 'inquira-acc-landing-page'
-const macInstallCommand = 'brew tap adarsh9780/inquira && brew install --cask inquira'
+const macInstallCommand = 'curl -fsSL https://inquiraai.com/install.sh | bash'
 const macInstallCopied = ref(false)
+const isMacInstallDialogOpen = ref(false)
+
+const openMacInstallDialog = () => {
+  isMacInstallDialogOpen.value = true
+}
+
+const closeMacInstallDialog = () => {
+  isMacInstallDialogOpen.value = false
+}
 
 async function saveOptionalEmail(platform: 'macOS' | 'Windows') {
   if (email.value) {
@@ -537,7 +640,7 @@ async function saveOptionalEmail(platform: 'macOS' | 'Windows') {
   }
 }
 
-async function handleMacInstall() {
+async function handleMacInstallCopy() {
   await saveOptionalEmail('macOS')
   if (navigator?.clipboard?.writeText) {
     await navigator.clipboard.writeText(macInstallCommand)
