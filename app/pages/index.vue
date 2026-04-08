@@ -443,8 +443,7 @@
                   </p>
                   <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-gray-700 marker:text-gray-400">
                     <li>Installs Homebrew if your Mac does not already have it.</li>
-                    <li>Taps `adarsh9780/inquira` and installs the `inquira` Homebrew cask.</li>
-                    <li>Asks before running `xattr -dr` on `/Applications/Inquira.app` if you want help with macOS quarantine.</li>
+                    <li>Installs Inquira through Homebrew and asks before it runs the extra macOS fix some Macs may need.</li>
                     <li>Leaves future upgrades to Homebrew with `brew upgrade --cask inquira`.</li>
                   </ul>
                 </div>
