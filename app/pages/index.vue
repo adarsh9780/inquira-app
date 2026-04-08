@@ -366,22 +366,33 @@
             </p>
           </div>
 
-          <div class="flex flex-col gap-3 sm:flex-row">
-            <button
-              type="button"
-              class="btn flex-1 flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium"
-              @click="handleDownload('macOS')"
-            >
+          <div class="mb-3 rounded-xl border border-amber-200 bg-amber-50/70 p-4 text-left">
+            <div class="mb-2 flex items-center gap-2 text-sm font-medium text-gray-900">
               <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M16.37 12.44c.02 2.46 2.16 3.28 2.18 3.29-.02.06-.34 1.17-1.12 2.32-.67 1-1.37 2-2.46 2.02-1.07.02-1.42-.64-2.65-.64-1.24 0-1.62.62-2.62.66-1.04.04-1.83-1.05-2.5-2.04-1.37-1.98-2.42-5.59-1.01-8.03.7-1.2 1.95-1.96 3.3-1.98 1.03-.02 2 .69 2.65.69.65 0 1.87-.85 3.16-.73.54.02 2.06.22 3.04 1.66-.08.05-1.82 1.06-1.8 2.78Zm-2.13-5.07c.56-.68.94-1.64.84-2.58-.81.03-1.79.54-2.37 1.22-.52.6-.98 1.57-.86 2.5.91.07 1.83-.46 2.39-1.14Z"/>
               </svg>
-              Download for macOS
+              Install on macOS via Homebrew
+            </div>
+            <p class="mb-3 text-sm text-gray-600">
+              We are temporarily routing macOS installs through our Homebrew tap instead of a direct DMG download.
+            </p>
+            <div class="rounded-lg bg-gray-950 px-4 py-3 font-mono text-xs text-white sm:text-sm">
+              {{ macInstallCommand }}
+            </div>
+            <button
+              type="button"
+              class="mt-3 inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 transition-colors hover:border-gray-400 hover:bg-gray-50"
+              @click="handleMacInstall"
+            >
+              {{ macInstallCopied ? 'Copied command' : 'Copy macOS install command' }}
             </button>
+          </div>
 
+          <div class="flex flex-col gap-3">
             <button
               type="button"
               class="btn flex-1 flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium"
-              @click="handleDownload('Windows')"
+              @click="handleWindowsDownload"
             >
               <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M3 5.5L10.5 4.4v7.1H3V5.5Zm8.5-1.22L21 3v8.5h-9.5V4.28ZM3 12.5h7.5v7.1L3 18.5v-6Zm8.5 0H21V21l-9.5-1.33V12.5Z"/>
@@ -480,8 +491,10 @@ const { saveEmail, download } = useEmailSignup()
 
 const email = ref('')
 const DOWNLOAD_SOURCE = 'inquira-acc-landing-page'
+const macInstallCommand = 'brew tap adarsh9780/inquira && brew install --cask inquira'
+const macInstallCopied = ref(false)
 
-async function handleDownload(platform: 'macOS' | 'Windows') {
+async function saveOptionalEmail(platform: 'macOS' | 'Windows') {
   if (email.value) {
     await saveEmail({
       email: email.value,
@@ -490,7 +503,22 @@ async function handleDownload(platform: 'macOS' | 'Windows') {
       version: downloadManifest.value.version,
     })
   }
-  const downloadUrl = getDownloadUrl(downloadManifest.value, platform)
+}
+
+async function handleMacInstall() {
+  await saveOptionalEmail('macOS')
+  if (navigator?.clipboard?.writeText) {
+    await navigator.clipboard.writeText(macInstallCommand)
+  }
+  macInstallCopied.value = true
+  window.setTimeout(() => {
+    macInstallCopied.value = false
+  }, 2000)
+}
+
+async function handleWindowsDownload() {
+  await saveOptionalEmail('Windows')
+  const downloadUrl = getDownloadUrl(downloadManifest.value, 'Windows')
   download(downloadUrl)
 }
 </script>

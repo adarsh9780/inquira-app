@@ -10,9 +10,9 @@ This page explains exactly how the current desktop builds are distributed.
 ## Short Version
 
 - The macOS and Windows installers are built by a single independent developer.
-- The installers are currently distributed directly from our public download bucket.
+- Windows is currently distributed as a direct installer download from our public download bucket.
 - On macOS, the app is **not yet signed or notarized through Apple's paid developer program**.
-- For technical users on macOS, we also provide a Homebrew tap as a convenience install path.
+- For technical users on macOS, we currently route installs through a Homebrew tap instead of showing a direct DMG download on the website.
 - If you do not want to trust the distributed binary, you are free to build the app yourself from source on GitHub.
 
 ## Why We Are Doing It This Way
@@ -27,9 +27,16 @@ Rather than pretending otherwise, we want to be explicit:
 
 ## What the Current macOS Experience Means
 
-If you download the macOS app directly, Gatekeeper may warn that the app is from an unidentified developer or may mark it as damaged. That does **not** automatically mean the app contains malware. It means the app does not yet carry Apple's paid trust signals for public Mac distribution.
+If you download or install the current macOS app, Gatekeeper may warn that the app is from an unidentified developer or may mark it as damaged. That does **not** automatically mean the app contains malware. It means the app does not yet carry Apple's paid trust signals for public Mac distribution.
 
 For users who are comfortable with that tradeoff, we provide a Homebrew tap to make installation easier. The tap currently applies the quarantine-removal step automatically after install so technical users do not have to run it by hand.
+
+The current macOS install command is:
+
+```bash
+brew tap adarsh9780/inquira
+brew install --cask inquira
+```
 
 ## Build It Yourself
 

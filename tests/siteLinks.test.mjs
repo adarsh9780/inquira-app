@@ -30,9 +30,13 @@ test('public site links to an honest distribution doc and the doc explains the u
   const distributionDoc = readFileSync(resolve(root, 'content/docs/getting-started/distribution.md'), 'utf8')
 
   assert.match(homePage, /\/docs\/getting-started\/distribution/)
+  assert.match(homePage, /brew tap adarsh9780\/inquira && brew install --cask inquira/)
+  assert.doesNotMatch(homePage, /Download for macOS/)
+  assert.match(homePage, /Download for Windows/)
   assert.match(welcomeDoc, /\/docs\/getting-started\/distribution/)
   assert.match(distributionDoc, /single developer/i)
   assert.match(distributionDoc, /limited funds/i)
   assert.match(distributionDoc, /build from source/i)
   assert.match(distributionDoc, /Apple Developer Program/i)
+  assert.match(distributionDoc, /brew tap adarsh9780\/inquira/)
 })
