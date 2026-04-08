@@ -45,8 +45,10 @@ test('wrangler config generator writes the worker, custom domains, assets, and D
 test('content seed generator expands Nuxt Content dumps into executable SQL', () => {
   const script = readFileSync(resolve(root, 'scripts/writeContentSeedSql.mjs'), 'utf8')
   assert.match(script, /decompressSQLDump/)
+  assert.match(script, /makeContentStatementsIdempotent/)
   assert.match(script, /dump\\\..\+\\\.sql/)
   assert.match(script, /content-seed\.sql/)
+  assert.match(script, /INSERT OR REPLACE INTO/)
 })
 
 test('lockfile includes the Linux oxc-parser binding required by GitHub Actions runners', () => {

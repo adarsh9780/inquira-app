@@ -5,6 +5,12 @@ const { decompressSQLDump } = await import(
   new URL('../node_modules/@nuxt/content/dist/runtime/internal/dump.js', import.meta.url)
 )
 
+export function makeContentStatementsIdempotent(statements) {
+  return statements.map((statement) =>
+    statement.replace(/^INSERT INTO (_content[a-zA-Z0-9_]*)\b/, 'INSERT OR REPLACE INTO $1'),
+  )
+}
+
 async function buildSeedSql() {
   const publicDir = resolve(process.cwd(), '.output/public')
   const outputFile = resolve(process.cwd(), '.output/content-seed.sql')
@@ -20,7 +26,8 @@ async function buildSeedSql() {
 
   for (const dumpFile of dumpFiles) {
     const compressedDump = readFileSync(resolve(publicDir, dumpFile), 'utf8')
-    const statements = await decompressSQLDump(compressedDump)
+    const rawStatements = await decompressSQLDump(compressedDump)
+    const statements = makeContentStatementsIdempotent(rawStatements)
     if (statements.length === 0) {
       throw new Error(`Nuxt Content dump ${dumpFile} did not produce any SQL statements`)
     }
