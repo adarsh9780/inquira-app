@@ -73,3 +73,14 @@ test('landing and docs highlight the expanded model, editor, and power-user feat
   assert.match(welcomeDoc, /define their own commands/)
   assert.match(welcomeDoc, /extra control, manual execution, and debugging/)
 })
+
+test('how it works section follows the workspace-to-analysis onboarding flow', () => {
+  const homePage = readFileSync(resolve(root, 'app/pages/index.vue'), 'utf8')
+
+  assert.match(homePage, /Four Steps to AI-Powered Insights/)
+  assert.match(homePage, /Create a Workspace/)
+  assert.match(homePage, /Add an API Key/)
+  assert.match(homePage, /Add Datasets/)
+  assert.match(homePage, /Analyze Your Data/)
+  assert.match(homePage, /Connect the model provider you want to use/)
+})

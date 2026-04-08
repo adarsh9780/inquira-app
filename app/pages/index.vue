@@ -197,38 +197,46 @@
         <div class="mb-16 text-center">
           <div class="mb-4 text-sm font-medium uppercase tracking-wider text-blue-600">How It Works</div>
           <h2 class="mb-4 font-sans text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Three Steps to AI-Powered Insights
+            Four Steps to AI-Powered Insights
           </h2>
           <p class="mx-auto max-w-2xl text-lg text-gray-600">
-            From raw data to actionable insights in minutes, not hours.
+            Set up your workspace, connect a model, add data, and start analyzing in minutes.
           </p>
         </div>
 
         <div class="relative">
-          <div class="absolute left-1/2 top-16 h-0.5 w-2/3 -translate-x-1/2 bg-gradient-to-r from-blue-200 via-orange-200 to-indigo-200 hidden lg:block"></div>
-          <div class="grid gap-12 lg:grid-cols-3">
+          <div class="absolute left-1/2 top-16 h-0.5 w-3/4 -translate-x-1/2 bg-gradient-to-r from-blue-200 via-orange-200 to-indigo-200 hidden lg:block"></div>
+          <div class="grid gap-12 lg:grid-cols-4">
             <div class="text-center">
               <div class="relative mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-orange-500 text-xl font-bold text-white shadow-lg shadow-blue-500/25">
                 1
               </div>
-              <h3 class="mb-2 font-sans text-xl font-semibold text-gray-900">Drop Your Data</h3>
-              <p class="text-gray-600">Import CSV, Excel, Parquet, or JSON files. Inquira instantly creates a local DuckDB workspace.</p>
+              <h3 class="mb-2 font-sans text-xl font-semibold text-gray-900">Create a Workspace</h3>
+              <p class="text-gray-600">Start with a fresh workspace for your project so your files, chats, and analysis stay organized together.</p>
             </div>
 
             <div class="text-center">
               <div class="relative mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-orange-500 text-xl font-bold text-white shadow-lg shadow-orange-500/25">
                 2
               </div>
-              <h3 class="mb-2 font-sans text-xl font-semibold text-gray-900">Ask in Plain English</h3>
-              <p class="text-gray-600">Type your question naturally. The AI understands your intent and generates the appropriate analysis code.</p>
+              <h3 class="mb-2 font-sans text-xl font-semibold text-gray-900">Add an API Key</h3>
+              <p class="text-gray-600">Connect the model provider you want to use by adding your API key, or point Inquira at your local setup.</p>
             </div>
 
             <div class="text-center">
               <div class="relative mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-orange-500 text-xl font-bold text-white shadow-lg shadow-orange-500/25">
                 3
               </div>
-              <h3 class="mb-2 font-sans text-xl font-semibold text-gray-900">Get Results</h3>
-              <p class="text-gray-600">Watch the AI execute code locally and return charts, tables, and natural language explanations.</p>
+              <h3 class="mb-2 font-sans text-xl font-semibold text-gray-900">Add Datasets</h3>
+              <p class="text-gray-600">Import CSV, Excel, JSON, or Parquet files and let Inquira prepare them inside a fast local DuckDB workspace.</p>
+            </div>
+
+            <div class="text-center">
+              <div class="relative mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-orange-500 text-xl font-bold text-white shadow-lg shadow-orange-500/25">
+                4
+              </div>
+              <h3 class="mb-2 font-sans text-xl font-semibold text-gray-900">Analyze Your Data</h3>
+              <p class="text-gray-600">Ask questions in plain English and watch Inquira generate code, run the analysis locally, and return results.</p>
             </div>
           </div>
         </div>
