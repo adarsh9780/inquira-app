@@ -37,4 +37,6 @@ We strongly recommend users keep an eye on the results to ensure the AI isn't ha
 
 If this is your first time here, you can grab the desktop application from the [Download](/#download) section on the homepage.
 
+If you want the plain explanation of how the installers are currently shipped, read [Desktop Distribution](/docs/getting-started/distribution).
+
 If you are evaluating product sign-in and account architecture, read about our [Authentication Strategy](/docs/auth-strategy) and [Editions](/docs/editions).

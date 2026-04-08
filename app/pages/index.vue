@@ -393,6 +393,11 @@
           <p class="mt-4 text-xs text-gray-400">
             <a href="https://github.com/adarsh9780/inquira-ce" target="_blank" class="underline hover:text-gray-600">View source on GitHub</a>
           </p>
+          <p class="mt-2 text-xs text-gray-500">
+            <NuxtLink to="/docs/getting-started/distribution" class="underline hover:text-gray-700">
+              Read how desktop distribution works
+            </NuxtLink>
+          </p>
         </div>
       </div>
     </section>

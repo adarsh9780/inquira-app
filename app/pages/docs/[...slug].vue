@@ -31,6 +31,15 @@
                   Getting Data In
                 </NuxtLink>
               </li>
+              <li>
+                <NuxtLink
+                  to="/docs/getting-started/distribution"
+                  class="block text-sm py-0.5 transition-colors"
+                  :class="$route.path.includes('distribution') ? 'text-orange-500 font-medium' : 'text-gray-500'"
+                >
+                  Desktop Distribution
+                </NuxtLink>
+              </li>
             </ul>
           </div>
 
