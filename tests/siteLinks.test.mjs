@@ -42,7 +42,7 @@ test('public site links to an honest distribution doc and the doc explains the u
   assert.match(distributionDoc, /single developer/i)
   assert.match(distributionDoc, /limited funds/i)
   assert.match(distributionDoc, /build from source/i)
-  assert.match(distributionDoc, /Apple Developer Program/i)
+  assert.match(distributionDoc, /paid developer program/i)
   assert.match(distributionDoc, /paid distribution gate/i)
   assert.match(homePage, /why-apple-gatekeeping-makes-this-harder/)
   assert.match(distributionDoc, /curl -fsSL https:\/\/inquiraai\.com\/install\.sh \| bash/)

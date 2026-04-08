@@ -61,6 +61,6 @@ That path gives you the strongest possible transparency because you can inspect 
 
 ## What We Plan To Do Next
 
-Once the project has enough paying customers or other sustainable support to cover the cost responsibly, we plan to apply for the Apple Developer Program and move to proper signed and notarized macOS distribution.
+We plan to move to proper signed and notarized macOS distribution once Inquira has a user base that justifies it.
 
-Until then, this page is here so there is no ambiguity about how the desktop app is currently shipped.
+Until then, this page explains exactly how the desktop app is currently shipped.
