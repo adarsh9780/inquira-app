@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white font-sans text-gray-900 antialiased">
+  <div id="top" class="min-h-screen bg-white font-sans text-gray-900 antialiased">
     <AppNavbar />
 
     <!-- Hero Section -->
@@ -531,7 +531,7 @@
       <div class="mx-auto max-w-6xl px-6">
         <div class="grid gap-8 md:grid-cols-4">
           <div>
-            <a href="#" class="flex items-center gap-3">
+            <a href="/#top" class="flex items-center gap-3">
               <AppLogo />
             </a>
             <p class="mt-4 text-sm text-gray-600">Privacy-first, local AI data analysis. Your data never leaves your machine.</p>

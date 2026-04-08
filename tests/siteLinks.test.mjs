@@ -26,10 +26,14 @@ test('docs content links do not point at missing top-level routes', () => {
 
 test('public site links to an honest distribution doc and the doc explains the unsigned installer tradeoff', () => {
   const homePage = readFileSync(resolve(root, 'app/pages/index.vue'), 'utf8')
+  const navBar = readFileSync(resolve(root, 'app/components/AppNavbar.vue'), 'utf8')
   const welcomeDoc = readFileSync(resolve(root, 'content/docs/welcome.md'), 'utf8')
   const distributionDoc = readFileSync(resolve(root, 'content/docs/getting-started/distribution.md'), 'utf8')
   const installerScript = readFileSync(resolve(root, 'public/install.sh'), 'utf8')
 
+  assert.match(homePage, /id="top"/)
+  assert.match(homePage, /href="\/#top" class="flex items-center gap-3"/)
+  assert.match(navBar, /href="\/#top" class="flex items-center gap-3"/)
   assert.match(homePage, /\/docs\/getting-started\/distribution/)
   assert.match(homePage, /Download for macOS/)
   assert.match(homePage, /curl -fsSL https:\/\/inquiraai\.com\/install\.sh \| bash/)

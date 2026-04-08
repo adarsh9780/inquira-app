@@ -2,9 +2,9 @@
   <nav class="fixed top-0 left-0 right-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-xl">
     <div class="mx-auto max-w-6xl px-6">
       <div class="flex h-16 items-center justify-between">
-        <NuxtLink to="/" class="flex items-center gap-3">
+        <a href="/#top" class="flex items-center gap-3">
           <AppLogo />
-        </NuxtLink>
+        </a>
 
         <div class="hidden items-center gap-8 md:flex">
           <a href="/#features" class="text-sm font-medium text-gray-600 transition-colors">Features</a>
