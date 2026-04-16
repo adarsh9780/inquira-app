@@ -5,7 +5,7 @@
     <!-- Hero Section -->
     <section class="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-32">
       <div class="absolute inset-0 -z-10">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-secondary-100/50 to-transparent rounded-full blur-3xl"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[90vw] h-[90vw] max-w-[800px] max-h-[800px] bg-gradient-to-b from-secondary-100/50 to-transparent rounded-full blur-3xl"></div>
       </div>
 
       <div class="mx-auto max-w-[var(--content-max-width)] px-6">
@@ -37,18 +37,18 @@
               </NuxtLink>
             </div>
 
-            <div class="mt-12 flex items-center justify-center gap-12 lg:justify-start">
-              <div>
+            <div class="mt-12 flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-center md:gap-8 lg:justify-start lg:gap-12">
+              <div class="text-center md:text-left">
                 <div class="text-2xl font-bold text-text-primary">100%</div>
                 <div class="text-sm text-text-muted">Local Processing</div>
               </div>
-              <div class="h-8 w-px bg-border"></div>
-              <div>
+              <div class="hidden h-8 w-px bg-border md:block"></div>
+              <div class="text-center md:text-left">
                 <div class="text-2xl font-bold text-text-primary">0</div>
                 <div class="text-sm text-text-muted">Cloud Dependencies</div>
               </div>
-              <div class="h-8 w-px bg-border"></div>
-              <div>
+              <div class="hidden h-8 w-px bg-border md:block"></div>
+              <div class="text-center md:text-left">
                 <div class="text-2xl font-bold text-text-primary">DuckDB</div>
                 <div class="text-sm text-text-muted">Powered Engine</div>
               </div>
@@ -56,7 +56,7 @@
           </div>
 
           <div class="flex justify-center lg:justify-end">
-            <svg class="h-64 w-64 lg:h-80 lg:w-80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+            <svg class="h-40 w-40 sm:h-64 sm:w-64 lg:h-80 lg:w-80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
               <defs>
                 <linearGradient id="hero-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" style="stop-color:var(--color-secondary-500);stop-opacity:1" />
@@ -292,9 +292,9 @@
           class="fixed inset-0 z-50 overflow-y-auto px-6 py-10"
           @click.self="closeMacInstallDialog"
         >
-          <div class="fixed inset-0 bg-black/45 backdrop-blur-sm" @click="closeMacInstallDialog"></div>
+          <div class="app-overlay-surface fixed inset-0" @click="closeMacInstallDialog"></div>
           <div class="relative mx-auto mt-[6vh] w-full max-w-2xl">
-            <div class="overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
+            <div class="app-popup-surface overflow-hidden rounded-2xl border shadow-2xl">
               <div class="border-b border-border px-6 py-5">
                 <p class="text-sm font-medium uppercase tracking-[0.18em] text-primary-600">
                   macOS Install

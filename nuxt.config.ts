@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 const cloudflareD1Binding = process.env.NUXT_CLOUDFLARE_D1_BINDING || ''
-const isCloudflareWorkerBuild =
-  process.env.NITRO_PRESET === 'cloudflare_module' || cloudflareD1Binding.length > 0
+const isCloudflareWorkerBuild = process.env.NITRO_PRESET === 'cloudflare_module'
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -15,9 +14,8 @@ export default defineNuxtConfig({
         { name: 'theme-color', content: '#ffffff', media: '(prefers-color-scheme: light)' },
         { name: 'application-name', content: 'Inquira-CE' },
         { name: 'apple-mobile-web-app-title', content: 'Inquira-CE' },
+        { name: 'mobile-web-app-capable', content: 'yes' },
         { name: 'color-scheme', content: 'light dark' },
-        { name: 'apple-mobile-web-app-capable', content: 'yes' },
-        { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
       ],
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/brand/inquira-mark.svg' },
@@ -34,7 +32,8 @@ export default defineNuxtConfig({
     configPath: '~/tailwind.config.ts'
   },
   nitro: {
-    preset: isCloudflareWorkerBuild ? 'cloudflare_module' : undefined,
+    // Keep local dev on Node runtime; only use Cloudflare runtime for explicit worker builds.
+    preset: isCloudflareWorkerBuild ? 'cloudflare_module' : 'node_server',
     prerender: {
       autoSubfolderIndex: false
     },
@@ -43,7 +42,7 @@ export default defineNuxtConfig({
     }
   },
   content: {
-    ...(cloudflareD1Binding
+    ...(isCloudflareWorkerBuild && cloudflareD1Binding
       ? {
           database: {
             type: 'd1',

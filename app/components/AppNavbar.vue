@@ -1,11 +1,11 @@
 <template>
-  <nav class="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl transition-colors duration-300">
+  <nav class="app-navbar-surface fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-300 py-0">
     <div class="mx-auto max-w-[var(--content-max-width)] px-6">
       <div class="flex h-[var(--navbar-height)] items-center justify-between">
-        <!-- Logo -->
-        <a href="/#top" class="flex items-center gap-3">
-          <AppLogo />
-        </a>
+         <!-- Logo -->
+         <a href="/#top" class="flex items-center gap-3">
+           <AppLogo :text-class="'hidden sm:inline font-sans text-lg font-semibold text-text-primary'" />
+         </a>
 
         <!-- Desktop Navigation -->
         <div class="hidden items-center gap-8 md:flex">
@@ -25,6 +25,15 @@
 
         <!-- Right Side Actions -->
         <div class="flex items-center gap-3">
+          <button
+            type="button"
+            class="hidden rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:bg-neutral-100 hover:text-primary-500 sm:inline-flex active:scale-[0.98]"
+            :aria-label="styleTheme === 'glass' ? 'Switch to classic style theme' : 'Switch to glass style theme'"
+            @click="toggleStyleTheme"
+          >
+            {{ styleTheme === 'glass' ? 'Glass' : 'Classic' }}
+          </button>
+
           <!-- GitHub Link (Desktop) -->
           <a
             href="https://github.com/adarsh9780/inquira-ce"
@@ -61,50 +70,34 @@
             </svg>
           </button>
 
-          <!-- Mobile Menu Button -->
-          <button
-            type="button"
-            class="touch-target flex items-center justify-center rounded-lg p-2 text-text-secondary transition-colors hover:bg-neutral-100 hover:text-primary-500 md:hidden dark:hover:bg-neutral-800"
-            style="min-width: 44px; min-height: 44px;"
-            aria-label="Open menu"
-            :aria-expanded="isMenuOpen"
-            aria-controls="mobile-menu"
-            @click="openMenu"
-          >
-            <svg v-if="!isMenuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-            <svg v-else class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-
           <!-- Mobile Download Button (visible in menu) -->
           <a href="/#download" class="btn btn-primary rounded-lg px-4 py-2 text-sm font-medium sm:hidden active:scale-[0.98]">
             Download
           </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mobile Navigation Menu -->
-    <MobileNavMenu v-model="isMenuOpen" />
-  </nav>
+         </div>
+       </div>
+     </div>
+   </nav>
 </template>
 
 <script setup lang="ts">
 const config = useRuntimeConfig()
 const showPricing = computed(() => config.public.showPricing === 'true')
 
-// Mobile menu state
-const isMenuOpen = ref(false)
-
 // Theme management
 const isDark = ref(false)
+const styleTheme = ref<'glass' | 'classic'>('glass')
 
 // Initialize theme from localStorage or system preference
 const initTheme = () => {
   if (typeof window !== 'undefined') {
+    const savedStyleTheme = localStorage.getItem('style-theme')
+    if (savedStyleTheme === 'classic' || savedStyleTheme === 'glass') {
+      styleTheme.value = savedStyleTheme
+    } else {
+      styleTheme.value = 'glass'
+    }
+
     const saved = localStorage.getItem('theme')
     if (saved) {
       isDark.value = saved === 'dark'
@@ -118,6 +111,7 @@ const initTheme = () => {
 // Apply theme to document
 const applyTheme = () => {
   if (typeof document !== 'undefined') {
+    document.documentElement.setAttribute('data-style-theme', styleTheme.value)
     if (isDark.value) {
       document.documentElement.classList.add('dark')
       document.body.classList.add('dark')
@@ -128,16 +122,17 @@ const applyTheme = () => {
   }
 }
 
+const toggleStyleTheme = () => {
+  styleTheme.value = styleTheme.value === 'glass' ? 'classic' : 'glass'
+  localStorage.setItem('style-theme', styleTheme.value)
+  applyTheme()
+}
+
 // Toggle theme
 const toggleTheme = () => {
   isDark.value = !isDark.value
   localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
   applyTheme()
-}
-
-// Open mobile menu
-const openMenu = () => {
-  isMenuOpen.value = true
 }
 
 // Initialize on mount
@@ -155,3 +150,11 @@ if (typeof window !== 'undefined') {
   })
 }
 </script>
+
+<style scoped>
+.app-navbar-surface {
+  transition:
+    background var(--navbar-open-duration) var(--ease-standard),
+    border-color var(--navbar-open-duration) var(--ease-standard);
+}
+</style>

@@ -22,9 +22,9 @@
         class="fixed inset-0 z-[var(--z-modal)] overflow-y-auto px-6 py-10"
         @click.self="closeSearch"
       >
-        <div class="fixed inset-0 bg-black/45 backdrop-blur-sm" @click="closeSearch"></div>
+        <div class="app-overlay-surface fixed inset-0" @click="closeSearch"></div>
         <div class="relative mx-auto mt-[10vh] w-full max-w-2xl">
-          <div class="overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
+          <div class="app-popup-surface overflow-hidden rounded-2xl border shadow-2xl">
             <!-- Search Header -->
             <div class="flex items-center gap-3 px-4 border-b border-border">
               <svg class="h-5 w-5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

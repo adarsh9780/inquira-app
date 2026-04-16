@@ -1,4 +1,4 @@
-.PHONY: install test build build-worker content-seed-sql wrangler-config deploy-worker verify-deployment status add commit push deploy
+.PHONY: install test build build-worker content-seed-sql wrangler-config deploy-worker verify-deployment status add commit push deploy dev
 
 status:
 	git status
@@ -43,3 +43,6 @@ deploy: status
 	fi
 	@echo "No uncommitted changes. Deploying to Cloudflare..."
 	$(MAKE) deploy-worker
+
+dev:
+	npm run dev

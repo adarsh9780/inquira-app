@@ -92,10 +92,17 @@
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
 
+  /* Motion */
+  --motion-fast: 150ms;
+  --motion-normal: 200ms;
+  --motion-slow: 300ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+
   /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 200ms ease;
-  --transition-slow: 300ms ease;
+  --transition-fast: var(--motion-fast) var(--ease-standard);
+  --transition-normal: var(--motion-normal) var(--ease-standard);
+  --transition-slow: var(--motion-slow) var(--ease-standard);
 
   /* Spacing Scale */
   --spacing-1: 0.25rem;
@@ -138,9 +145,89 @@
   --touch-target-min: 44px;
 
   /* Animation Durations */
-  --duration-fast: 150ms;
-  --duration-normal: 200ms;
-  --duration-slow: 300ms;
+  --duration-fast: var(--motion-fast);
+  --duration-normal: var(--motion-normal);
+  --duration-slow: var(--motion-slow);
+
+  /* Glass Theme Tokens (classic fallback values) */
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-bg-strong: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(209, 213, 219, 0.78);
+  --glass-blur: 14px;
+  --glass-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
+  --glass-highlight: rgba(255, 255, 255, 0.68);
+  --glass-fallback-bg: #ffffff;
+
+  /* Glass Component Aliases */
+  --navbar-surface: rgba(255, 255, 255, 0.8);
+  --sidebar-surface: rgba(255, 255, 255, 0.92);
+  --modal-surface: rgba(255, 255, 255, 0.94);
+  --popover-surface: rgba(255, 255, 255, 0.92);
+  --overlay-surface: rgba(15, 23, 42, 0.45);
+  --overlay-blur: 4px;
+
+  /* Motion Aliases */
+  --navbar-open-duration: var(--motion-normal);
+  --navbar-close-duration: var(--motion-fast);
+  --sidebar-open-duration: var(--motion-slow);
+  --sidebar-close-duration: var(--motion-normal);
+  --sidebar-enter-distance: 20px;
+  --popup-open-duration: var(--motion-normal);
+  --popup-close-duration: var(--motion-fast);
+  --popup-enter-scale: 0.96;
+  --popup-exit-scale: 0.98;
+}
+
+/* ============================================
+   GLASS STYLE THEME (Default)
+   ============================================ */
+:root[data-style-theme='glass'] {
+  --color-background: #eef3ff;
+  --color-background-muted: #e7edff;
+  --color-surface: rgba(255, 255, 255, 0.7);
+  --color-text-primary: #142238;
+  --color-text-secondary: #334155;
+  --color-text-muted: #50627f;
+  --color-border: rgba(148, 163, 184, 0.34);
+  --color-border-strong: rgba(148, 163, 184, 0.48);
+
+  --shadow-sm: 0 2px 12px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 12px 30px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 18px 42px rgba(15, 23, 42, 0.14);
+  --shadow-xl: 0 26px 60px rgba(15, 23, 42, 0.18);
+  --shadow-primary: 0 8px 22px rgba(249, 115, 22, 0.34);
+  --shadow-primary-hover: 0 12px 30px rgba(249, 115, 22, 0.42);
+
+  --motion-fast: 150ms;
+  --motion-normal: 240ms;
+  --motion-slow: 340ms;
+  --ease-standard: cubic-bezier(0.22, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --glass-bg: rgba(255, 255, 255, 0.58);
+  --glass-bg-strong: rgba(255, 255, 255, 0.76);
+  --glass-border: rgba(255, 255, 255, 0.62);
+  --glass-blur: 18px;
+  --glass-shadow: 0 20px 42px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --glass-highlight: rgba(255, 255, 255, 0.86);
+  --glass-fallback-bg: #edf2ff;
+
+  --navbar-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(226, 236, 255, 0.56));
+  --sidebar-surface: linear-gradient(165deg, rgba(255, 255, 255, 0.84), rgba(233, 241, 255, 0.72));
+  --modal-surface: linear-gradient(155deg, rgba(255, 255, 255, 0.9), rgba(232, 240, 255, 0.8));
+  --popover-surface: linear-gradient(155deg, rgba(255, 255, 255, 0.82), rgba(231, 239, 255, 0.72));
+  --overlay-surface: rgba(15, 23, 42, 0.34);
+  --overlay-blur: 7px;
+
+  --navbar-open-duration: var(--motion-normal);
+  --navbar-close-duration: var(--motion-fast);
+  --sidebar-open-duration: var(--motion-slow);
+  --sidebar-close-duration: var(--motion-normal);
+  --sidebar-enter-distance: 26px;
+  --popup-open-duration: var(--motion-normal);
+  --popup-close-duration: var(--motion-fast);
+  --popup-enter-scale: 0.95;
+  --popup-exit-scale: 0.98;
 }
 
 /* ============================================
@@ -202,6 +289,31 @@ html.dark {
   }
 }
 
+/* Dark mode refinements for glass style theme */
+html.dark[data-style-theme='glass'] {
+  --color-background: #060d1f;
+  --color-background-muted: #0d1930;
+  --color-surface: rgba(15, 23, 42, 0.68);
+  --color-text-primary: #e2ecff;
+  --color-text-secondary: #c2d2ee;
+  --color-text-muted: #9db2d6;
+  --color-border: rgba(96, 165, 250, 0.2);
+  --color-border-strong: rgba(148, 163, 184, 0.36);
+
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-bg-strong: rgba(15, 23, 42, 0.76);
+  --glass-border: rgba(148, 163, 184, 0.34);
+  --glass-shadow: 0 22px 46px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(148, 163, 184, 0.18);
+  --glass-highlight: rgba(148, 163, 184, 0.26);
+  --glass-fallback-bg: #0f172a;
+
+  --navbar-surface: linear-gradient(140deg, rgba(15, 23, 42, 0.74), rgba(30, 41, 59, 0.62));
+  --sidebar-surface: linear-gradient(165deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8));
+  --modal-surface: linear-gradient(160deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.84));
+  --popover-surface: linear-gradient(160deg, rgba(15, 23, 42, 0.86), rgba(30, 41, 59, 0.76));
+  --overlay-surface: rgba(2, 6, 23, 0.58);
+}
+
 /* ============================================
    GLOBAL BASE STYLES
    ============================================ */
@@ -218,6 +330,91 @@ body {
   color: var(--color-text-primary);
   line-height: var(--line-height-normal);
   transition: background-color var(--transition-slow), color var(--transition-slow);
+}
+
+@keyframes navbar-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sidebar-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--sidebar-enter-distance));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popup-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(var(--popup-enter-scale));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@layer components {
+  .app-navbar-surface,
+  .app-sidebar-surface,
+  .app-popup-surface,
+  .app-popover-surface {
+    border-color: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+  }
+
+  .app-navbar-surface {
+    background: var(--navbar-surface);
+    animation: navbar-in var(--navbar-open-duration) var(--ease-emphasized);
+  }
+
+  .app-sidebar-surface {
+    background: var(--sidebar-surface);
+    animation: sidebar-in var(--sidebar-open-duration) var(--ease-emphasized);
+  }
+
+  .app-popup-surface {
+    background: var(--modal-surface);
+    animation: popup-in var(--popup-open-duration) var(--ease-emphasized);
+  }
+
+  .app-popover-surface {
+    background: var(--popover-surface);
+  }
+
+  .app-overlay-surface {
+    background: var(--overlay-surface);
+    backdrop-filter: blur(var(--overlay-blur));
+    -webkit-backdrop-filter: blur(var(--overlay-blur));
+    animation: overlay-in var(--popup-open-duration) var(--ease-standard);
+  }
+}
+
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .app-navbar-surface,
+  .app-sidebar-surface,
+  .app-popup-surface,
+  .app-popover-surface {
+    background: var(--glass-fallback-bg);
+  }
 }
 
 /* Focus Visible for Accessibility */
