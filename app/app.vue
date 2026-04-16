@@ -11,7 +11,7 @@
 <script setup lang="ts">
 useHead({
   htmlAttrs: {
-    'data-style-theme': 'glass'
+    'data-style-theme': 'classic'
   }
 })
 

@@ -36,13 +36,15 @@ else
 	git push origin $(branch)
 endif
 
-deploy: status
-	@if [ -n "$$(git status --porcelain)" ]; then \
-		echo "Error: You have uncommitted changes. Please commit before deploying."; \
-		exit 1; \
-	fi
-	@echo "No uncommitted changes. Deploying to Cloudflare..."
+deploy:
+	@set -a; \
+	. ./.env; \
+	set +a; \
+	$(MAKE) push; \
 	$(MAKE) deploy-worker
+
+deploy-worker:
+	npm run deploy:worker
 
 dev:
 	npm run dev

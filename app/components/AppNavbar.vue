@@ -86,7 +86,7 @@ const showPricing = computed(() => config.public.showPricing === 'true')
 
 // Theme management
 const isDark = ref(false)
-const styleTheme = ref<'glass' | 'classic'>('glass')
+const styleTheme = ref<'glass' | 'classic'>('classic')
 
 // Initialize theme from localStorage or system preference
 const initTheme = () => {
@@ -95,7 +95,7 @@ const initTheme = () => {
     if (savedStyleTheme === 'classic' || savedStyleTheme === 'glass') {
       styleTheme.value = savedStyleTheme
     } else {
-      styleTheme.value = 'glass'
+      styleTheme.value = 'classic'
     }
 
     const saved = localStorage.getItem('theme')
