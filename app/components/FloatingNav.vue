@@ -1,12 +1,12 @@
 <template>
-  <!-- Floating Action Button -->
-  <button
-    type="button"
-    class="fixed bottom-4 right-4 z-[60] flex h-12 w-12 items-center justify-center rounded-full bg-primary-500 text-white shadow-lg active:scale-95 transition-transform hover:bg-primary-600 app-fab-motion"
-    :aria-label="isOpen ? 'Close navigation menu' : 'Open navigation menu'"
-    aria-controls="floating-nav-drawer"
-    @click="isOpen = !isOpen"
-  >
+   <!-- Floating Action Button -->
+   <button
+     type="button"
+     class="fixed bottom-4 right-4 z-[60] flex h-12 w-12 items-center justify-center rounded-full bg-primary-500 text-white shadow-lg active:scale-95 transition-transform hover:bg-primary-600 app-fab-motion lg:hidden"
+     :aria-label="isOpen ? 'Close navigation menu' : 'Open navigation menu'"
+     aria-controls="floating-nav-drawer"
+     @click="isOpen = !isOpen"
+   >
     <svg v-if="!isOpen" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M4 6h16M4 12h16M4 18h16" />
     </svg>

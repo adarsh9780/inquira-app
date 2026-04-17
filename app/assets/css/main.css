@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   /* ============================================
-     DESIGN TOKENS - Light Theme (Default)
+     DESIGN TOKENS - Glass Theme (Default)
      ============================================ */
 
   /* Color Palette - Semantic */
@@ -43,19 +41,22 @@
   --color-neutral-800: #1f2937;
   --color-neutral-900: #111827;
 
-  --color-background: #ffffff;
-  --color-background-muted: #f9fafb;
-  --color-surface: #ffffff;
-  --color-text-primary: #111827;
-  --color-text-secondary: #4b5563;
-  --color-text-muted: #6b7280;
-  --color-border: #e5e7eb;
-  --color-border-strong: #d1d5db;
+  /* Semantic Colors */
+  --color-background: #f5f5f7;
+  --color-background-muted: #eeeef0;
+  --color-surface: rgba(255, 255, 255, 0.62);
+  --color-text-primary: #1d1d1f;
+  --color-text-secondary: #424245;
+  --color-text-muted: #6e6e73;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.14);
 
   /* Interactive States */
   --color-primary-hover: #ea580c;
   --color-primary-active: #c2410c;
   --color-secondary-hover: #2563eb;
+  --color-surface-hover: rgba(0, 0, 0, 0.04);
+  --color-surface-active: rgba(0, 0, 0, 0.07);
 
   /* Selection */
   --color-selection-start: #3b82f6;
@@ -67,12 +68,12 @@
   --color-focus-ring-offset: 2px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-primary: 0 4px 12px rgba(249, 115, 22, 0.3);
-  --shadow-primary-hover: 0 6px 20px rgba(249, 115, 22, 0.4);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.07), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 16px 40px rgba(0, 0, 0, 0.09), 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-primary: 0 4px 14px rgba(249, 115, 22, 0.25);
+  --shadow-primary-hover: 0 8px 22px rgba(249, 115, 22, 0.35);
 
   /* Border Radius */
   --radius-sm: 0.375rem;
@@ -94,9 +95,9 @@
 
   /* Motion */
   --motion-fast: 150ms;
-  --motion-normal: 200ms;
-  --motion-slow: 300ms;
-  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-normal: 240ms;
+  --motion-slow: 340ms;
+  --ease-standard: cubic-bezier(0.22, 0, 0, 1);
   --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Transitions */
@@ -149,45 +150,42 @@
   --duration-normal: var(--motion-normal);
   --duration-slow: var(--motion-slow);
 
-  /* Glass Theme Tokens (classic fallback values) */
-  --glass-bg: rgba(255, 255, 255, 0.82);
-  --glass-bg-strong: rgba(255, 255, 255, 0.92);
-  --glass-border: rgba(209, 213, 219, 0.78);
-  --glass-blur: 14px;
-  --glass-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
-  --glass-highlight: rgba(255, 255, 255, 0.68);
-  --glass-fallback-bg: #ffffff;
+  /* Glass Theme Tokens */
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-strong: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-blur: 20px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+  --glass-highlight: rgba(255, 255, 255, 0.6);
+  --glass-fallback-bg: #f5f5f7;
+  --glass-saturate: 1.8;
 
   /* Glass Component Aliases */
-  --navbar-surface: rgba(255, 255, 255, 0.8);
-  --sidebar-surface: rgba(255, 255, 255, 0.92);
-  --modal-surface: rgba(255, 255, 255, 0.94);
-  --popover-surface: rgba(255, 255, 255, 0.92);
-  --overlay-surface: rgba(15, 23, 42, 0.45);
-  --overlay-blur: 4px;
-
-  /* Interactive Hover States */
-  --color-surface-hover: #f3f4f6;
-  --color-surface-active: #e5e7eb;
+  --navbar-surface: rgba(255, 255, 255, 0.62);
+  --sidebar-surface: rgba(255, 255, 255, 0.72);
+  --modal-surface: rgba(255, 255, 255, 0.78);
+  --popover-surface: rgba(255, 255, 255, 0.72);
+  --overlay-surface: rgba(0, 0, 0, 0.25);
+  --overlay-blur: 6px;
 
   /* Code / Terminal */
-  --color-code-bg: #f3f4f6;
-  --color-terminal-bg: #111827;
-  --color-terminal-text: #ffffff;
-  --color-terminal-hover-bg: #1f2937;
+  --color-code-bg: rgba(0, 0, 0, 0.04);
+  --color-terminal-bg: #1d1d1f;
+  --color-terminal-text: #f5f5f7;
+  --color-terminal-hover-bg: #2d2d2f;
 
   /* Badge */
-  --color-badge-bg: #eff6ff;
-  --color-badge-border: #dbeafe;
+  --color-badge-bg: rgba(59, 130, 246, 0.08);
+  --color-badge-border: rgba(59, 130, 246, 0.15);
   --color-badge-text: #2563eb;
 
   /* Selected / Active Item */
-  --color-selected-bg: #fff7ed;
-  --color-selected-text: #ea580c;
+  --color-selected-bg: rgba(249, 115, 22, 0.08);
+  --color-selected-text: #c2410c;
 
   /* Kbd */
-  --color-kbd-bg: #f3f4f6;
-  --color-kbd-bg-dark: #374151;
+  --color-kbd-bg: rgba(0, 0, 0, 0.05);
+  --color-kbd-bg-dark: rgba(255, 255, 255, 0.08);
 
   /* Prose */
   --prose-font-size: 0.9375rem;
@@ -209,82 +207,7 @@
   --prose-mobile-h2: 1.25rem;
   --prose-mobile-h3: 1.0625rem;
 
-  /* Glass Vibrancy */
-  --glass-saturate: 1;
-
   /* Motion Aliases */
-  --navbar-open-duration: var(--motion-normal);
-  --navbar-close-duration: var(--motion-fast);
-  --sidebar-open-duration: var(--motion-slow);
-  --sidebar-close-duration: var(--motion-normal);
-  --sidebar-enter-distance: 20px;
-  --popup-open-duration: var(--motion-normal);
-  --popup-close-duration: var(--motion-fast);
-  --popup-enter-scale: 0.96;
-  --popup-exit-scale: 0.98;
-}
-
-/* ============================================
-   GLASS STYLE THEME (Default)
-   ============================================ */
-:root[data-style-theme='glass'] {
-  --color-background: #f5f5f7;
-  --color-background-muted: #eeeef0;
-  --color-surface: rgba(255, 255, 255, 0.62);
-  --color-text-primary: #1d1d1f;
-  --color-text-secondary: #424245;
-  --color-text-muted: #6e6e73;
-
-  --color-border: rgba(0, 0, 0, 0.08);
-  --color-border-strong: rgba(0, 0, 0, 0.14);
-
-  --color-surface-hover: rgba(0, 0, 0, 0.04);
-  --color-surface-active: rgba(0, 0, 0, 0.07);
-
-  --color-code-bg: rgba(0, 0, 0, 0.04);
-  --color-terminal-bg: #1d1d1f;
-  --color-terminal-text: #f5f5f7;
-  --color-terminal-hover-bg: #2d2d2f;
-
-  --color-badge-bg: rgba(59, 130, 246, 0.08);
-  --color-badge-border: rgba(59, 130, 246, 0.15);
-  --color-badge-text: #2563eb;
-
-  --color-selected-bg: rgba(249, 115, 22, 0.08);
-  --color-selected-text: #c2410c;
-
-  --color-kbd-bg: rgba(0, 0, 0, 0.05);
-  --color-kbd-bg-dark: rgba(255, 255, 255, 0.08);
-
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.07), 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 16px 40px rgba(0, 0, 0, 0.09), 0 4px 12px rgba(0, 0, 0, 0.05);
-  --shadow-primary: 0 4px 14px rgba(249, 115, 22, 0.25);
-  --shadow-primary-hover: 0 8px 22px rgba(249, 115, 22, 0.35);
-
-  --motion-fast: 150ms;
-  --motion-normal: 240ms;
-  --motion-slow: 340ms;
-  --ease-standard: cubic-bezier(0.22, 0, 0, 1);
-  --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
-
-  --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-bg-strong: rgba(255, 255, 255, 0.72);
-  --glass-border: rgba(255, 255, 255, 0.4);
-  --glass-blur: 20px;
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
-  --glass-highlight: rgba(255, 255, 255, 0.6);
-  --glass-fallback-bg: #f5f5f7;
-  --glass-saturate: 1.8;
-
-  --navbar-surface: rgba(255, 255, 255, 0.62);
-  --sidebar-surface: rgba(255, 255, 255, 0.72);
-  --modal-surface: rgba(255, 255, 255, 0.78);
-  --popover-surface: rgba(255, 255, 255, 0.72);
-  --overlay-surface: rgba(0, 0, 0, 0.25);
-  --overlay-blur: 6px;
-
   --navbar-open-duration: var(--motion-normal);
   --navbar-close-duration: var(--motion-fast);
   --sidebar-open-duration: var(--motion-slow);

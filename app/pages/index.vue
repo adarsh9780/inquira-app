@@ -1,6 +1,9 @@
 <template>
-  <div class="min-h-screen bg-background text-text-primary font-sans antialiased">
+  <div id="top" class="min-h-screen bg-background text-text-primary font-sans antialiased">
     <AppNavbar />
+
+    <!-- Skip target -->
+    <div id="main-content" tabindex="-1"></div>
 
     <!-- Hero Section -->
     <section class="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-32">
@@ -8,16 +11,15 @@
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[90vw] h-[90vw] max-w-[800px] max-h-[800px] bg-gradient-to-b from-secondary-100/50 to-transparent rounded-full blur-3xl"></div>
       </div>
 
-      <div class="mx-auto max-w-[var(--content-max-width)] px-6">
+      <div class="mx-auto max-w-[var(--content-max-width)] px-6 sm:px-8 lg:px-12">
         <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
           <div class="text-center lg:text-left">
-            <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-badge-border bg-badge-bg px-3 py-1 text-xs font-medium text-badge-text">
-              <span class="relative flex h-2 w-2">
-                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-secondary-400 opacity-75"></span>
-                <span class="relative inline-flex h-2 w-2 rounded-full bg-secondary-500"></span>
-              </span>
-              Privacy-First AI
-            </div>
+             <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-badge-border bg-badge-bg px-3 py-1 text-xs font-medium text-badge-text">
+               <span class="relative flex h-2 w-2">
+                 <span class="inline-flex h-2 w-2 rounded-full bg-secondary-500"></span>
+               </span>
+               Privacy-First AI
+             </div>
 
             <h1 class="mb-6 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
               Local AI Data Analysis<br />
@@ -106,7 +108,7 @@
 
     <!-- Features Section -->
     <section id="features" class="bg-background-muted py-20 lg:py-32">
-      <div class="mx-auto max-w-[var(--content-max-width)] px-6">
+      <div class="mx-auto max-w-[var(--content-max-width)] px-6 sm:px-8 lg:px-12">
         <div class="mb-16 text-center">
           <div class="mb-4 text-sm font-medium uppercase tracking-wider text-secondary-600">Core Features</div>
           <h2 class="mb-4 text-3xl font-bold tracking-tight sm:text-4xl text-text-primary">
@@ -133,7 +135,7 @@
 
     <!-- How It Works -->
     <section id="how-it-works" class="py-20 lg:py-32">
-      <div class="mx-auto max-w-[var(--content-max-width)] px-6">
+      <div class="mx-auto max-w-[var(--content-max-width)] px-6 sm:px-8 lg:px-12">
         <div class="mb-16 text-center">
           <div class="mb-4 text-sm font-medium uppercase tracking-wider text-secondary-600">How It Works</div>
           <h2 class="mb-4 text-3xl font-bold tracking-tight sm:text-4xl text-text-primary">
@@ -162,7 +164,7 @@
 
     <!-- Pricing Section -->
     <section v-if="showPricing" id="pricing" class="bg-background-muted py-20 lg:py-32">
-      <div class="mx-auto max-w-[var(--content-max-width)] px-6">
+      <div class="mx-auto max-w-[var(--content-max-width)] px-6 sm:px-8 lg:px-12">
         <div class="mb-16 text-center">
           <div class="mb-4 text-sm font-medium uppercase tracking-wider text-secondary-600">Pricing</div>
           <h2 class="mb-4 text-3xl font-bold tracking-tight sm:text-4xl text-text-primary">
@@ -207,7 +209,7 @@
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-secondary-100/50 to-primary-100/30 rounded-full blur-3xl"></div>
       </div>
 
-      <div class="mx-auto max-w-[var(--content-max-width)] px-6 text-center">
+      <div class="mx-auto max-w-[var(--content-max-width)] px-6 sm:px-8 lg:px-12 text-center">
         <h2 class="mb-4 text-3xl font-bold tracking-tight sm:text-4xl text-text-primary">
           Download Inquira Today
         </h2>
@@ -235,36 +237,36 @@
           <div class="grid gap-4 sm:grid-cols-2">
             <button
               type="button"
-              class="group flex min-h-[172px] flex-col rounded-xl border border-border bg-surface px-6 py-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary-500 hover:bg-primary-500 hover:text-white hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              class="group flex min-h-[172px] flex-col rounded-xl border border-border bg-surface px-6 py-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary-500 hover:bg-primary-50 dark:hover:bg-primary-500/10 hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500/40"
               @click="openMacInstallDialog"
             >
-                <div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-badge-bg text-text-primary transition-colors group-hover:bg-white/15 group-hover:text-white">
+                <div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-badge-bg text-text-primary transition-colors group-hover:bg-primary-500 group-hover:text-white">
                 <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M16.37 12.44c.02 2.46 2.16 3.28 2.18 3.29-.02.06-.34 1.17-1.12 2.32-.67 1-1.37 2-2.46 2.02-1.07.02-1.42-.64-2.65-.64-1.24 0-1.62.62-2.62.66-1.04.04-1.83-1.05-2.5-2.04-1.37-1.98-2.42-5.59-1.01-8.03.7-1.2 1.95-1.96 3.3-1.98 1.03-.02 2 .69 2.65.69.65 0 1.87-.85 3.16-.73.54.02 2.06.22 3.04 1.66-.08.05-1.82 1.06-1.8 2.78Zm-2.13-5.07c.56-.68.94-1.64.84-2.58-.81.03-1.79.54-2.37 1.22-.52.6-.98 1.57-.86 2.5.91.07 1.83-.46 2.39-1.14Z"/>
                 </svg>
               </div>
-              <div class="text-base font-semibold text-text-primary transition-colors group-hover:text-white">
+              <div class="text-base font-semibold text-text-primary transition-colors group-hover:text-primary-600">
                 Download for macOS
               </div>
-              <p class="mt-1 text-sm text-text-secondary transition-colors group-hover:text-white/85">
+              <p class="mt-1 text-sm text-text-secondary transition-colors group-hover:text-text-primary">
                 Opens the guided installer instructions with the shell command.
               </p>
             </button>
 
             <button
               type="button"
-              class="group flex min-h-[172px] flex-col items-start justify-center gap-3 rounded-xl border border-border bg-surface px-6 py-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary-500 hover:bg-primary-500 hover:text-white hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              class="group flex min-h-[172px] flex-col items-start justify-center gap-3 rounded-xl border border-border bg-surface px-6 py-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary-500 hover:bg-primary-50 dark:hover:bg-primary-500/10 hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500/40"
               @click="handleWindowsDownload"
             >
-                <div class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-badge-bg text-text-primary transition-colors group-hover:bg-white/15 group-hover:text-white">
+                <div class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-badge-bg text-text-primary transition-colors group-hover:bg-primary-500 group-hover:text-white">
                 <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M3 5.5L10.5 4.4v7.1H3V5.5Zm8.5-1.22L21 3v8.5h-9.5V4.28ZM3 12.5h7.5v7.1L3 18.5v-6Zm8.5 0H21V21l-9.5-1.33V12.5Z"/>
                 </svg>
               </div>
-              <div class="text-base font-semibold text-text-primary transition-colors group-hover:text-white">
+              <div class="text-base font-semibold text-text-primary transition-colors group-hover:text-primary-600">
                 Download for Windows
               </div>
-              <p class="text-sm text-text-secondary transition-colors group-hover:text-white/85">
+              <p class="text-sm text-text-secondary transition-colors group-hover:text-text-primary">
                 Direct installer download.
               </p>
             </button>
@@ -287,13 +289,19 @@
 
       <!-- Mac Install Dialog -->
       <Teleport to="body">
-        <div
-          v-if="isMacInstallDialogOpen"
-          class="fixed inset-0 z-50 overflow-y-auto px-6 py-10"
-          @click.self="closeMacInstallDialog"
-        >
-          <div class="app-overlay-surface fixed inset-0" @click="closeMacInstallDialog"></div>
-          <div class="relative mx-auto mt-[6vh] w-full max-w-2xl">
+        <Transition name="overlay">
+          <div
+            v-if="isMacInstallDialogOpen"
+            class="app-overlay-surface fixed inset-0 z-50"
+            @click="closeMacInstallDialog"
+          ></div>
+        </Transition>
+        <Transition name="popup">
+          <div
+            v-if="isMacInstallDialogOpen"
+            class="fixed inset-0 z-50 overflow-y-auto px-6 py-10"
+            @click.self="closeMacInstallDialog"
+          >
             <div class="app-popup-surface overflow-hidden rounded-2xl border shadow-2xl">
               <div class="border-b border-border px-6 py-5">
                 <p class="text-sm font-medium uppercase tracking-[0.18em] text-primary-600">
@@ -318,63 +326,63 @@
                     Run this command in Terminal
                   </p>
                    <div class="relative rounded-xl bg-terminal-bg px-4 py-4 pr-14 font-mono text-sm text-terminal-text">
-                    <button
-                      type="button"
-                      class="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50"
-                      :aria-label="macInstallCopied ? 'macOS install command copied' : 'Copy macOS install command'"
-                      @click="handleMacInstallCopy"
-                    >
-                      <svg v-if="!macInstallCopied" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                      </svg>
-                      <svg v-else class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M20 6 9 17l-5-5" />
-                      </svg>
-                    </button>
-                    <span class="block leading-relaxed">
-                      {{ macInstallCommand }}
-                    </span>
-                  </div>
+                     <button
+                       type="button"
+                       class="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50"
+                       :aria-label="macInstallCopied ? 'macOS install command copied' : 'Copy macOS install command'"
+                       @click="handleMacInstallCopy"
+                     >
+                       <svg v-if="!macInstallCopied" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                       </svg>
+                       <svg v-else class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                         <path d="M20 6 9 17l-5-5" />
+                       </svg>
+                     </button>
+                     <span class="block leading-relaxed">
+                       {{ macInstallCommand }}
+                     </span>
+                   </div>
                 </div>
 
                  <div class="rounded-xl border border-border bg-code-bg px-4 py-4">
-                  <p class="text-sm font-medium text-text-primary">
-                    Future notarization plan
-                  </p>
-                  <p class="mt-2 text-sm text-text-secondary">
-                    We plan to move to proper signed and notarized macOS distribution once the project has sustainable support to cover Apple's developer program costs responsibly. Until then, we are keeping the source public and the install flow explicit.
-                  </p>
-                  <p class="mt-3 text-sm text-text-secondary">
-                    <NuxtLink to="/docs/getting-started/distribution#why-apple-gatekeeping-makes-this-harder" class="underline hover:text-text-primary">
-                      Read why Apple's gatekeeping makes this harder for independent developers
-                    </NuxtLink>
-                  </p>
-                </div>
+                   <p class="text-sm font-medium text-text-primary">
+                     Future notarization plan
+                   </p>
+                   <p class="mt-2 text-sm text-text-secondary">
+                     We plan to move to proper signed and notarized macOS distribution once the project has sustainable support to cover Apple's developer program costs responsibly. Until then, we are keeping the source public and the install flow explicit.
+                   </p>
+                   <p class="mt-3 text-sm text-text-secondary">
+                     <NuxtLink to="/docs/getting-started/distribution#why-apple-gatekeeping-makes-this-harder" class="underline hover:text-text-primary">
+                       Read why Apple's gatekeeping makes this harder for independent developers
+                     </NuxtLink>
+                   </p>
+                 </div>
 
-                <div class="flex flex-col gap-3 border-t border-border pt-2 sm:flex-row sm:items-center sm:justify-between">
-                  <NuxtLink to="/docs/getting-started/distribution" class="text-sm font-medium text-text-secondary underline hover:text-text-primary">
-                    Read the full distribution note
-                  </NuxtLink>
-                  <button
-                    type="button"
-                     class="inline-flex items-center justify-center rounded-lg bg-terminal-bg px-4 py-2.5 text-sm font-medium text-terminal-text transition-colors hover:bg-terminal-hover-bg active:scale-[0.98]"
-                    @click="handleMacInstallCopy"
-                  >
-                    {{ macInstallCopied ? 'Copied install command' : 'Copy install command' }}
-                  </button>
-                </div>
+                 <div class="flex flex-col gap-3 border-t border-border pt-2 sm:flex-row sm:items-center sm:justify-between">
+                   <NuxtLink to="/docs/getting-started/distribution" class="text-sm font-medium text-text-secondary underline hover:text-text-primary">
+                     Read the full distribution note
+                   </NuxtLink>
+                   <button
+                     type="button"
+                      class="inline-flex items-center justify-center rounded-lg bg-terminal-bg px-4 py-2.5 text-sm font-medium text-terminal-text transition-colors hover:bg-terminal-hover-bg active:scale-[0.98]"
+                     @click="handleMacInstallCopy"
+                   >
+                     {{ macInstallCopied ? 'Copied install command' : 'Copy install command' }}
+                   </button>
+                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </Transition>
       </Teleport>
     </section>
 
     <!-- Footer -->
     <footer class="border-t border-border bg-surface py-12">
-      <div class="mx-auto max-w-[var(--content-max-width)] px-6">
-        <div class="grid gap-8 md:grid-cols-4">
+      <div class="mx-auto max-w-[var(--content-max-width)] px-6 sm:px-8 lg:px-12">
+        <div class="grid gap-8 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
             <a href="/#top" class="flex items-center gap-3">
               <AppLogo />
@@ -607,5 +615,34 @@ const pricingPlans = [
 ::-moz-selection {
   background: linear-gradient(135deg, var(--color-secondary-500), var(--color-primary-500));
   color: white;
+}
+
+/* Dialog transitions */
+.overlay-enter-active,
+.overlay-leave-active {
+  transition: opacity var(--motion-normal) var(--ease-standard);
+}
+
+.overlay-enter-from,
+.overlay-leave-to {
+  opacity: 0;
+}
+
+.popup-enter-active {
+  transition: all var(--motion-normal) var(--ease-emphasized);
+}
+
+.popup-leave-active {
+  transition: all var(--motion-fast) var(--ease-standard);
+}
+
+.popup-enter-from {
+  opacity: 0;
+  transform: translateY(8px) scale(0.97);
+}
+
+.popup-leave-to {
+  opacity: 0;
+  transform: translateY(4px) scale(0.99);
 }
 </style>

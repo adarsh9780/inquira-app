@@ -22,8 +22,15 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/brand/favicon-32x32.png' },
         { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/brand/favicon-16x16.png' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/brand/apple-touch-icon.png' },
-        { rel: 'manifest', href: '/site.webmanifest' }
-      ]
+        { rel: 'manifest', href: '/site.webmanifest' },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap' },
+      ],
+      htmlAttrs: {
+        lang: 'en',
+        'data-style-theme': 'glass'
+      }
     }
   },
   modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxtjs/supabase'],
