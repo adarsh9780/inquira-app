@@ -210,6 +210,7 @@ const toc = computed(() => {
 const gettingStartedLinks = computed(() => [
   { label: 'Welcome', to: '/docs' },
   { label: 'Getting Data In', to: '/docs/getting-started/installation' },
+  { label: 'Using OpenRouter', to: '/docs/openrouter' },
   { label: 'Desktop Distribution', to: '/docs/getting-started/distribution' },
 ])
 
