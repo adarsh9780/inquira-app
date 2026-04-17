@@ -47,9 +47,32 @@ export default <Config>{
           DEFAULT: 'var(--color-background)',
           muted: 'var(--color-background-muted)',
         },
-        surface: {
-          DEFAULT: 'var(--color-surface)',
-        },
+         surface: {
+           DEFAULT: 'var(--color-surface)',
+           hover: 'var(--color-surface-hover)',
+           active: 'var(--color-surface-active)',
+         },
+         code: {
+           bg: 'var(--color-code-bg)',
+         },
+         terminal: {
+           bg: 'var(--color-terminal-bg)',
+           text: 'var(--color-terminal-text)',
+           'hover-bg': 'var(--color-terminal-hover-bg)',
+         },
+         badge: {
+           bg: 'var(--color-badge-bg)',
+           border: 'var(--color-badge-border)',
+           text: 'var(--color-badge-text)',
+         },
+         selected: {
+           bg: 'var(--color-selected-bg)',
+           text: 'var(--color-selected-text)',
+         },
+         kbd: {
+           bg: 'var(--color-kbd-bg)',
+           'bg-dark': 'var(--color-kbd-bg-dark)',
+         },
         text: {
           primary: 'var(--color-text-primary)',
           secondary: 'var(--color-text-secondary)',

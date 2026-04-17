@@ -2,7 +2,7 @@
   <div class="mb-6 relative">
     <!-- Search Trigger -->
     <div
-      class="touch-target flex items-center gap-2 px-3 py-3 text-sm text-text-muted bg-background-muted border border-border rounded-lg cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors active:scale-[0.98] min-h-[44px]"
+       class="touch-target flex items-center gap-2 px-3 py-3 text-sm text-text-muted bg-background-muted border border-border rounded-lg cursor-pointer hover:bg-surface-hover transition-colors active:scale-[0.98] min-h-[44px]"
       @click="openSearch"
     >
       <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -10,7 +10,7 @@
         <path d="m21 21-4.35-4.35" />
       </svg>
       <span class="flex-1">Search docs...</span>
-      <kbd class="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-medium text-text-muted bg-neutral-100 dark:bg-neutral-700 border border-border rounded">
+       <kbd class="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-medium text-text-muted bg-kbd-bg dark:bg-kbd-bg-dark border border-border rounded">
         <span class="text-xs">⌘</span>K
       </kbd>
     </div>
@@ -44,7 +44,7 @@
               />
               <button
                 type="button"
-                class="touch-target inline-flex items-center justify-center px-2.5 py-1.5 text-xs font-medium text-text-muted bg-neutral-100 dark:bg-neutral-700 border border-border rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors active:scale-[0.98]"
+                class="touch-target inline-flex items-center justify-center px-2.5 py-1.5 text-xs font-medium text-text-muted bg-kbd-bg dark:bg-kbd-bg-dark border border-border rounded-lg hover:bg-surface-active transition-colors active:scale-[0.98]"
                 @click="closeSearch"
               >
                 ESC
@@ -64,8 +64,8 @@
                 <button
                   v-for="(result, idx) in group.sections"
                   :key="result.id"
-                  class="w-full text-left flex flex-col px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700/50 transition-colors cursor-pointer border-b border-border last:border-b-0 active:scale-[0.98]"
-                  :class="{ 'bg-primary-50 dark:bg-primary-900/20': selectedIndex === getGlobalIndex(pageIndex, idx) }"
+                   class="w-full text-left flex flex-col px-4 py-3 hover:bg-surface-hover transition-colors cursor-pointer border-b border-border last:border-b-0 active:scale-[0.98]"
+                   :class="{ 'bg-selected-bg': selectedIndex === getGlobalIndex(pageIndex, idx) }"
                   @click="navigateToResult(result.id)"
                   @mouseenter="selectedIndex = getGlobalIndex(pageIndex, idx)"
                 >

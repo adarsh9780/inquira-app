@@ -27,7 +27,7 @@
         <div class="flex items-center gap-3">
           <button
             type="button"
-            class="hidden rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:bg-neutral-100 hover:text-primary-500 sm:inline-flex active:scale-[0.98]"
+            class="hidden rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:bg-surface-hover hover:text-primary-500 sm:inline-flex active:scale-[0.98]"
             :aria-label="styleTheme === 'glass' ? 'Switch to classic style theme' : 'Switch to glass style theme'"
             @click="toggleStyleTheme"
           >
@@ -39,7 +39,7 @@
             href="https://github.com/adarsh9780/inquira-ce"
             target="_blank"
             rel="noopener noreferrer"
-            class="hidden rounded-lg px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-neutral-100 hover:text-primary-500 sm:block active:scale-[0.98]"
+            class="hidden rounded-lg px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-hover hover:text-primary-500 sm:block active:scale-[0.98]"
             aria-label="View on GitHub"
           >
             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -55,7 +55,7 @@
           <!-- Theme Toggle -->
           <button
             type="button"
-            class="touch-target hidden items-center justify-center rounded-lg p-2 text-text-secondary transition-colors hover:bg-neutral-100 hover:text-primary-500 md:flex dark:hover:bg-neutral-800"
+            class="touch-target hidden items-center justify-center rounded-lg p-2 text-text-secondary transition-colors hover:bg-surface-hover hover:text-primary-500 md:flex"
             style="min-width: 44px; min-height: 44px;"
             :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
             @click="toggleTheme"

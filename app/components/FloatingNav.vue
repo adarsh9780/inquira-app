@@ -53,7 +53,7 @@
       </div>
       <button
         type="button"
-        class="touch-target ml-2 flex shrink-0 items-center justify-center rounded-lg p-2 text-text-secondary transition-colors hover:bg-neutral-100 hover:text-primary-500 dark:hover:bg-neutral-800"
+         class="touch-target ml-2 flex shrink-0 items-center justify-center rounded-lg p-2 text-text-secondary transition-colors hover:bg-surface-hover hover:text-primary-500"
         aria-label="Close menu"
         @click="isOpen = false"
       >
@@ -70,7 +70,7 @@
           v-for="item in homeLinks"
           :key="item.href"
           :to="item.href"
-          class="block rounded-lg px-3 py-2.5 text-text-secondary transition-colors hover:bg-neutral-100 hover:text-primary-500 active:scale-[0.98] dark:hover:bg-neutral-800"
+          class="block rounded-lg px-3 py-2.5 text-text-secondary transition-colors hover:bg-surface-hover hover:text-primary-500 active:scale-[0.98]"
           @click="isOpen = false"
         >
           {{ item.label }}
@@ -83,8 +83,8 @@
           v-for="item in docsLinks"
           :key="item.to"
           :to="item.to"
-          class="block rounded-lg px-3 py-2.5 text-text-secondary transition-colors hover:bg-neutral-100 hover:text-primary-500 active:scale-[0.98] dark:hover:bg-neutral-800"
-          :class="isActiveDocLink(item.to) ? 'bg-primary-50 text-primary-600 font-medium dark:bg-primary-900/20' : ''"
+          class="block rounded-lg px-3 py-2.5 text-text-secondary transition-colors hover:bg-surface-hover hover:text-primary-500 active:scale-[0.98]"
+          :class="isActiveDocLink(item.to) ? 'bg-selected-bg text-primary-600 font-medium' : ''"
           @click="isOpen = false"
         >
           {{ item.label }}
