@@ -1,4 +1,7 @@
-.PHONY: install test build build-worker content-seed-sql wrangler-config deploy-worker verify-deployment status add commit push deploy dev
+.PHONY: install test build build-worker content-seed-sql wrangler-config deploy-worker verify-deployment status add commit push deploy dev upload-public-downloads
+
+env ?= .env
+uploads_root ?= $(HOME)/Downloads/inquira-uploads
 
 status:
 	git status
@@ -48,3 +51,15 @@ deploy-worker:
 
 dev:
 	npm run dev
+
+upload-public-downloads:
+	@if [ -z "$(version)" ]; then \
+		echo "Usage: make upload-public-downloads version=0.5.27 [env=.env] [uploads_root=$(HOME)/Downloads/inquira-uploads]"; \
+		exit 1; \
+	fi
+	@set -a; \
+	. ./$(env); \
+	set +a; \
+	node scripts/uploadPublicDownloadsToR2.mjs \
+		--version "$(version)" \
+		--uploads-root "$(uploads_root)"
