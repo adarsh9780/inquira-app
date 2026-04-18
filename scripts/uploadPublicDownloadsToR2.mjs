@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 import { createReadStream } from 'node:fs'
-import { mkdtemp, mkdir, readdir, rm, copyFile, writeFile } from 'node:fs/promises'
+import { mkdtemp, mkdir, readdir, rm, copyFile, writeFile, access } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { execFileSync } from 'node:child_process'
@@ -34,7 +34,7 @@ Environment:
   R2_BUCKET (or CLOUDFLARE_R2_BUCKET)
 
 Optional:
-  --uploads-root        Directory containing vX.YZ release folder.
+  --uploads-root        Directory containing vX.YZ release folder. If omitted, script auto-checks ~/Downloads/inquira-uploads then ~/Downloads/inquira-upload.
   --base-url            Public base URL for download links.
   --release-notes-url   URL included in manifest.
   --bucket              R2 bucket name (overrides env vars).`)
@@ -44,6 +44,34 @@ function normalizeVersion(version) {
   const trimmed = String(version || '').trim()
   if (!trimmed) throw new Error('Missing required --version value')
   return trimmed.startsWith('v') ? trimmed : `v${trimmed}`
+}
+
+async function canAccessDirectory(dirPath) {
+  try {
+    await access(dirPath)
+    return true
+  } catch {
+    return false
+  }
+}
+
+async function resolveUploadsRoot(explicitUploadsRoot) {
+  if (explicitUploadsRoot) {
+    return path.resolve(explicitUploadsRoot)
+  }
+
+  const candidates = [
+    path.join(os.homedir(), 'Downloads', 'inquira-uploads'),
+    path.join(os.homedir(), 'Downloads', 'inquira-upload')
+  ]
+
+  for (const candidate of candidates) {
+    if (await canAccessDirectory(candidate)) {
+      return candidate
+    }
+  }
+
+  throw new Error(`Could not find uploads root. Checked: ${candidates.join(', ')}`)
 }
 
 async function sha256(filePath) {
@@ -98,7 +126,7 @@ async function main() {
   const args = parseArgs(process.argv)
   const versionPrefix = normalizeVersion(args.version)
   const version = versionPrefix.slice(1)
-  const uploadsRoot = args['uploads-root'] || path.join(os.homedir(), 'Downloads', 'inquira-uploads')
+  const uploadsRoot = await resolveUploadsRoot(args['uploads-root'])
   const sourceDir = path.resolve(uploadsRoot, versionPrefix)
   const baseUrl = (args['base-url'] || process.env.PUBLIC_DOWNLOADS_BASE_URL || 'https://downloads.inquiraai.com').replace(
     /\/+$/,
@@ -112,7 +140,17 @@ async function main() {
     throw new Error('Missing R2 bucket. Set R2_BUCKET or CLOUDFLARE_R2_BUCKET.')
   }
 
-  const entries = await readdir(sourceDir, { withFileTypes: true })
+  let entries
+  try {
+    entries = await readdir(sourceDir, { withFileTypes: true })
+  } catch (error) {
+    if (error && error.code === 'ENOENT') {
+      throw new Error(
+        `Release folder not found: ${sourceDir}. Ensure installers exist under ${uploadsRoot}/${versionPrefix} (one .dmg and one .exe).`
+      )
+    }
+    throw error
+  }
   const macosName = pickInstaller(entries, '.dmg')
   const windowsName = pickInstaller(entries, '.exe')
 

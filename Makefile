@@ -1,7 +1,7 @@
 .PHONY: install test build build-worker content-seed-sql wrangler-config deploy-worker verify-deployment status add commit push deploy dev upload-public-downloads upload-public-downloads-help
 
 env ?= .env
-uploads_root ?= $(HOME)/Downloads/inquira-uploads
+uploads_root ?=
 
 status:
 	git status
@@ -67,7 +67,7 @@ else
 	set +a; \
 	node scripts/uploadPublicDownloadsToR2.mjs \
 		--version "$(version)" \
-		--uploads-root "$(uploads_root)"
+		$(if $(strip $(uploads_root)),--uploads-root "$(uploads_root)",)
 endif
 
 upload-public-downloads-help:
@@ -87,4 +87,6 @@ upload-public-downloads-help:
 	@echo ""
 	@echo "Notes:"
 	@echo "  - Expects files in <uploads_root>/vX.YZ (one .dmg and one .exe)."
+	@echo "  - If uploads_root is omitted, script auto-checks:"
+	@echo "    ~/Downloads/inquira-uploads, then ~/Downloads/inquira-upload"
 	@echo "  - Loads env with: set -a; . ./<env>; set +a"
