@@ -299,10 +299,10 @@
         <Transition name="popup">
           <div
             v-if="isMacInstallDialogOpen"
-            class="fixed inset-0 z-50 overflow-y-auto px-6 py-10"
+            class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto px-6 py-10"
             @click.self="closeMacInstallDialog"
           >
-            <div class="app-popup-surface overflow-hidden rounded-2xl border shadow-2xl">
+            <div class="app-popup-surface w-full max-w-[var(--popup-max-width)] overflow-hidden rounded-2xl border shadow-2xl">
               <div class="border-b border-border px-6 py-5">
                 <p class="text-sm font-medium uppercase tracking-[0.18em] text-primary-600">
                   macOS Install

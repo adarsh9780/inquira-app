@@ -59,9 +59,7 @@
   --color-surface-active: rgba(0, 0, 0, 0.07);
 
   /* Selection */
-  --color-selection-start: #3b82f6;
-  --color-selection-end: #f97316;
-  --color-selection-solid: #d47948;
+  --color-selection: var(--color-primary-500);
 
   /* Focus Ring */
   --color-focus-ring: rgba(59, 130, 246, 0.5);
@@ -141,6 +139,9 @@
 
   /* Content Width */
   --content-max-width: 1152px;
+
+  /* Popup / Modal */
+  --popup-max-width: 480px;
 
   /* Touch Target Minimum */
   --touch-target-min: 44px;
@@ -519,12 +520,12 @@ aside a:hover,
    ============================================ */
 
 ::selection {
-  background: linear-gradient(135deg, var(--color-selection-start), var(--color-selection-end));
+  background-color: var(--color-primary-500);
   color: white;
 }
 
 ::-moz-selection {
-  background: var(--color-selection-solid);
+  background-color: var(--color-primary-500);
   color: white;
 }
 
@@ -647,12 +648,12 @@ aside a:hover,
 
   /* Selection variants */
   .text-selection-orange::selection {
-    background-color: var(--color-selection-solid);
+    background-color: var(--color-primary-500);
     color: white;
   }
 
   .text-selection-gradient::selection {
-    background: linear-gradient(135deg, var(--color-selection-start), var(--color-selection-end));
+    background-color: var(--color-primary-500);
     color: white;
   }
 
@@ -736,7 +737,7 @@ aside a:hover,
 
 .prose ::selection,
 .prose *::selection {
-  background: linear-gradient(135deg, var(--color-secondary-500), var(--color-primary-500));
+  background-color: var(--color-primary-500);
   color: white;
 }
 
