@@ -1,4 +1,4 @@
-.PHONY: install test build build-worker content-seed-sql wrangler-config deploy-worker verify-deployment status add commit push deploy dev upload-public-downloads
+.PHONY: install test build build-worker content-seed-sql wrangler-config deploy-worker verify-deployment status add commit push deploy dev upload-public-downloads upload-public-downloads-help
 
 env ?= .env
 uploads_root ?= $(HOME)/Downloads/inquira-uploads
@@ -53,8 +53,13 @@ dev:
 	npm run dev
 
 upload-public-downloads:
+ifeq ($(help),1)
+	@$(MAKE) upload-public-downloads-help
+else
 	@if [ -z "$(version)" ]; then \
 		echo "Usage: make upload-public-downloads version=0.5.27 [env=.env] [uploads_root=$(HOME)/Downloads/inquira-uploads]"; \
+		echo "Help:  make upload-public-downloads-help"; \
+		echo "Alt:   make upload-public-downloads help=1"; \
 		exit 1; \
 	fi
 	@set -a; \
@@ -63,3 +68,23 @@ upload-public-downloads:
 	node scripts/uploadPublicDownloadsToR2.mjs \
 		--version "$(version)" \
 		--uploads-root "$(uploads_root)"
+endif
+
+upload-public-downloads-help:
+	@echo "Upload desktop installers and manifest to Cloudflare R2."
+	@echo ""
+	@echo "Usage:"
+	@echo "  make upload-public-downloads version=0.5.27 [env=.env] [uploads_root=$(HOME)/Downloads/inquira-uploads]"
+	@echo ""
+	@echo "Required env vars in the selected env file:"
+	@echo "  CLOUDFLARE_API_TOKEN"
+	@echo "  CLOUDFLARE_ACCOUNT_ID"
+	@echo "  R2_BUCKET (or CLOUDFLARE_R2_BUCKET)"
+	@echo ""
+	@echo "Optional env vars:"
+	@echo "  PUBLIC_DOWNLOADS_BASE_URL (default: https://downloads.inquiraai.com)"
+	@echo "  PUBLIC_RELEASE_NOTES_URL (default: GitHub release URL for the version)"
+	@echo ""
+	@echo "Notes:"
+	@echo "  - Expects files in <uploads_root>/vX.YZ (one .dmg and one .exe)."
+	@echo "  - Loads env with: set -a; . ./<env>; set +a"

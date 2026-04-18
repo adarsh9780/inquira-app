@@ -21,6 +21,25 @@ function parseArgs(argv) {
   return args
 }
 
+function printHelp() {
+  console.log(`Usage:
+  node scripts/uploadPublicDownloadsToR2.mjs --version 0.5.27 [--uploads-root ~/Downloads/inquira-uploads] [--base-url https://downloads.inquiraai.com] [--release-notes-url <url>] [--bucket <r2 bucket>]
+
+Required:
+  --version             Release version. Accepts 0.5.27 or v0.5.27.
+
+Environment:
+  CLOUDFLARE_API_TOKEN
+  CLOUDFLARE_ACCOUNT_ID
+  R2_BUCKET (or CLOUDFLARE_R2_BUCKET)
+
+Optional:
+  --uploads-root        Directory containing vX.YZ release folder.
+  --base-url            Public base URL for download links.
+  --release-notes-url   URL included in manifest.
+  --bucket              R2 bucket name (overrides env vars).`)
+}
+
 function normalizeVersion(version) {
   const trimmed = String(version || '').trim()
   if (!trimmed) throw new Error('Missing required --version value')
@@ -71,6 +90,11 @@ function uploadObject(bucket, key, filePath, contentType) {
 }
 
 async function main() {
+  if (process.argv.includes('--help') || process.argv.includes('-h')) {
+    printHelp()
+    return
+  }
+
   const args = parseArgs(process.argv)
   const versionPrefix = normalizeVersion(args.version)
   const version = versionPrefix.slice(1)
