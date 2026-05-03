@@ -55,9 +55,18 @@ async function canAccessDirectory(dirPath) {
   }
 }
 
+function expandUserPath(inputPath) {
+  if (!inputPath) return inputPath
+  if (inputPath === '~') return os.homedir()
+  if (inputPath.startsWith('~/')) {
+    return path.join(os.homedir(), inputPath.slice(2))
+  }
+  return inputPath
+}
+
 async function resolveUploadsRoot(explicitUploadsRoot) {
   if (explicitUploadsRoot) {
-    return path.resolve(explicitUploadsRoot)
+    return path.resolve(expandUserPath(explicitUploadsRoot))
   }
 
   const candidates = [
@@ -177,6 +186,11 @@ async function main() {
       windows_x64_sha256: windowsSha
     }
     const manifestJson = `${JSON.stringify(manifest, null, 2)}\n`
+
+    // Keep local uploads directory in sync with what gets published.
+    await writeFile(path.join(uploadsRoot, 'latest.json'), manifestJson, 'utf8')
+    await writeFile(path.join(sourceDir, 'manifest.json'), manifestJson, 'utf8')
+
     await writeFile(path.join(stageDir, 'latest.json'), manifestJson, 'utf8')
     await writeFile(path.join(versionDir, 'manifest.json'), manifestJson, 'utf8')
 
