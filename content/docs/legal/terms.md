@@ -5,7 +5,7 @@ description: Terms and conditions for using Inquira.
 
 # Terms of Service
 
-Last updated: March 2025
+Last updated: June 7, 2026
 
 ## Acceptance of Terms
 
@@ -34,7 +34,14 @@ INQUIRA IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. We are not liable for 
 When using AI-powered features:
 - Results may contain errors or hallucinations
 - Always verify critical findings independently
-- AI-generated code runs with your user permissions
+- AI-generated code runs with your operating-system user permissions
+
+## Local Execution Risk
+
+- AI-generated Python, manually entered Python, and terminal commands run locally with your operating-system user permissions.
+- Execution is not sandboxed. Code and commands may access files, processes, network resources, environment information, and memory available to your user account.
+- Prompts, policy checks, timeouts, workspace organization, and output bounds reduce some risks but are not a security boundary.
+- You are responsible for reviewing code before execution, using trusted inputs, and maintaining backups.
 
 ## Intellectual Property
 

@@ -5,7 +5,8 @@ description: Managing your Inquira workspaces effectively.
 
 # Workspace Management
 
-Workspaces in Inquira provide isolated environments for your data analysis projects.
+Workspaces in Inquira keep data analysis projects logically separate. They are not operating-system
+sandboxes, and Python or terminal commands still run with your user permissions.
 
 ## What is a Workspace?
 

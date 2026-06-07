@@ -5,7 +5,9 @@ description: Inquira CE is a privacy-first, local AI data analysis desktop appli
 
 # Welcome to Inquira
 
-Inquira CE is a privacy-first, local AI data analysis desktop application. By running strictly on your local machine, Inquira ensures your sensitive datasets never leave your device while still giving you the power of an AI-assisted data workflow.
+Inquira CE is a privacy-first, local AI data analysis desktop application. Workspace data is stored
+and processed locally by default, while cloud AI providers receive only the prompts and context you
+choose to send.
 
 ## What is Inquira?
 
@@ -31,7 +33,8 @@ In plain terms: you ask a question about your data in natural language, and Inqu
 - **Professionals with many Excel/CSV files** who need to find patterns or analyze data quickly. Inquira speeds up your daily processes so you don't have to depend on an analyst for every descriptive question about your data.
 
 :::warning
-We strongly recommend users keep an eye on the results to ensure the AI isn't hallucinating numbers.
+Python and terminal commands run locally with your operating-system user permissions and are not
+sandboxed. Review code before running it, maintain backups, and verify AI-generated results.
 :::
 
 ## Next Steps

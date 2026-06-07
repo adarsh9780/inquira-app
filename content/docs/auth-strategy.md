@@ -54,5 +54,5 @@ Enterprise edition will include:
 
 With optional cloud AI:
 - Only your query is sent to the provider
-- Your data never leaves your machine for AI processing
+- Prompts and workspace data are not sent to a cloud AI provider when you use local models
 - Each provider's privacy policy applies

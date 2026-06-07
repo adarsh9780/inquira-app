@@ -5,11 +5,13 @@ description: How Inquira handles your data and privacy.
 
 # Privacy Policy
 
-Last updated: March 2025
+Last updated: June 7, 2026
 
 ## Our Privacy Commitment
 
-Inquira is designed with privacy as a core principle. **Your data never leaves your computer** unless you explicitly choose to use cloud-based AI services.
+Inquira is designed with privacy as a core principle. Workspace data is stored and processed locally
+by default. Data may leave your computer when you choose cloud-based AI services or when locally
+executed Python or terminal commands use network access.
 
 ## Data Collection
 
@@ -17,8 +19,11 @@ Inquira is designed with privacy as a core principle. **Your data never leaves y
 
 When you use Inquira with local AI models (like Ollama):
 - All data processing happens on your machine
-- No data is transmitted to external servers
+- Inquira does not intentionally send prompts or workspace data to an AI provider
 - Your datasets remain entirely under your control
+
+Local Python and terminal execution is not sandboxed and runs with your operating-system user
+permissions. Executed code can access and transmit data if it uses network access.
 
 ### Optional Cloud Services
 

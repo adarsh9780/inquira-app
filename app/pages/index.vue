@@ -23,11 +23,11 @@
 
             <h1 class="mb-6 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
               Local AI Data Analysis<br />
-              <span class="bg-gradient-to-r from-secondary-600 to-primary-500 bg-clip-text text-transparent">That Never Leaves Your Machine</span>
+              <span class="bg-gradient-to-r from-secondary-600 to-primary-500 bg-clip-text text-transparent">On Your Machine</span>
             </h1>
 
             <p class="mx-auto mb-8 max-w-lg text-lg text-text-secondary lg:mx-0">
-              Ask questions about your data in natural language. Inquira generates Python scripts, executes them locally, and delivers insights—all while keeping your sensitive data 100% private.
+              Ask questions about your data in natural language. Inquira generates Python scripts, executes them locally, and keeps workspace data on your machine by default.
             </p>
 
             <div class="flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
@@ -115,7 +115,7 @@
             Everything You Need for Local AI Analysis
           </h2>
           <p class="mx-auto max-w-2xl text-lg text-text-secondary">
-            A complete desktop application that combines the power of AI with absolute data privacy.
+            A local-first desktop application that keeps workspace data on your machine by default.
           </p>
         </div>
 
@@ -387,7 +387,7 @@
             <a href="/#top" class="flex items-center gap-3">
               <AppLogo />
             </a>
-            <p class="mt-4 text-sm text-text-secondary">Privacy-first, local AI data analysis. Your data never leaves your machine.</p>
+            <p class="mt-4 text-sm text-text-secondary">Privacy-first, local AI data analysis. Workspace data stays local by default.</p>
           </div>
 
           <div>
@@ -521,7 +521,7 @@ const features = [
   {
     icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />',
     title: 'Local Python Execution',
-    description: 'Bundled Jupyter kernel running locally with support for Ollama-hosted local models and BYOK access to 100+ providers through OpenRouter.',
+    description: 'Bundled Jupyter kernel runs locally with your user permissions and is not sandboxed. Supports Ollama-hosted local models and BYOK access to 100+ providers through OpenRouter.',
   },
   {
     icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />',
