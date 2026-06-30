@@ -2,8 +2,13 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { parse } from 'yaml'
 
 const root = resolve(import.meta.dirname, '..')
+
+function readLandingContent() {
+  return parse(readFileSync(resolve(root, 'content/landing/home.yml'), 'utf8'))
+}
 
 test('legacy landing HTML does not point docs at the retired docs subdomain or stale slugs', () => {
   const html = readFileSync(resolve(root, 'index.html'), 'utf8')
@@ -26,6 +31,7 @@ test('docs content links do not point at missing top-level routes', () => {
 
 test('public site links to an honest distribution doc and the doc explains the unsigned installer tradeoff', () => {
   const homePage = readFileSync(resolve(root, 'app/pages/index.vue'), 'utf8')
+  const landing = readLandingContent()
   const navBar = readFileSync(resolve(root, 'app/components/AppNavbar.vue'), 'utf8')
   const welcomeDoc = readFileSync(resolve(root, 'content/docs/welcome.md'), 'utf8')
   const distributionDoc = readFileSync(resolve(root, 'content/docs/getting-started/distribution.md'), 'utf8')
@@ -34,21 +40,21 @@ test('public site links to an honest distribution doc and the doc explains the u
   assert.match(homePage, /id="top"/)
   assert.match(homePage, /href="\/#top" class="flex items-center gap-3"/)
   assert.match(navBar, /href="\/#top" class="flex items-center gap-3"/)
-  assert.match(homePage, /\/docs\/getting-started\/distribution/)
-  assert.match(homePage, /Download for macOS/)
+  assert.equal(landing.download.distributionLink.href, '/docs/getting-started/distribution')
+  assert.equal(landing.download.mac.title, 'Download for macOS')
   assert.match(homePage, /curl -fsSL https:\/\/inquiraai\.com\/install\.sh \| bash/)
-  assert.match(homePage, /What the script does/)
-  assert.match(homePage, /Installs Inquira through Homebrew and, if you approve, gives macOS the manual permission it needs to run the app without Apple['’]s paid developer ID\./)
+  assert.equal(landing.download.dialog.stepsTitle, 'What the script does')
+  assert.match(landing.download.dialog.steps.join('\n'), /Installs Inquira through Homebrew and, if you approve, gives macOS the manual permission it needs to run the app without Apple['’]s paid developer ID\./)
   assert.match(homePage, /event\.key === 'Escape'/)
   assert.doesNotMatch(homePage, /Guided shell installer/)
-  assert.match(homePage, /Download for Windows/)
+  assert.equal(landing.download.windows.title, 'Download for Windows')
   assert.match(welcomeDoc, /\/docs\/getting-started\/distribution/)
   assert.match(distributionDoc, /single developer/i)
   assert.match(distributionDoc, /limited funds/i)
   assert.match(distributionDoc, /build from source/i)
   assert.match(distributionDoc, /paid developer program/i)
   assert.match(distributionDoc, /paid distribution gate/i)
-  assert.match(homePage, /why-apple-gatekeeping-makes-this-harder/)
+  assert.match(landing.download.dialog.futurePlanLink.href, /why-apple-gatekeeping-makes-this-harder/)
   assert.match(distributionDoc, /curl -fsSL https:\/\/inquiraai\.com\/install\.sh \| bash/)
   assert.match(installerScript, /brew tap "\$\{TAP_NAME\}"/)
   assert.match(installerScript, /xattr -dr com\.apple\.quarantine/)
@@ -56,15 +62,20 @@ test('public site links to an honest distribution doc and the doc explains the u
 })
 
 test('landing and docs highlight the expanded model, editor, and power-user feature set', () => {
-  const homePage = readFileSync(resolve(root, 'app/pages/index.vue'), 'utf8')
+  const landing = readLandingContent()
   const welcomeDoc = readFileSync(resolve(root, 'content/docs/welcome.md'), 'utf8')
+  const landingFeatures = [
+    ...landing.features.primaryDemos,
+    ...landing.features.secondaryVideos
+  ]
+  const landingFeatureCopy = landingFeatures.map((feature) => feature.summary).join('\n')
 
-  assert.match(homePage, /Ollama-hosted local models/)
-  assert.match(homePage, /100\+ providers through OpenRouter/)
-  assert.match(homePage, /data-aware autocomplete/)
-  assert.match(homePage, /slash commands/)
-  assert.match(homePage, /Power-User Controls/)
-  assert.match(homePage, /Built-in terminal access/)
+  assert.match(landingFeatureCopy, /Ollama-hosted local models/)
+  assert.match(landingFeatureCopy, /100\+ providers through OpenRouter/)
+  assert.match(landingFeatureCopy, /data-aware autocomplete/)
+  assert.match(landingFeatureCopy, /slash commands/)
+  assert.match(landingFeatures.map((feature) => feature.title).join('\n'), /Power-User Controls/)
+  assert.match(landingFeatureCopy, /Built-in terminal access/)
 
   assert.match(welcomeDoc, /supports Ollama-hosted local models/)
   assert.match(welcomeDoc, /100\+ providers through BYOK via OpenRouter/)
@@ -75,12 +86,16 @@ test('landing and docs highlight the expanded model, editor, and power-user feat
 })
 
 test('how it works section follows the workspace-to-analysis onboarding flow', () => {
-  const homePage = readFileSync(resolve(root, 'app/pages/index.vue'), 'utf8')
+  const landing = readLandingContent()
+  const flowText = [
+    landing.howItWorks.title,
+    ...landing.howItWorks.steps.flatMap((step) => [step.title, step.description])
+  ].join('\n')
 
-  assert.match(homePage, /Four Steps to AI-Powered Insights/)
-  assert.match(homePage, /Create a Workspace/)
-  assert.match(homePage, /Add an API Key/)
-  assert.match(homePage, /Add Datasets/)
-  assert.match(homePage, /Analyze Your Data/)
-  assert.match(homePage, /Connect the model provider you want to use/)
+  assert.match(flowText, /Four Steps to AI-Powered Insights/)
+  assert.match(flowText, /Create a Workspace/)
+  assert.match(flowText, /Add an API Key/)
+  assert.match(flowText, /Add Datasets/)
+  assert.match(flowText, /Analyze Your Data/)
+  assert.match(flowText, /Connect the model provider you want to use/)
 })

@@ -1,0 +1,184 @@
+hero:
+  badge: Privacy-First AI
+  title: Local AI Data Analysis
+  highlight: On Your Machine
+  description: Ask questions about your data in natural language. Inquira generates Python scripts, executes them locally, and keeps workspace data on your machine by default.
+  ctas:
+    - label: Download Free
+      href: "#download"
+    - label: Read Docs
+      href: "/docs"
+  stats:
+    - value: "100%"
+      label: Local Processing
+    - value: "0"
+      label: Cloud Dependencies
+    - value: DuckDB
+      label: Powered Engine
+
+features:
+  eyebrow: Core Features
+  title: Work With Local Data Like A Real App
+  description: Explore the core flows visitors need to understand first, then use short videos for the deeper workflows.
+  primaryDemos:
+    - id: ask-answer
+      title: Ask a question, get usable outputs
+      summary: Ask in plain English, watch Inquira run the local workflow, then switch between the answer, chart, table, and output artifacts.
+      icon: message
+      demoType: ask-answer
+    - id: create-workspace
+      title: Create a local workspace
+      summary: Start a focused workspace, add local datasets, and keep the project context, conversations, and generated artifacts together.
+      icon: workspace
+      demoType: create-workspace
+    - id: add-api-key
+      title: Add your model key once
+      summary: Choose a provider, save a masked API key locally, and keep model access under your control.
+      icon: key
+      demoType: add-api-key
+  secondaryVideos:
+    - id: local-python-execution
+      title: Local Python Execution
+      summary: Bundled Jupyter kernel runs locally with your user permissions and is not sandboxed. Supports Ollama-hosted local models and BYOK access to 100+ providers through OpenRouter.
+      icon: code
+      video:
+        src: ""
+        poster: ""
+        alt: Inquira local Python execution demo video
+    - id: local-data-handling
+      title: Seamless Local Data Handling
+      summary: Connect to Excel, CSV, JSON, and Parquet files. Dynamically converted into fast DuckDB workspaces for analyzing data of any size.
+      icon: database
+      video:
+        src: ""
+        poster: ""
+        alt: Inquira local data handling demo video
+    - id: integrated-code-editor
+      title: Integrated Code Editor
+      summary: Full control with a built-in editor, data-aware autocomplete, and slash commands for quick standard code patterns. Custom commands are planned next.
+      icon: editor
+      video:
+        src: ""
+        poster: ""
+        alt: Inquira integrated code editor demo video
+    - id: resume-persistence
+      title: Flawless Resume & Persistence
+      summary: Intermediate variables, artifacts, and results are saved continuously. Close the app and resume exactly where you left off.
+      icon: clock
+      video:
+        src: ""
+        poster: ""
+        alt: Inquira resume and persistence demo video
+    - id: power-user-controls
+      title: Power-User Controls
+      summary: Built-in terminal access for extra control, package installs, and debugging when you want to step beyond the chat interface.
+      icon: terminal
+      video:
+        src: ""
+        poster: ""
+        alt: Inquira power-user controls demo video
+
+howItWorks:
+  eyebrow: How It Works
+  title: Four Steps to AI-Powered Insights
+  description: Set up your workspace, connect a model, add data, and start analyzing in minutes.
+  steps:
+    - number: 1
+      title: Create a Workspace
+      description: Start with a fresh workspace for your project so your files, chats, and analysis stay organized together.
+      shadowColor: blue
+    - number: 2
+      title: Add an API Key
+      description: Connect the model provider you want to use by adding your API key, or point Inquira at your local setup.
+      shadowColor: orange
+    - number: 3
+      title: Add Datasets
+      description: Import CSV, Excel, JSON, or Parquet files and let Inquira prepare them inside a fast local DuckDB workspace.
+      shadowColor: orange
+    - number: 4
+      title: Analyze Your Data
+      description: Ask questions in plain English and watch Inquira generate code, run the analysis locally, and return results.
+      shadowColor: orange
+
+pricing:
+  eyebrow: Pricing
+  title: Three Editions, One Mission
+  description: From individual users to enterprise teams, there's an Inquira edition for everyone.
+  popularLabel: Most Popular
+  plans:
+    - name: Free
+      description: Core desktop experience for individuals.
+      features:
+        - No forced login for basic usage
+        - Single-workspace experience
+        - Local DuckDB engine
+        - AI code generation
+        - Interactive visualizations
+      cta:
+        label: Download Free
+        href: "#download"
+      popular: false
+    - name: Pro
+      description: Advanced workflows for power users.
+      features:
+        - Everything in Free
+        - RAG support
+        - Multiple workspaces
+        - Priority support
+        - Advanced visualization themes
+      cta:
+        label: Get Pro
+        href: "#download"
+      popular: true
+    - name: Enterprise
+      description: Pro plus organizational integration.
+      features:
+        - Everything in Pro
+        - Data connectors
+        - MCP support
+        - Team collaboration
+        - Custom integrations
+      cta:
+        label: Contact Sales
+        href: "mailto:enterprise@inquiraai.com"
+      popular: false
+
+download:
+  title: Download Inquira Today
+  description: Available for macOS and Windows. Your data stays on your machine.
+  email:
+    label: Email for product updates
+    optionalLabel: (optional)
+    placeholder: you@company.com
+    helper: Enter your email to receive product updates. Download will proceed regardless.
+  mac:
+    title: Download for macOS
+    description: Opens the guided installer instructions with the shell command.
+  windows:
+    title: Download for Windows
+    description: Direct installer download.
+  note: macOS uses a guided shell installer for now because the app is not yet signed and notarized.
+  sourceLink:
+    label: View source on GitHub
+    href: "https://github.com/adarsh9780/inquira-ce"
+  distributionLink:
+    label: Read how desktop distribution works
+    href: "/docs/getting-started/distribution"
+  dialog:
+    eyebrow: macOS Install
+    stepsTitle: What the script does
+    steps:
+      - Installs Homebrew if your Mac does not already have it.
+      - Installs Inquira through Homebrew and, if you approve, gives macOS the manual permission it needs to run the app without Apple's paid developer ID.
+      - Leaves future upgrades to Homebrew with `brew upgrade --cask inquira`.
+    commandTitle: Run this command in Terminal
+    futurePlanTitle: Future notarization plan
+    futurePlanBody: We plan to move to proper signed and notarized macOS distribution once the project has sustainable support to cover Apple's developer program costs responsibly. Until then, we are keeping the source public and the install flow explicit.
+    futurePlanLink:
+      label: Read why Apple's gatekeeping makes this harder for independent developers
+      href: "/docs/getting-started/distribution#why-apple-gatekeeping-makes-this-harder"
+    fullNoteLink:
+      label: Read the full distribution note
+      href: "/docs/getting-started/distribution"
+    copyButtonLabel: Copy install command
+    copiedButtonLabel: Copied install command
