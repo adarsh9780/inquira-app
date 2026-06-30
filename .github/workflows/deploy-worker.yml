@@ -26,13 +26,18 @@ jobs:
       CLOUDFLARE_CUSTOM_DOMAIN_PATTERNS: ${{ vars.CLOUDFLARE_CUSTOM_DOMAIN_PATTERNS }}
       CLOUDFLARE_D1_DATABASE_NAME: ${{ vars.CLOUDFLARE_D1_DATABASE_NAME }}
       CLOUDFLARE_D1_DATABASE_ID: ${{ vars.CLOUDFLARE_D1_DATABASE_ID }}
+      CLOUDFLARE_R2_MEDIA_BUCKET_NAME: ${{ vars.CLOUDFLARE_R2_MEDIA_BUCKET_NAME || 'inquira-public-media' }}
       CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      STUDIO_MEDIA_PUBLIC_URL: ${{ vars.STUDIO_MEDIA_PUBLIC_URL || 'https://media.inquiraai.com' }}
+      STUDIO_GITHUB_CLIENT_ID: ${{ secrets.STUDIO_GITHUB_CLIENT_ID }}
+      STUDIO_GITHUB_CLIENT_SECRET: ${{ secrets.STUDIO_GITHUB_CLIENT_SECRET }}
+      STUDIO_GITHUB_MODERATORS: ${{ vars.STUDIO_GITHUB_MODERATORS || 'adarshmaurya7@gmail.com' }}
     steps:
       - uses: actions/checkout@v6
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: package-lock.json
 

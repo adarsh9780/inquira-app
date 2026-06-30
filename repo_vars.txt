@@ -1,0 +1,14 @@
+CLOUDFLARE_ACCOUNT_ID=6dd2f4a855a4e9dcc1322cbfa6bc9f2d
+CLOUDFLARE_WORKER_NAME=inquira-public
+CLOUDFLARE_CUSTOM_DOMAIN_PATTERNS=inquiraai.com,www.inquiraai.com
+CLOUDFLARE_D1_DATABASE_NAME=inquira-public-content
+CLOUDFLARE_D1_DATABASE_ID=59cf45e6-c88d-46cd-8340-0bcce467fd3a
+CLOUDFLARE_R2_BUCKET=inquira-releases
+CLOUDFLARE_R2_MEDIA_BUCKET_NAME=inquira-public-media
+NUXT_PUBLIC_SHOW_PRICING=false
+NUXT_PUBLIC_DOWNLOADS_MANIFEST_URL=https://downloads.inquiraai.com/latest.json
+NUXT_CLOUDFLARE_D1_BINDING=DB
+SUPABASE_URL=https://hboinngpzegttmrkfwny.supabase.co
+STUDIO_MEDIA_PUBLIC_URL=https://media.inquiraai.com
+STUDIO_GITHUB_MODERATORS=adarshmaurya7@gmail.com
+

@@ -38,7 +38,7 @@ test('public site links to an honest distribution doc and the doc explains the u
   assert.match(homePage, /Download for macOS/)
   assert.match(homePage, /curl -fsSL https:\/\/inquiraai\.com\/install\.sh \| bash/)
   assert.match(homePage, /What the script does/)
-  assert.match(homePage, /Installs Inquira through Homebrew and, if you approve, gives macOS the manual permission it needs to run the app without Apple’s paid developer ID\./)
+  assert.match(homePage, /Installs Inquira through Homebrew and, if you approve, gives macOS the manual permission it needs to run the app without Apple['’]s paid developer ID\./)
   assert.match(homePage, /event\.key === 'Escape'/)
   assert.doesNotMatch(homePage, /Guided shell installer/)
   assert.match(homePage, /Download for Windows/)

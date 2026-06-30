@@ -1,5 +1,6 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { loadLocalEnvFile } from './loadLocalEnv.mjs'
 
 function requireEnv(name) {
   const value = process.env[name]?.trim()
@@ -34,6 +35,8 @@ function buildWranglerConfig() {
   const showPricing = optionalEnv('NUXT_PUBLIC_SHOW_PRICING') || 'false'
   const downloadsManifestUrl =
     optionalEnv('NUXT_PUBLIC_DOWNLOADS_MANIFEST_URL') || 'https://downloads.inquiraai.com/latest.json'
+  const studioMediaPublicUrl = optionalEnv('STUDIO_MEDIA_PUBLIC_URL') || 'https://media.inquiraai.com'
+  const studioMediaBucketName = optionalEnv('CLOUDFLARE_R2_MEDIA_BUCKET_NAME') || 'inquira-public-media'
   const supabaseUrl = optionalEnv('SUPABASE_URL')
   const supabaseKey = optionalEnv('SUPABASE_KEY')
 
@@ -67,9 +70,14 @@ function buildWranglerConfig() {
     `database_name = ${quote(databaseName)}`,
     `database_id = ${quote(databaseId)}`,
     '',
+    '[[r2_buckets]]',
+    'binding = "BLOB"',
+    `bucket_name = ${quote(studioMediaBucketName)}`,
+    '',
     '[vars]',
     `NUXT_PUBLIC_SHOW_PRICING = ${quote(showPricing)}`,
     `NUXT_PUBLIC_DOWNLOADS_MANIFEST_URL = ${quote(downloadsManifestUrl)}`,
+    `STUDIO_MEDIA_PUBLIC_URL = ${quote(studioMediaPublicUrl)}`,
   )
 
   if (supabaseUrl) {
@@ -82,6 +90,8 @@ function buildWranglerConfig() {
   lines.push('')
   return `${lines.join('\n')}`
 }
+
+loadLocalEnvFile()
 
 const target = resolve(process.cwd(), 'wrangler.toml')
 writeFileSync(target, buildWranglerConfig(), 'utf8')

@@ -23,7 +23,7 @@ logs
 .env.*
 !.env.example
 .kilo
-commit_message.txt
 wrangler.toml
+.wrangler/
 commands.txt
 commit_message.txt

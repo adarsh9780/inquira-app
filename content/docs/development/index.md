@@ -10,7 +10,7 @@ This guide helps contributors set up a local development environment for Inquira
 ## Prerequisites
 
 - Python 3.12+
-- Node.js 18+
+- Node.js 24 LTS
 - Rust (for Tauri)
 - Git
 

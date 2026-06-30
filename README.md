@@ -4,6 +4,12 @@ Nuxt 4 application for the public Inquira landing page and documentation.
 
 ## Local Development
 
+Use Node.js 24 LTS. If you use `nvm`, run:
+
+```bash
+nvm use
+```
+
 Install dependencies and start the dev server:
 
 ```bash
@@ -56,11 +62,15 @@ Create these resources in Cloudflare:
 
 1. Create the D1 database for docs/content and use binding name `DB`.
 2. Keep the R2 bucket that serves `downloads.inquiraai.com`.
-3. Reserve the public Worker name, for example `inquira-public`. The Worker itself is created on the first deploy.
-4. Reserve the custom domains you want the Worker to own, such as `inquiraai.com` and `www.inquiraai.com`.
-5. Reserve `app.inquiraai.com` for future account and billing features.
+3. Create the Nuxt Studio media R2 bucket, defaulting to `inquira-public-media`, and bind it as `BLOB`.
+4. Serve Studio media from `https://media.inquiraai.com`.
+5. Reserve the public Worker name, for example `inquira-public`. The Worker itself is created on the first deploy.
+6. Reserve the custom domains you want the Worker to own, such as `inquiraai.com` and `www.inquiraai.com`.
+7. Reserve `app.inquiraai.com` for future account and billing features.
 
 About the D1 binding name: `DB` is the name your Worker uses to find the database at runtime. Think of it like a variable name injected by Cloudflare. This repo is wired to look for that exact name in the Worker config and Nuxt Content setup, so if you rename the binding to something else, the app will build but the docs queries will not find the database.
+
+About the Studio media binding name: `BLOB` is the R2 binding Nuxt Studio uses for uploaded screenshots, videos, and GIFs. Keep large media in that bucket rather than committing it to Git.
 
 Recommended environment variables:
 
@@ -73,13 +83,40 @@ Recommended environment variables:
 - `CLOUDFLARE_CUSTOM_DOMAIN_PATTERNS=inquiraai.com,www.inquiraai.com`
 - `CLOUDFLARE_D1_DATABASE_NAME=<d1 database name>`
 - `CLOUDFLARE_D1_DATABASE_ID=<d1 database id>`
+- `CLOUDFLARE_R2_MEDIA_BUCKET_NAME=inquira-public-media`
 - `CLOUDFLARE_ACCOUNT_ID=<cloudflare account id>`
+- `STUDIO_MEDIA_PUBLIC_URL=https://media.inquiraai.com`
+- `STUDIO_GITHUB_CLIENT_ID=<github oauth client id>`
+- `STUDIO_GITHUB_CLIENT_SECRET=<github oauth client secret>`
+- `STUDIO_GITHUB_MODERATORS=adarshmaurya7@gmail.com`
 
 The landing page download buttons read `latest.json` from Cloudflare R2 so new desktop releases show up automatically without editing this repo.
 
 Important: this repository consumes `latest.json`, but it does not publish that file. A website deploy from `master` updates the site and docs, while download targets only change when the separate release process updates the R2 manifest.
 
-Generate a local Wrangler config after exporting the Cloudflare identifiers:
+## Nuxt Studio
+
+Nuxt Studio is enabled at `/_studio` for direct content editing. It is intentionally not linked in the public navigation.
+
+Studio uses GitHub OAuth and publishes directly to `adarsh9780/inquira-app#master`. Create a GitHub OAuth app with this callback URL:
+
+```text
+https://inquiraai.com/__nuxt_studio/auth/github
+```
+
+Set the OAuth credentials as GitHub Actions secrets for production builds and as Cloudflare Worker secrets for runtime authentication:
+
+```bash
+npx wrangler secret put STUDIO_GITHUB_CLIENT_ID
+npx wrangler secret put STUDIO_GITHUB_CLIENT_SECRET
+npx wrangler secret put STUDIO_GITHUB_MODERATORS
+```
+
+Use `STUDIO_GITHUB_MODERATORS=adarshmaurya7@gmail.com` unless you intentionally want to grant another GitHub account editor access.
+
+For local deploy checks, copy `.env.example` to `.env` and fill in your Cloudflare identifiers. The Wrangler config generator loads `.env` automatically, while still letting shell-exported variables override local file values.
+
+Generate a local Wrangler config with:
 
 ```bash
 npm run wrangler:config
@@ -103,6 +140,8 @@ The repository includes a Worker deployment workflow at
 Set these GitHub repository secrets:
 
 - `CLOUDFLARE_API_TOKEN`
+- `STUDIO_GITHUB_CLIENT_ID`
+- `STUDIO_GITHUB_CLIENT_SECRET`
 
 Set these GitHub repository variables:
 
@@ -111,8 +150,11 @@ Set these GitHub repository variables:
 - `CLOUDFLARE_CUSTOM_DOMAIN_PATTERNS`
 - `CLOUDFLARE_D1_DATABASE_NAME`
 - `CLOUDFLARE_D1_DATABASE_ID`
+- `CLOUDFLARE_R2_MEDIA_BUCKET_NAME`
 - `NUXT_PUBLIC_SHOW_PRICING`
 - `NUXT_PUBLIC_DOWNLOADS_MANIFEST_URL`
+- `STUDIO_MEDIA_PUBLIC_URL`
+- `STUDIO_GITHUB_MODERATORS`
 - `SUPABASE_URL`
 - `SUPABASE_KEY`
 

@@ -2,37 +2,43 @@
   "name": "inquira-acc",
   "type": "module",
   "private": true,
+  "engines": {
+    "node": "^24.11.0"
+  },
   "scripts": {
     "build": "nuxt build",
     "build:worker": "NUXT_CLOUDFLARE_D1_BINDING=DB NITRO_PRESET=cloudflare_module nuxt build",
     "brand:icons": "node scripts/generateBrandIcons.mjs",
     "dev": "nuxt dev",
     "content:seed:sql": "node scripts/writeContentSeedSql.mjs",
-    "deploy:worker": "npm run build:worker && npm run content:seed:sql && npm run wrangler:config && npx wrangler d1 execute \"$CLOUDFLARE_D1_DATABASE_NAME\" --remote --file .output/content-seed.sql --yes && npx wrangler deploy",
+    "deploy:worker": "npm run wrangler:config && npm run build:worker && npm run content:seed:sql && node scripts/seedRemoteD1.mjs && node scripts/runWithLocalEnv.mjs npx wrangler deploy",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "preview:worker": "npm run build:worker && npm run wrangler:config && npx wrangler dev",
+    "preview:worker": "npm run wrangler:config && npm run build:worker && node scripts/runWithLocalEnv.mjs npx wrangler dev",
     "test": "node --test tests/*.test.mjs",
     "verify:deployment": "node scripts/verifyDeployment.mjs",
     "wrangler:config": "node scripts/writeWranglerConfig.mjs"
   },
   "dependencies": {
-    "@nuxt/content": "^3.12.0",
-    "@nuxtjs/supabase": "^2.0.4",
-    "better-sqlite3": "^12.8.0",
-    "fuse.js": "^7.1.0",
-    "nuxt": "^4.4.2",
-    "vue": "^3.5.31",
-    "vue-router": "^5.0.4"
+    "@nuxt/content": "^3.14.0",
+    "@nuxthub/core": "^0.10.7",
+    "@nuxtjs/supabase": "^2.0.9",
+    "better-sqlite3": "^12.11.1",
+    "fuse.js": "^7.4.2",
+    "nuxt": "^4.4.8",
+    "nuxt-studio": "^1.7.0",
+    "vue": "^3.5.39",
+    "vue-router": "^5.1.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.14.0",
-    "@playwright/test": "^1.59.1",
-    "@tailwindcss/typography": "^0.5.19",
-    "wrangler": "^4.83.0"
+    "@playwright/test": "^1.61.1",
+    "@tailwindcss/typography": "^0.5.20",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.105.0"
   },
   "optionalDependencies": {
-    "@oxc-parser/binding-linux-x64-gnu": "^0.117.0"
+    "@oxc-parser/binding-linux-x64-gnu": "^0.137.0"
   }
 }

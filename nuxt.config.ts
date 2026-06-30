@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 const cloudflareD1Binding = process.env.NUXT_CLOUDFLARE_D1_BINDING || ''
 const isCloudflareWorkerBuild = process.env.NITRO_PRESET === 'cloudflare_module'
+const studioMediaPublicUrl = process.env.STUDIO_MEDIA_PUBLIC_URL || 'https://media.inquiraai.com'
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -33,7 +34,7 @@ export default defineNuxtConfig({
       }
     }
   },
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxtjs/supabase'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxthub/core', 'nuxt-studio', '@nuxtjs/supabase'],
   css: ['~/assets/css/main.css'],
   tailwindcss: {
     configPath: '~/tailwind.config.ts'
@@ -63,6 +64,35 @@ export default defineNuxtConfig({
           theme: 'github-light'
         }
       }
+    }
+  },
+  hub: {
+    blob: isCloudflareWorkerBuild
+      ? {
+          driver: 'cloudflare-r2',
+          binding: 'BLOB'
+        }
+      : {
+          driver: 'fs',
+          dir: '.data/studio-media'
+        }
+  },
+  studio: {
+    route: '/_studio',
+    repository: {
+      provider: 'github',
+      owner: 'adarsh9780',
+      repo: 'inquira-app',
+      branch: 'master',
+      rootDir: '',
+      private: false
+    },
+    media: {
+      external: true,
+      prefix: 'studio',
+      publicUrl: studioMediaPublicUrl,
+      maxFileSize: 50 * 1024 * 1024,
+      allowedTypes: ['image/*', 'video/*']
     }
   },
   supabase: {
