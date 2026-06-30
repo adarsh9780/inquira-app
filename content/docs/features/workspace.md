@@ -11,6 +11,7 @@ sandboxes, and Python or terminal commands still run with your user permissions.
 ## What is a Workspace?
 
 A workspace is a self-contained environment that includes:
+
 - Local DuckDB database
 - Imported data files
 - Chat history and analysis artifacts
@@ -18,13 +19,16 @@ A workspace is a self-contained environment that includes:
 
 ## Creating a Workspace
 
-1. Click **New Workspace** in the sidebar
-2. Give your workspace a descriptive name
-3. Start importing data or begin analyzing
+1. Open sidebar (Cmd/Ctrl + B)
+2. Click on settings icon
+3. Click **New Workspace** in the sidebar
+4. Give your workspace a descriptive name
+5. Start importing data or begin analyzing
 
 ## Workspace Persistence
 
 Workspaces are automatically saved:
+
 - **On close**: All state is persisted to disk
 - **On import**: Data files are linked/referenced
 - **Continuously**: Chat messages and artifacts saved in real-time
@@ -32,6 +36,7 @@ Workspaces are automatically saved:
 ## Switching Workspaces
 
 Use the workspace switcher in the top-left corner to:
+
 - Switch between different projects
 - Quick-access recent workspaces
 - Create new workspaces
@@ -39,16 +44,20 @@ Use the workspace switcher in the top-left corner to:
 ## Data Management
 
 ### Importing Data
+
 Drag and drop files into the workspace, or use the import button.
 
 Supported formats:
+
 - CSV
 - Excel (.xlsx, .xls)
 - Parquet
 - JSON
 
 ### Exporting Results
+
 Export analysis results as:
+
 - CSV
 - Excel
 - PNG (for charts)
