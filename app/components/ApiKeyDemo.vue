@@ -1,7 +1,15 @@
 <template>
-  <ProductDemoFrame active-area="settings" workspace="IPL ANALYSIS" :status="saved ? 'Active provider saved' : 'Connected'">
-    <div class="flex h-full min-h-[520px] items-center justify-center bg-[#f3eee6] p-4">
-      <section class="grid h-[88%] w-full max-w-4xl overflow-hidden rounded-lg border border-[#ded2c3] bg-[#fffaf3] shadow-xl md:grid-cols-[170px_minmax(0,1fr)]">
+  <ProductDemoFrame
+    :active-area="settingsOpen ? 'settings' : 'chat'"
+    workspace="IPL ANALYSIS"
+    :status="saved ? 'Active provider saved' : settingsOpen ? 'Configuring model access' : 'Connected'"
+    :cursor="demoCursor"
+  >
+    <div class="flex h-full min-h-[520px] items-center justify-center bg-[#f3eee6] p-4 md:min-h-[560px] md:p-6">
+      <section
+        v-if="settingsOpen"
+        class="grid h-full max-h-[660px] w-full max-w-[1120px] overflow-hidden rounded-lg border border-[#ded2c3] bg-[#fffaf3] shadow-xl md:grid-cols-[190px_minmax(0,1fr)]"
+      >
         <aside class="hidden border-r border-[#e3d9cc] bg-[#f5eee4] p-4 md:block">
           <div
             v-for="item in settingsItems"
@@ -62,7 +70,7 @@
                 </Transition>
               </div>
 
-              <label for="demo-api-key" class="text-sm text-[#777167]">{{ selectedProvider }} API key</label>
+              <label for="demo-api-key" class="text-sm text-[#777167]">{{ activeProviderName }} API key</label>
               <div class="mt-2 flex items-center gap-2 rounded-md border border-[#e1d7ca] bg-[#fffdf8] px-3 py-2">
                 <input
                   id="demo-api-key"
@@ -109,6 +117,8 @@
           </div>
         </div>
       </section>
+
+      <AppIdleDemoSurface v-else variant="api" class="h-full max-h-[660px] w-full max-w-[1120px] overflow-hidden rounded-lg border border-[#ded2c3] shadow-xl" />
     </div>
   </ProductDemoFrame>
 </template>
@@ -119,6 +129,8 @@ const props = withDefaults(defineProps<{
 }>(), {
   active: false
 })
+
+type DemoStep = 'settings' | 'provider' | 'key' | 'verify' | 'done'
 
 const settingsItems = ['LLM & API Keys', 'Workspace', 'Appearance', 'Account']
 const providers = [
@@ -143,27 +155,93 @@ const selectedProvider = ref('OpenRouter')
 const fakeApiKey = ref('demo-openrouter-key-local-only')
 const saved = ref(false)
 const prefersReducedMotion = ref(false)
-let timer: ReturnType<typeof window.setTimeout> | null = null
+const settingsOpen = ref(true)
+const demoStep = ref<DemoStep>('done')
+const timers: Array<ReturnType<typeof window.setTimeout> | ReturnType<typeof window.setInterval>> = []
+const finalFakeApiKey = 'demo-openrouter-key-local-only'
 
-function clearTimer() {
-  if (timer) {
-    window.clearTimeout(timer)
-    timer = null
+const activeProviderName = computed(() => selectedProvider.value || 'OpenRouter')
+
+const demoCursor = computed(() => {
+  if (prefersReducedMotion.value || demoStep.value === 'done') {
+    return { visible: false, x: '0%', y: '0%' }
+  }
+
+  const positions: Record<Exclude<DemoStep, 'done'>, { x: string, y: string }> = {
+    settings: { x: '4%', y: '40%' },
+    provider: { x: '70%', y: '38%' },
+    key: { x: '62%', y: '66%' },
+    verify: { x: '49%', y: '74%' }
+  }
+
+  return {
+    visible: true,
+    click: demoStep.value !== 'key',
+    ...positions[demoStep.value]
+  }
+})
+
+function clearTimers() {
+  while (timers.length) {
+    const timer = timers.pop()
+    if (timer) {
+      window.clearTimeout(timer)
+    }
   }
 }
 
 function saveKey() {
-  clearTimer()
+  clearTimers()
+  fakeApiKey.value = fakeApiKey.value || finalFakeApiKey
   saved.value = true
+  demoStep.value = 'done'
 }
 
 function runDemo() {
-  clearTimer()
-  selectedProvider.value = 'OpenRouter'
-  saved.value = prefersReducedMotion.value
-  if (!prefersReducedMotion.value) {
-    timer = window.setTimeout(saveKey, 1000)
+  clearTimers()
+  if (prefersReducedMotion.value) {
+    settingsOpen.value = true
+    selectedProvider.value = 'OpenRouter'
+    fakeApiKey.value = finalFakeApiKey
+    saved.value = true
+    demoStep.value = 'done'
+    return
   }
+
+  settingsOpen.value = false
+  selectedProvider.value = ''
+  fakeApiKey.value = ''
+  saved.value = false
+  demoStep.value = 'settings'
+
+  timers.push(window.setTimeout(() => {
+    settingsOpen.value = true
+  }, 1500))
+  timers.push(window.setTimeout(() => {
+    demoStep.value = 'provider'
+  }, 2400))
+  timers.push(window.setTimeout(() => {
+    selectedProvider.value = 'OpenRouter'
+    demoStep.value = 'key'
+  }, 3200))
+  timers.push(window.setTimeout(() => {
+    let nextCharacter = 0
+    const typingTimer = window.setInterval(() => {
+      nextCharacter += 1
+      fakeApiKey.value = finalFakeApiKey.slice(0, nextCharacter)
+      if (nextCharacter >= finalFakeApiKey.length) {
+        window.clearInterval(typingTimer)
+      }
+    }, 60)
+    timers.push(typingTimer)
+  }, 3500))
+  timers.push(window.setTimeout(() => {
+    fakeApiKey.value = finalFakeApiKey
+    demoStep.value = 'verify'
+  }, 5700))
+  timers.push(window.setTimeout(() => {
+    saveKey()
+  }, 6700))
 }
 
 onMounted(() => {
@@ -173,13 +251,13 @@ onMounted(() => {
   }
 })
 
-onBeforeUnmount(clearTimer)
+onBeforeUnmount(clearTimers)
 
 watch(() => props.active, (isActive) => {
   if (isActive) {
     runDemo()
   } else {
-    clearTimer()
+    clearTimers()
   }
 })
 </script>

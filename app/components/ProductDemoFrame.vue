@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden rounded-lg border border-[#ded8ce] bg-[#f6efe5] text-[#2d3440] shadow-2xl shadow-black/10">
+  <div class="relative h-full overflow-hidden rounded-lg border border-[#ded8ce] bg-[#f6efe5] text-[#2d3440] shadow-2xl shadow-black/10">
     <div class="flex h-9 items-center gap-3 border-b border-[#e1d8ca] bg-[#f7efe4] px-4">
       <div class="flex items-center gap-2" aria-hidden="true">
         <span class="h-3 w-3 rounded-full bg-[#ff5f57]"></span>
@@ -9,7 +9,7 @@
       <div class="text-sm font-semibold text-[#303540]">Inquira</div>
     </div>
 
-    <div class="grid min-h-[520px] grid-cols-[56px_minmax(0,1fr)] bg-[#faf6ee] md:grid-cols-[188px_minmax(0,1fr)]">
+    <div class="grid h-[560px] grid-cols-[56px_minmax(0,1fr)] bg-[#faf6ee] md:h-[620px] md:grid-cols-[188px_minmax(0,1fr)] lg:h-[660px]">
       <aside class="flex min-w-0 flex-col border-r border-[#e1d8ca] bg-[#ebe4da]">
         <div class="flex h-16 items-center gap-3 border-b border-[#ded5c8] px-3">
           <img src="/brand/inquira-mark.svg" alt="" class="h-8 w-8 rounded-md">
@@ -62,6 +62,20 @@
       </span>
       <span>Inquira v0.5.35</span>
     </div>
+
+    <div
+      v-if="cursor?.visible"
+      :key="`${cursor.x}-${cursor.y}-${cursor.click}`"
+      class="demo-cursor pointer-events-none absolute z-30 transition-all duration-700"
+      :class="{ 'is-clicking': cursor.click }"
+      :style="{ left: cursor.x, top: cursor.y }"
+      aria-hidden="true"
+    >
+      <span class="demo-cursor-ring"></span>
+      <svg class="relative h-6 w-6 drop-shadow-md" viewBox="0 0 24 24" fill="none">
+        <path d="M5 3.5 18.5 12 12.5 13.4 10.2 19.4 5 3.5Z" fill="#172033" stroke="white" stroke-width="1.6" stroke-linejoin="round" />
+      </svg>
+    </div>
   </div>
 </template>
 
@@ -70,6 +84,12 @@ withDefaults(defineProps<{
   activeArea?: 'chat' | 'code' | 'tree' | 'settings'
   workspace?: string
   status?: string
+  cursor?: {
+    visible: boolean
+    x: string
+    y: string
+    click?: boolean
+  }
 }>(), {
   activeArea: 'chat',
   workspace: 'IPL ANALYSIS',
@@ -99,3 +119,36 @@ const primaryNav = [
   }
 ] as const
 </script>
+
+<style scoped>
+.demo-cursor {
+  transform: translate(-2px, -2px);
+}
+
+.demo-cursor-ring {
+  position: absolute;
+  left: 6px;
+  top: 5px;
+  height: 22px;
+  width: 22px;
+  border-radius: 9999px;
+  border: 2px solid rgba(192, 107, 62, 0.35);
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.demo-cursor.is-clicking .demo-cursor-ring {
+  animation: demo-click 700ms var(--ease-standard);
+}
+
+@keyframes demo-click {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.45);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.55);
+  }
+}
+</style>

@@ -65,8 +65,8 @@ test('landing and docs highlight the expanded model, editor, and power-user feat
   const landing = readLandingContent()
   const welcomeDoc = readFileSync(resolve(root, 'content/docs/welcome.md'), 'utf8')
   const landingFeatures = [
-    ...landing.features.primaryDemos,
-    ...landing.features.secondaryVideos
+    ...landing.features.productDemos,
+    ...landing.features.secondaryFeatures
   ]
   const landingFeatureCopy = landingFeatures.map((feature) => feature.summary).join('\n')
 

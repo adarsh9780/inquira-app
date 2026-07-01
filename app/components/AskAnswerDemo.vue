@@ -1,5 +1,5 @@
 <template>
-  <ProductDemoFrame active-area="chat" workspace="IPL ANALYSIS" status="TEST Ready">
+  <ProductDemoFrame active-area="chat" workspace="IPL ANALYSIS" status="TEST Ready" :cursor="demoCursor">
     <div class="grid h-full min-h-[520px] grid-rows-[auto_minmax(0,1fr)]">
       <div class="flex h-14 items-center justify-between border-b border-[#e3d9cc] px-4 text-sm">
         <div class="flex items-center gap-5">
@@ -25,23 +25,35 @@
       <div class="grid min-h-0 md:grid-cols-[42%_58%]">
         <section class="flex min-h-0 flex-col border-r border-[#e3d9cc] bg-[#fffaf3]">
           <div class="min-h-0 flex-1 overflow-hidden p-4 md:p-5">
-            <div class="rounded-2xl border border-[#dfcdbb] bg-[#f3e5d8] px-4 py-3 text-sm font-medium text-[#2f3440]">
-              create a bar graph for the above table
-            </div>
-            <p class="mt-2 text-xs text-[#938b80]">{{ phase === 'answer' ? '3 minutes ago' : 'Just now' }}</p>
+            <Transition name="demo-fade">
+              <div v-if="phase !== 'typing'">
+                <div class="rounded-2xl border border-[#dfcdbb] bg-[#f3e5d8] px-4 py-3 text-sm font-medium text-[#2f3440]">
+                  {{ question }}
+                </div>
+                <p class="mt-2 text-xs text-[#938b80]">{{ phase === 'answer' ? '3 minutes ago' : 'Just now' }}</p>
+              </div>
+            </Transition>
 
-            <div class="mt-6 space-y-4">
+            <div v-if="phase === 'typing'" class="flex h-full items-center justify-center px-3 text-center">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#a46a45]">New conversation</p>
+                <h3 class="mt-3 text-lg font-semibold text-[#202632]">Ask against the local IPL workspace.</h3>
+                <p class="mt-2 text-sm leading-6 text-[#777167]">The question is typed in the composer, then Inquira runs the workflow locally.</p>
+              </div>
+            </div>
+
+            <div v-if="visibleStatusIndex >= 0" class="mt-4 space-y-3">
               <div
                 v-for="(item, index) in statusItems"
                 :key="item.label"
-                class="rounded-lg border border-[#e2d8ca] bg-[#f8f0e5] px-4 py-3 transition-all duration-300"
+                class="rounded-lg border border-[#e2d8ca] bg-[#f8f0e5] px-4 py-2.5 transition-all duration-300"
                 :class="visibleStatusIndex >= index ? 'opacity-100' : 'translate-y-2 opacity-35'"
               >
                 <div class="flex items-center justify-between gap-3">
                   <span class="text-xs font-semibold uppercase tracking-wide text-[#a46a45]">{{ item.label }}</span>
                   <span class="text-xs text-[#91887e]">{{ item.time }}</span>
                 </div>
-                <p class="mt-2 text-sm leading-6 text-[#3f4651]">{{ item.body }}</p>
+                <p class="mt-1.5 text-sm leading-5 text-[#3f4651]">{{ item.body }}</p>
               </div>
             </div>
 
@@ -57,28 +69,28 @@
                     <h3 class="font-semibold text-[#202632]">Answer</h3>
                     <p class="mt-2">The top run-scorers are led by V Kohli, S Dhawan, and DA Warner. The generated table and chart are saved as local artifacts.</p>
                   </div>
-                  <div>
-                    <h3 class="font-semibold text-[#202632]">Key Findings</h3>
-                    <p class="mt-2"><strong>Top performers:</strong> V Kohli and S Dhawan form the leading tier, with a clear gap before the rest of the table.</p>
-                  </div>
                 </div>
               </div>
             </Transition>
           </div>
 
-          <div class="border-t border-[#e3d9cc] p-4">
-            <div class="rounded-xl border border-[#e1d7ca] bg-[#fffdf8] p-3">
-              <div class="mb-4 text-sm text-[#a19a90]">How can I help you today?</div>
-              <div class="flex items-center justify-between gap-3">
-                <span class="text-xl text-[#777167]">+</span>
-                <span class="min-w-0 flex-1 rounded-full border border-[#e1d7ca] bg-[#f8f0e5] px-3 py-1 text-center text-xs text-[#4d5561]">Gemini 3.1 Flash Lite Preview</span>
-                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-[#172033] text-xs text-white">mic</span>
+          <div class="border-t border-[#e3d9cc] bg-[#fffaf3] p-3">
+            <div class="rounded-xl border border-[#e1d7ca] bg-[#fffdf8] p-3 shadow-sm">
+              <div class="min-h-6 text-sm text-[#4d5561]">
+                <span v-if="phase === 'typing' && typedQuestion">{{ typedQuestion }}</span>
+                <span v-else class="text-[#938b80]">{{ phase === 'answer' ? 'Ask a follow-up about the saved artifacts...' : 'Ask about the local IPL dataset...' }}</span>
+                <span v-if="phase === 'typing'" class="typing-caret ml-0.5"></span>
+              </div>
+              <div class="mt-3 flex items-center gap-3">
+                <span class="text-lg text-[#777167]">+</span>
+                <span class="min-w-0 flex-1 rounded-full border border-[#e1d7ca] bg-[#f8f0e5] px-3 py-1 text-center text-xs text-[#4d5561]">Local context: IPL ANALYSIS</span>
+                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-[#172033] text-xs text-white">↵</span>
               </div>
             </div>
           </div>
         </section>
 
-        <section class="flex min-h-0 flex-col bg-[#fffaf3]">
+        <section class="flex min-h-0 min-w-0 flex-col bg-[#fffaf3]">
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[#e3d9cc] px-4 py-3">
             <div class="flex items-center gap-2">
               <button
@@ -140,7 +152,7 @@
                 </div>
               </div>
 
-              <div v-else key="output" class="space-y-3">
+              <div v-else-if="resultView === 'output'" key="output" class="space-y-3">
                 <div
                   v-for="artifact in artifacts"
                   :key="artifact.name"
@@ -154,6 +166,16 @@
                     <span class="text-xs text-[#91887e]">{{ artifact.meta }}</span>
                   </div>
                 </div>
+              </div>
+
+              <div v-else key="empty" class="flex h-full flex-col items-center justify-center rounded-lg border border-dashed border-[#e1d7ca] bg-[#fffdf8] px-8 text-center">
+                <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-[#e1d7ca] bg-[#f8f0e5] text-[#91887e]">
+                  <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h10M4 18h8" />
+                  </svg>
+                </div>
+                <p class="text-sm font-semibold text-[#303540]">Waiting for saved artifacts</p>
+                <p class="mt-2 text-sm leading-6 text-[#777167]">The table and chart appear here after Inquira finishes running the local workflow.</p>
               </div>
             </Transition>
           </div>
@@ -170,8 +192,8 @@ const props = withDefaults(defineProps<{
   active: false
 })
 
-type Phase = 'context' | 'python' | 'quality' | 'answer'
-type ResultView = 'chart' | 'table' | 'output'
+type Phase = 'typing' | 'submitted' | 'context' | 'python' | 'quality' | 'answer'
+type ResultView = 'chart' | 'table' | 'output' | 'empty'
 
 const leftTabs = ['Code', 'Chat', 'Tree']
 const resultViews: { id: ResultView, label: string }[] = [
@@ -183,17 +205,17 @@ const resultViews: { id: ResultView, label: string }[] = [
 const statusItems = [
   {
     label: 'Searching data context',
-    body: 'I have the table name and will search for relevant columns to calculate top batters.',
+    body: 'Found the table and columns needed for top batters.',
     time: '1s'
   },
   {
     label: 'Running generated Python',
-    body: "I have executable code, so I'm running it now and will inspect the result next.",
+    body: 'Generated Python is running locally against the workspace.',
     time: '5s'
   },
   {
     label: 'Checking result quality',
-    body: "I have the runtime output, so I'm checking whether it is useful enough to return.",
+    body: 'Result passed checks and is ready as saved artifacts.',
     time: '2s'
   }
 ]
@@ -222,19 +244,53 @@ const artifacts = [
   { type: 'Scalar', name: 'result', meta: 'quality checked' }
 ]
 
+const question = 'give me top 10 batsman and show table and chart'
 const phase = ref<Phase>('answer')
+const typedQuestion = ref(question)
 const resultView = ref<ResultView>('chart')
 const prefersReducedMotion = ref(false)
-const timers: ReturnType<typeof window.setTimeout>[] = []
+const timers: Array<ReturnType<typeof window.setTimeout> | ReturnType<typeof window.setInterval>> = []
 
 const visibleStatusIndex = computed(() => {
   const indexes: Record<Phase, number> = {
+    typing: -1,
+    submitted: -1,
     context: 0,
     python: 1,
     quality: 2,
     answer: 2
   }
   return indexes[phase.value]
+})
+
+const demoCursor = computed(() => {
+  if (prefersReducedMotion.value) {
+    return { visible: false, x: '0%', y: '0%' }
+  }
+
+  if (phase.value === 'typing') {
+    return { visible: true, x: '39%', y: '86%' }
+  }
+
+  if (phase.value === 'submitted') {
+    return { visible: true, click: true, x: '42%', y: '88%' }
+  }
+
+  if (phase.value !== 'answer' || resultView.value === 'empty') {
+    return { visible: false, x: '0%', y: '0%' }
+  }
+
+  const positions: Record<Exclude<ResultView, 'empty'>, { x: string, y: string }> = {
+    table: { x: '60%', y: '17%' },
+    chart: { x: '68%', y: '17%' },
+    output: { x: '76%', y: '17%' }
+  }
+
+  return {
+    visible: true,
+    click: true,
+    ...positions[resultView.value]
+  }
 })
 
 function clearTimers() {
@@ -250,30 +306,56 @@ function runDemo() {
   clearTimers()
   if (prefersReducedMotion.value) {
     phase.value = 'answer'
+    typedQuestion.value = question
     resultView.value = 'chart'
     return
   }
 
-  phase.value = 'context'
-  resultView.value = 'output'
+  phase.value = 'typing'
+  typedQuestion.value = ''
+  resultView.value = 'empty'
+
+  let nextCharacter = 0
+  const typingTimer = window.setInterval(() => {
+    nextCharacter += 1
+    typedQuestion.value = question.slice(0, nextCharacter)
+    if (nextCharacter >= question.length) {
+      window.clearInterval(typingTimer)
+    }
+  }, 64)
+  timers.push(typingTimer)
+
+  timers.push(window.setTimeout(() => {
+    typedQuestion.value = question
+    phase.value = 'submitted'
+  }, 3200))
+  timers.push(window.setTimeout(() => {
+    phase.value = 'context'
+  }, 4000))
   timers.push(window.setTimeout(() => {
     phase.value = 'python'
-  }, 750))
+  }, 5300))
   timers.push(window.setTimeout(() => {
     phase.value = 'quality'
-  }, 1500))
+  }, 6600))
   timers.push(window.setTimeout(() => {
     phase.value = 'answer'
     resultView.value = 'table'
-  }, 2350))
+  }, 8000))
   timers.push(window.setTimeout(() => {
     resultView.value = 'chart'
-  }, 3300))
+  }, 10000))
+  timers.push(window.setTimeout(() => {
+    resultView.value = 'table'
+  }, 12000))
+  timers.push(window.setTimeout(() => {
+    resultView.value = 'chart'
+  }, 14000))
 }
 
 function chartHeight(value: number) {
   const max = Math.max(...bars.map((bar) => bar.value))
-  return `${Math.max(18, Math.round((value / max) * 100))}%`
+  return `${Math.max(20, Math.round((value / max) * 280))}px`
 }
 
 onMounted(() => {
@@ -304,5 +386,23 @@ watch(() => props.active, (isActive) => {
 .demo-fade-leave-to {
   opacity: 0;
   transform: translateY(6px);
+}
+
+.typing-caret {
+  display: inline-block;
+  height: 1em;
+  width: 2px;
+  transform: translateY(2px);
+  background: #9b4d27;
+  animation: caret-blink 800ms steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  0%, 45% {
+    opacity: 1;
+  }
+  46%, 100% {
+    opacity: 0;
+  }
 }
 </style>

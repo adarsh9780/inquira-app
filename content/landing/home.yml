@@ -18,65 +18,112 @@ hero:
 
 features:
   eyebrow: Core Features
-  title: Work With Local Data Like A Real App
-  description: Explore the core flows visitors need to understand first, then use short videos for the deeper workflows.
-  primaryDemos:
+  title: See Inquira Work Before You Download
+  description: Three product moments explain the local-first workflow first. Deeper capabilities can use Studio-managed videos or screenshot fallbacks.
+  productDemos:
     - id: ask-answer
+      eyebrow: Analyze
       title: Ask a question, get usable outputs
       summary: Ask in plain English, watch Inquira run the local workflow, then switch between the answer, chart, table, and output artifacts.
       icon: message
       demoType: ask-answer
+      media:
+        video:
+          src: ""
+          poster: "/media/landing/ask-answer-chart.webp"
+          alt: Inquira ask and answer product demo video
+        image:
+          src: "/media/landing/ask-answer-chart.webp"
+          alt: Inquira showing an answer with a generated chart
     - id: create-workspace
+      eyebrow: Organize
       title: Create a local workspace
       summary: Start a focused workspace, add local datasets, and keep the project context, conversations, and generated artifacts together.
       icon: workspace
       demoType: create-workspace
+      media:
+        video:
+          src: ""
+          poster: "/media/landing/create-workspace.webp"
+          alt: Inquira workspace creation product demo video
+        image:
+          src: "/media/landing/create-workspace.webp"
+          alt: Inquira workspace settings with local datasets
     - id: add-api-key
+      eyebrow: Connect
       title: Add your model key once
       summary: Choose a provider, save a masked API key locally, and keep model access under your control.
       icon: key
       demoType: add-api-key
-  secondaryVideos:
+      media:
+        video:
+          src: ""
+          poster: "/media/landing/add-api-key.webp"
+          alt: Inquira API key settings product demo video
+        image:
+          src: "/media/landing/add-api-key.webp"
+          alt: Inquira LLM and API key settings
+  secondaryFeatures:
     - id: local-python-execution
       title: Local Python Execution
       summary: Bundled Jupyter kernel runs locally with your user permissions and is not sandboxed. Supports Ollama-hosted local models and BYOK access to 100+ providers through OpenRouter.
       icon: code
-      video:
-        src: ""
-        poster: ""
-        alt: Inquira local Python execution demo video
+      media:
+        video:
+          src: ""
+          poster: "/media/landing/code-table.webp"
+          alt: Inquira local Python execution demo video
+        image:
+          src: "/media/landing/code-table.webp"
+          alt: Inquira code editor and generated table
     - id: local-data-handling
       title: Seamless Local Data Handling
       summary: Connect to Excel, CSV, JSON, and Parquet files. Dynamically converted into fast DuckDB workspaces for analyzing data of any size.
       icon: database
-      video:
-        src: ""
-        poster: ""
-        alt: Inquira local data handling demo video
+      media:
+        video:
+          src: ""
+          poster: "/media/landing/create-workspace.webp"
+          alt: Inquira local data handling demo video
+        image:
+          src: "/media/landing/create-workspace.webp"
+          alt: Inquira workspace with linked local datasets
     - id: integrated-code-editor
       title: Integrated Code Editor
       summary: Full control with a built-in editor, data-aware autocomplete, and slash commands for quick standard code patterns. Custom commands are planned next.
       icon: editor
-      video:
-        src: ""
-        poster: ""
-        alt: Inquira integrated code editor demo video
+      media:
+        video:
+          src: ""
+          poster: "/media/landing/code-table.webp"
+          alt: Inquira integrated code editor demo video
+        image:
+          src: "/media/landing/code-table.webp"
+          alt: Inquira code editor with analysis output table
     - id: resume-persistence
       title: Flawless Resume & Persistence
       summary: Intermediate variables, artifacts, and results are saved continuously. Close the app and resume exactly where you left off.
       icon: clock
-      video:
-        src: ""
-        poster: ""
-        alt: Inquira resume and persistence demo video
+      media:
+        video:
+          src: ""
+          poster: "/media/landing/ask-answer-table.webp"
+          alt: Inquira resume and persistence demo video
+        image:
+          src: "/media/landing/ask-answer-table.webp"
+          alt: Inquira resumed conversation with table output
     - id: power-user-controls
       title: Power-User Controls
       summary: Built-in terminal access for extra control, package installs, and debugging when you want to step beyond the chat interface.
       icon: terminal
-      video:
-        src: ""
-        poster: ""
-        alt: Inquira power-user controls demo video
+      media:
+        video:
+          src: ""
+          poster: "/media/landing/terminal-output.webp"
+          alt: Inquira power-user controls demo video
+        image:
+          src: "/media/landing/terminal-output.webp"
+          alt: Inquira terminal output inside the desktop app
 
 howItWorks:
   eyebrow: How It Works

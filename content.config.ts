@@ -11,6 +11,16 @@ const videoSchema = z.object({
   alt: z.string()
 })
 
+const imageSchema = z.object({
+  src: z.string(),
+  alt: z.string()
+})
+
+const mediaSchema = z.object({
+  video: videoSchema,
+  image: imageSchema
+})
+
 const iconSchema = z.enum([
   'idea',
   'code',
@@ -44,12 +54,13 @@ export default defineContentConfig({
           ctas: z.array(linkSchema),
           stats: z.array(z.object({
             value: z.string(),
-          label: z.string()
+            label: z.string()
           }))
         }),
         features: sectionIntroSchema.extend({
-          primaryDemos: z.array(z.object({
+          productDemos: z.array(z.object({
             id: z.string(),
+            eyebrow: z.string(),
             title: z.string(),
             summary: z.string(),
             icon: iconSchema,
@@ -57,14 +68,15 @@ export default defineContentConfig({
               'ask-answer',
               'create-workspace',
               'add-api-key'
-            ])
+            ]),
+            media: mediaSchema
           })),
-          secondaryVideos: z.array(z.object({
+          secondaryFeatures: z.array(z.object({
             id: z.string(),
             title: z.string(),
             summary: z.string(),
             icon: iconSchema,
-            video: videoSchema
+            media: mediaSchema
           }))
         }),
         howItWorks: sectionIntroSchema.extend({

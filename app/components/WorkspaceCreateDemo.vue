@@ -1,7 +1,15 @@
 <template>
-  <ProductDemoFrame active-area="settings" workspace="LOCAL DEMO" :status="created ? 'Workspace Ready' : 'Connected'">
-    <div class="flex h-full min-h-[520px] items-center justify-center bg-[#f3eee6] p-4">
-      <section class="grid h-[88%] w-full max-w-4xl overflow-hidden rounded-lg border border-[#ded2c3] bg-[#fffaf3] shadow-xl md:grid-cols-[170px_minmax(0,1fr)]">
+  <ProductDemoFrame
+    :active-area="settingsOpen ? 'settings' : 'chat'"
+    workspace="LOCAL DEMO"
+    :status="created ? 'Workspace Ready' : settingsOpen ? 'Configuring workspace' : 'Connected'"
+    :cursor="demoCursor"
+  >
+    <div class="flex h-full min-h-[520px] items-center justify-center bg-[#f3eee6] p-4 md:min-h-[560px] md:p-6">
+      <section
+        v-if="settingsOpen"
+        class="grid h-full max-h-[660px] w-full max-w-[1120px] overflow-hidden rounded-lg border border-[#ded2c3] bg-[#fffaf3] shadow-xl md:grid-cols-[190px_minmax(0,1fr)]"
+      >
         <aside class="hidden border-r border-[#e3d9cc] bg-[#f5eee4] p-4 md:block">
           <div
             v-for="item in settingsItems"
@@ -56,7 +64,9 @@
                     id="workspace-name"
                     v-model="workspaceName"
                     class="mt-2 w-full rounded-md border border-[#e1d7ca] bg-white px-3 py-2 text-sm text-[#303540] focus:border-[#c06b3e] focus:outline-none"
+                    placeholder="Workspace name"
                   >
+                  <p v-if="workspaceName" class="mt-2 text-xs text-[#777167]">Naming the local project workspace</p>
                   <button
                     type="button"
                     class="mt-3 w-full rounded-md bg-[#ba6a3c] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#a85d34]"
@@ -113,6 +123,8 @@
           </div>
         </div>
       </section>
+
+      <AppIdleDemoSurface v-else variant="workspace" class="h-full max-h-[660px] w-full max-w-[1120px] overflow-hidden rounded-lg border border-[#ded2c3] shadow-xl" />
     </div>
   </ProductDemoFrame>
 </template>
@@ -124,12 +136,17 @@ const props = withDefaults(defineProps<{
   active: false
 })
 
+type DemoStep = 'settings' | 'new' | 'name' | 'create' | 'done'
+
 const settingsItems = ['LLM & API Keys', 'Workspace', 'Appearance', 'Account']
 const prefersReducedMotion = ref(false)
+const settingsOpen = ref(true)
 const creating = ref(false)
 const created = ref(false)
 const workspaceName = ref('Revenue Review')
-let timer: ReturnType<typeof window.setTimeout> | null = null
+const demoStep = ref<DemoStep>('done')
+const timers: Array<ReturnType<typeof window.setTimeout> | ReturnType<typeof window.setInterval>> = []
+const finalWorkspaceName = 'Revenue Review'
 
 const baseWorkspaces = [
   { name: 'IPL ANALYSIS', meta: '3 convs - 6h ago', selected: false },
@@ -162,36 +179,94 @@ const visibleDatasets = computed(() => {
   ]
 })
 
-function clearTimer() {
-  if (timer) {
-    window.clearTimeout(timer)
-    timer = null
+const demoCursor = computed(() => {
+  if (prefersReducedMotion.value || demoStep.value === 'done') {
+    return { visible: false, x: '0%', y: '0%' }
+  }
+
+  const positions: Record<Exclude<DemoStep, 'done'>, { x: string, y: string }> = {
+    settings: { x: '4%', y: '40%' },
+    new: { x: '57%', y: '25%' },
+    name: { x: '54%', y: '68%' },
+    create: { x: '54%', y: '76%' }
+  }
+
+  return {
+    visible: true,
+    click: demoStep.value !== 'name',
+    ...positions[demoStep.value]
+  }
+})
+
+function clearTimers() {
+  while (timers.length) {
+    const timer = timers.pop()
+    if (timer) {
+      window.clearTimeout(timer)
+    }
   }
 }
 
 function startCreate() {
-  clearTimer()
+  clearTimers()
+  settingsOpen.value = true
   creating.value = true
   created.value = false
+  workspaceName.value = ''
 }
 
 function createWorkspace() {
-  clearTimer()
+  clearTimers()
+  workspaceName.value = workspaceName.value || finalWorkspaceName
   creating.value = false
   created.value = true
+  demoStep.value = 'done'
 }
 
 function runDemo() {
-  clearTimer()
+  clearTimers()
   if (prefersReducedMotion.value) {
+    settingsOpen.value = true
     creating.value = false
     created.value = true
+    workspaceName.value = finalWorkspaceName
+    demoStep.value = 'done'
     return
   }
 
-  creating.value = true
+  settingsOpen.value = false
   created.value = false
-  timer = window.setTimeout(createWorkspace, 1200)
+  creating.value = false
+  workspaceName.value = ''
+  demoStep.value = 'settings'
+
+  timers.push(window.setTimeout(() => {
+    settingsOpen.value = true
+  }, 1500))
+  timers.push(window.setTimeout(() => {
+    demoStep.value = 'new'
+  }, 2400))
+  timers.push(window.setTimeout(() => {
+    creating.value = true
+    demoStep.value = 'name'
+  }, 3200))
+  timers.push(window.setTimeout(() => {
+    let nextCharacter = 0
+    const typingTimer = window.setInterval(() => {
+      nextCharacter += 1
+      workspaceName.value = finalWorkspaceName.slice(0, nextCharacter)
+      if (nextCharacter >= finalWorkspaceName.length) {
+        window.clearInterval(typingTimer)
+      }
+    }, 80)
+    timers.push(typingTimer)
+  }, 3500))
+  timers.push(window.setTimeout(() => {
+    demoStep.value = 'create'
+  }, 5000))
+  timers.push(window.setTimeout(() => {
+    createWorkspace()
+  }, 6000))
 }
 
 onMounted(() => {
@@ -201,13 +276,13 @@ onMounted(() => {
   }
 })
 
-onBeforeUnmount(clearTimer)
+onBeforeUnmount(clearTimers)
 
 watch(() => props.active, (isActive) => {
   if (isActive) {
     runDemo()
   } else {
-    clearTimer()
+    clearTimers()
   }
 })
 </script>

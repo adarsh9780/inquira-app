@@ -4,108 +4,13 @@
 
     <div id="main-content" tabindex="-1"></div>
 
-    <section class="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-32">
-      <div class="absolute inset-0 -z-10">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[90vw] h-[90vw] max-w-[800px] max-h-[800px] bg-gradient-to-b from-secondary-100/50 to-transparent rounded-full blur-3xl"></div>
-      </div>
-
-      <div class="mx-auto max-w-[var(--content-max-width)] px-6 sm:px-8 lg:px-12">
-        <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
-          <div class="text-center lg:text-left">
-            <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-badge-border bg-badge-bg px-3 py-1 text-xs font-medium text-badge-text">
-              <span class="relative flex h-2 w-2">
-                <span class="inline-flex h-2 w-2 rounded-full bg-secondary-500"></span>
-              </span>
-              {{ home.hero.badge }}
-            </div>
-
-            <h1 class="mb-6 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-              {{ home.hero.title }}<br>
-              <span class="bg-gradient-to-r from-secondary-600 to-primary-500 bg-clip-text text-transparent">{{ home.hero.highlight }}</span>
-            </h1>
-
-            <p class="mx-auto mb-8 max-w-lg text-lg text-text-secondary lg:mx-0">
-              {{ home.hero.description }}
-            </p>
-
-            <div class="flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
-              <a
-                v-for="(cta, index) in home.hero.ctas"
-                :key="cta.href"
-                :href="cta.href"
-                class="btn w-full rounded-lg px-6 py-3 text-base font-medium sm:w-auto active:scale-[0.98]"
-                :class="index === 0 ? 'btn-primary' : 'btn-secondary'"
-              >
-                {{ cta.label }}
-              </a>
-            </div>
-
-            <div class="mt-12 flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-center md:gap-8 lg:justify-start lg:gap-12">
-              <template v-for="(stat, index) in home.hero.stats" :key="`${stat.value}-${stat.label}`">
-                <div class="text-center md:text-left">
-                  <div class="text-2xl font-bold text-text-primary">{{ stat.value }}</div>
-                  <div class="text-sm text-text-muted">{{ stat.label }}</div>
-                </div>
-                <div v-if="index < home.hero.stats.length - 1" class="hidden h-8 w-px bg-border md:block"></div>
-              </template>
-            </div>
-          </div>
-
-          <div class="flex justify-center lg:justify-end">
-            <svg class="h-40 w-40 sm:h-64 sm:w-64 lg:h-80 lg:w-80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-              <defs>
-                <linearGradient id="hero-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:var(--color-secondary-500);stop-opacity:1" />
-                  <stop offset="100%" style="stop-color:var(--color-primary-500);stop-opacity:1" />
-                </linearGradient>
-                <filter id="hero-glow">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-              <rect x="18" y="18" width="164" height="164" fill="var(--color-neutral-900)" rx="34" />
-              <g transform="translate(100, 100)" filter="url(#hero-glow)">
-                <circle r="24" fill="url(#hero-grad)" />
-                <g>
-                  <circle cx="70" cy="0" r="12" fill="var(--color-secondary-500)" opacity="0.9">
-                    <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="10s" repeatCount="indefinite" />
-                  </circle>
-                  <line x1="24" y1="0" x2="58" y2="0" stroke="url(#hero-grad)" stroke-width="4">
-                    <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="10s" repeatCount="indefinite" />
-                  </line>
-                </g>
-                <g transform="rotate(120)">
-                  <circle cx="70" cy="0" r="12" fill="var(--color-primary-500)" opacity="0.9">
-                    <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="15s" repeatCount="indefinite" />
-                  </circle>
-                  <line x1="24" y1="0" x2="58" y2="0" stroke="url(#hero-grad)" stroke-width="4">
-                    <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="15s" repeatCount="indefinite" />
-                  </line>
-                </g>
-                <g transform="rotate(240)">
-                  <circle cx="70" cy="0" r="12" fill="var(--color-primary-400)" opacity="0.9">
-                    <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite" />
-                  </circle>
-                  <line x1="24" y1="0" x2="58" y2="0" stroke="url(#hero-grad)" stroke-width="4">
-                    <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite" />
-                  </line>
-                </g>
-              </g>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <FeatureInteractiveShowcase
+    <LandingProductDemos
+      :hero="home.hero"
       :eyebrow="home.features.eyebrow"
       :title="home.features.title"
       :description="home.features.description"
-      :primary-demos="home.features.primaryDemos"
-      :secondary-videos="home.features.secondaryVideos"
+      :product-demos="home.features.productDemos"
+      :secondary-features="home.features.secondaryFeatures"
     />
 
     <section id="how-it-works" class="py-20 lg:py-32">
