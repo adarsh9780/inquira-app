@@ -1,46 +1,61 @@
 ---
 title: Welcome to Inquira
-description: Inquira CE is a privacy-first, local AI data analysis desktop application.
+description: Inquira CE is a local-first AI data analysis desktop app with editable Python workflows.
 ---
 
 # Welcome to Inquira
 
-Inquira CE is a privacy-first, local AI data analysis desktop application. Workspace data is stored
-and processed locally by default, while cloud AI providers receive only the prompts and context you
-choose to send.
+Inquira CE is a local-first AI data analysis desktop app. You ask questions about your data, Inquira generates Python, runs it locally against your workspace, and shows the code, results, charts, logs, and artifacts that produced the answer.
 
-## What is Inquira?
+The important difference: Inquira is not a black-box data chatbot. It is an inspectable Python workflow. You can read the generated code, edit it, rerun it, debug it, and keep the result with the rest of your project.
 
-In plain terms: you ask a question about your data in natural language, and Inquira's agents will generate Python analysis scripts, autonomously execute them against your data locally, and return the final results, charts, or insights directly to you along with a concise natural language explanation. It bridges the gap between chat-based LLMs and reproducible data science pipelines.
+## What Inquira Does
+
+1. Creates a local DuckDB workspace for your project.
+2. Imports CSV, Excel, JSON, and Parquet files into local tables.
+3. Uses your selected model provider to generate analysis code from natural-language questions.
+4. Executes Python in a workspace-scoped local Jupyter runtime.
+5. Saves tables, charts, scalar results, logs, generated code, and turn artifacts.
+6. Lets you continue later with your workspace, chat history, editor state, and artifacts intact.
+
+Workspace data is stored and processed locally by default. If you use a cloud model provider, prompts and selected context are sent to that provider. If you use local models through Ollama, the model step can stay local too.
 
 ## Core Features
 
-- **Autonomous AI-Assisted Analysis**: Translates your natural language prompts into Python workflows, independently executes them, and rapidly returns the final answers and charts.
-- **Local Python Execution & Model Flexibility**: Comes with a bundled Jupyter kernel running locally, supports Ollama-hosted local models, and can connect to 100+ providers through BYOK via OpenRouter.
-- **Seamless Local Data Handling**: Inquira natively connects to your Excel, CSV, JSON, and Parquet files. It dynamically converts them into extremely fast, local DuckDB workspaces capable of analyzing data of any size that fits on your machine.
-- **Integrated Code Editor**: Want full control? The workspace includes a built-in code editor with data-aware autocomplete suggestions. You can manually tweak the AI-generated code, execute it, and debug any issues in a dedicated error pane.
-- **Slash Commands for Fast Starts**: Use built-in `/` commands to insert common analysis and workflow patterns quickly. In future releases, users will also be able to define their own commands.
-- **Interactive Visualization & Exploring**: Explore generated Plotly charts instantly. Data tables are rendered using AG Grid with a streaming backend (handling up to 2000 rows at a time) to ensure a high-performance, low-memory footprint view of massive datasets.
-- **Flawless Resume & Persistence**: Never lose your context. Intermediate variables, artifacts, and local results are saved continuously. You can close the app and resume exactly where you left off later without having to reconnect datasets or rerun expensive computations.
-- **Real-Time Visibility & Built-in Terminal**: Watch the agent's thought process through real-time chat token streaming, and leverage the built-in workspace terminal for extra control, manual execution, and debugging.
+- **Editable AI-Generated Python**: Review, change, rerun, undo or redo, sync table names, and export `.py` files instead of trusting a hidden answer.
+- **Local Python Runtime**: Generated and manually edited scripts run in a workspace-scoped Jupyter runtime on your machine.
+- **Local DuckDB Workspaces**: Import CSV, Excel, JSON, and Parquet files into fast local DuckDB tables that stay grouped by project.
+- **Data-Aware Editor**: The code editor includes Python support, data-aware autocomplete, and a source switch between agent-generated and user-edited code.
+- **Tables, Charts, Logs, and Artifacts**: Inspect generated tables, Plotly charts, output logs, errors, scalar values, and saved turn artifacts.
+- **Conversation Tree**: Revisit branches of analysis, choose final turns, and keep the path that produced a result.
+- **Persistent Projects**: Workspaces save datasets, conversations, artifacts, editor state, selected panes, and local results across app restarts.
+- **Built-In Terminal**: Use the workspace terminal for package installs, file checks, and debugging when chat is not enough.
+- **Model Flexibility**: Use OpenRouter, direct provider keys, or local Ollama setups. API keys are saved locally and masked in settings.
 
-## Who is this for?
+## Who It Is For
 
-### Primary Users
-- **Data Scientists and Data Analysts** who know Python. It supercharges your existing workflow by handling the boilerplate code generation while offering complete privacy and local control over the environment.
+### Data Scientists and Analysts
 
-### Secondary Users
-- **Professionals with many Excel/CSV files** who need to find patterns or analyze data quickly. Inquira speeds up your daily processes so you don't have to depend on an analyst for every descriptive question about your data.
+Use Inquira to speed up the repetitive parts of analysis while keeping the code visible and editable. It is useful when you want AI help but still need a reproducible path from question to result.
+
+### Operators With Local Files
+
+Use Inquira when you have CSV, Excel, JSON, or Parquet files and need quick exploration without sending the raw workspace to a hosted analytics service.
+
+### Python-Literate Power Users
+
+Use the editor and terminal directly when you want to step outside the chat flow, install a package, debug a query, or rerun a script manually.
 
 :::warning
-Python and terminal commands run locally with your operating-system user permissions and are not
-sandboxed. Review code before running it, maintain backups, and verify AI-generated results.
+Python and terminal commands run locally with your operating-system user permissions and are not sandboxed. Review code before running it, maintain backups, and verify AI-generated results.
 :::
 
 ## Next Steps
 
-If this is your first time here, you can grab the desktop application from the [Download](/#download) section on the homepage.
+Download the desktop app from the [homepage](/#download).
 
-If you want the plain explanation of how the installers are currently shipped, read [Desktop Distribution](/docs/getting-started/distribution).
+Read [Installation and First Run](/docs/getting-started/installation) if you are setting up Inquira for the first time.
 
-If you are evaluating product sign-in and account architecture, read about our [Authentication Strategy](/docs/auth-strategy) and [Editions](/docs/editions).
+Read [Desktop Distribution](/docs/getting-started/distribution) if you want the plain explanation of the current macOS and Windows installer flow.
+
+Read [Workspace Management](/docs/features/workspace) if you want to understand how projects, datasets, artifacts, and runtime state fit together.

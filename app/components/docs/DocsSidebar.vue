@@ -106,7 +106,7 @@ interface NavItem {
 
 const gettingStartedLinks = computed<NavItem[]>(() => [
   { label: 'Welcome', to: '/docs' },
-  { label: 'Getting Data In', to: '/docs/getting-started/installation' },
+  { label: 'Installation', to: '/docs/getting-started/installation' },
   { label: 'Using OpenRouter', to: '/docs/openrouter' },
   { label: 'Desktop Distribution', to: '/docs/getting-started/distribution' },
 ])

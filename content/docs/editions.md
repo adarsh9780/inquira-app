@@ -1,68 +1,71 @@
 ---
 title: Editions
-description: Inquira Community Edition vs Pro vs Enterprise.
+description: Current Inquira CE capabilities and planned commercial directions.
 ---
 
 # Inquira Editions
 
-Inquira is available in three editions to suit different needs.
+Inquira CE is the current public desktop app. Pro and Enterprise are planned commercial directions for workflows that need managed features, deeper integrations, or organizational controls.
 
-## Comparison
+## Current CE Capabilities
 
-| Feature | Community (Free) | Pro | Enterprise |
-|---------|------------------|-----|------------|
-| Local DuckDB engine | ✓ | ✓ | ✓ |
-| AI code generation | ✓ | ✓ | ✓ |
-| Interactive visualizations | ✓ | ✓ | ✓ |
-| No forced login | ✓ | ✓ | ✓ |
-| Single workspace | ✓ | - | - |
-| Multiple workspaces | - | ✓ | ✓ |
-| RAG support | - | ✓ | ✓ |
-| Advanced chart themes | - | ✓ | ✓ |
-| Data connectors | - | - | ✓ |
-| MCP support | - | - | ✓ |
-| Team collaboration | - | - | ✓ |
-| Priority support | - | ✓ | ✓ |
+| Capability | CE |
+| --- | --- |
+| Local DuckDB workspaces | Yes |
+| Multiple local workspaces | Yes |
+| CSV, Excel, JSON, and Parquet import | Yes |
+| AI-generated Python | Yes |
+| User-editable Python | Yes |
+| Data-aware code editor | Yes |
+| Local Jupyter execution | Yes |
+| Table, chart, output, and artifact panes | Yes |
+| Conversation tree | Yes |
+| Built-in workspace terminal | Yes |
+| BYOK model setup | Yes |
+| OpenRouter and local Ollama-oriented workflows | Yes |
+| No forced login for basic local usage | Yes |
 
-## Community Edition (Free)
+## Community Edition
 
-**For individuals and personal use**
+**For individuals, analysts, and local-first workflows.**
 
-The core desktop experience with all essential features. No login required, no cloud dependencies.
+CE is focused on the core desktop experience:
 
-Perfect for:
-- Personal data analysis
-- Learning Python and data science
-- Privacy-conscious users
+- Local projects
+- Local data processing
+- Editable AI-generated Python
+- Persistent workspaces
+- Inspectable tables, charts, logs, and artifacts
+- Bring-your-own model access
 
-## Pro
+## Planned Pro Direction
 
-**For power users and professionals**
+Pro is intended for individual power users who need more workflow depth.
 
-Everything in Community, plus advanced workflows and organization features.
+Likely areas:
 
-Includes:
-- RAG (Retrieval-Augmented Generation) support
-- Multiple simultaneous workspaces
+- Deeper RAG support
+- More advanced visualization and styling controls
+- More workflow automation
 - Priority support
-- Advanced visualization themes
+- More project organization features
 
-## Enterprise
+## Planned Enterprise Direction
 
-**For teams and organizations**
+Enterprise is intended for organizations that need managed deployment and integration.
 
-Pro plus organizational integration and team features.
+Likely areas:
 
-Includes:
-- Data connectors (PostgreSQL, MySQL, etc.)
-- MCP (Model Context Protocol) support
-- Team workspace sharing
-- Custom integrations
-- Dedicated support
+- Direct database and SaaS connectors
+- MCP integration
+- Team and workspace administration
+- SSO and identity controls
+- Audit logging
+- Custom integrations and support
 
 ## Licensing
 
-- **Community**: Sustainable Use License (free for personal/academic/internal use)
-- **Pro/Enterprise**: Commercial license required for managed services
+- **Community Edition**: Sustainable Use License for personal, academic, and internal business use.
+- **Commercial use cases**: Managed services, resale, hosted services, and other commercial exploitation require a commercial license.
 
-For pricing details, visit the [pricing section](/#pricing) on the homepage.
+The public homepage may hide pricing while editions are still being shaped.

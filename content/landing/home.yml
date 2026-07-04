@@ -1,30 +1,30 @@
 hero:
-  badge: Privacy-First AI
-  title: Local AI Data Analysis
-  highlight: On Your Machine
-  description: Ask questions about your data in natural language. Inquira generates Python scripts, executes them locally, and keeps workspace data on your machine by default.
+  badge: Editable Local AI
+  title: AI Data Analysis
+  highlight: You Can Inspect
+  description: Ask a question, get Python you can read, edit, and rerun. Inquira executes the workflow locally against your DuckDB workspace and keeps project data on your machine by default.
   ctas:
     - label: Download Free
       href: "#download"
     - label: Read Docs
       href: "/docs"
   stats:
-    - value: "100%"
-      label: Local Processing
-    - value: "0"
-      label: Cloud Dependencies
+    - value: Editable
+      label: Python Workflows
     - value: DuckDB
-      label: Powered Engine
+      label: Local Workspace Engine
+    - value: BYOK
+      label: Model Control
 
 features:
   eyebrow: Core Features
-  title: See Inquira Work Before You Download
-  description: Three product moments explain the local-first workflow first. Deeper capabilities can use Studio-managed videos or screenshot fallbacks.
+  title: From Prompt to Python You Can Trust
+  description: Move from plain-English questions to reviewable Python, charts, tables, logs, and saved artifacts in one local workspace.
   productDemos:
     - id: ask-answer
       eyebrow: Analyze
-      title: Ask a question, get usable outputs
-      summary: Ask in plain English, watch Inquira run the local workflow, then switch between the answer, chart, table, and output artifacts.
+      title: Ask a question, get a workflow
+      summary: Ask in plain English, watch Inquira generate and execute Python locally, then inspect the answer, chart, table, output logs, and saved artifacts.
       icon: message
       demoType: ask-answer
       media:
@@ -38,7 +38,7 @@ features:
     - id: create-workspace
       eyebrow: Organize
       title: Create a local workspace
-      summary: Start a focused workspace, add local datasets, and keep the project context, conversations, and generated artifacts together.
+      summary: Start a focused project, add local datasets, and keep schemas, chats, generated code, artifacts, and runtime context together.
       icon: workspace
       demoType: create-workspace
       media:
@@ -51,8 +51,8 @@ features:
           alt: Inquira workspace settings with local datasets
     - id: add-api-key
       eyebrow: Connect
-      title: Add your model key once
-      summary: Choose a provider, save a masked API key locally, and keep model access under your control.
+      title: Use the model you trust
+      summary: Choose OpenRouter, direct providers, or local Ollama setups. Save keys locally and decide what context you send to the model.
       icon: key
       demoType: add-api-key
       media:
@@ -66,7 +66,7 @@ features:
   secondaryFeatures:
     - id: local-python-execution
       title: Local Python Execution
-      summary: Bundled Jupyter kernel runs locally with your user permissions and is not sandboxed. Supports Ollama-hosted local models and BYOK access to 100+ providers through OpenRouter.
+      summary: Generated and edited scripts run in a workspace-scoped Jupyter runtime on your machine. Execution uses your user permissions and is not sandboxed.
       icon: code
       media:
         video:
@@ -78,7 +78,7 @@ features:
           alt: Inquira code editor and generated table
     - id: local-data-handling
       title: Seamless Local Data Handling
-      summary: Connect to Excel, CSV, JSON, and Parquet files. Dynamically converted into fast DuckDB workspaces for analyzing data of any size.
+      summary: Import CSV, Excel, JSON, and Parquet files into fast local DuckDB tables. Workspace schemas feed prompts, autocomplete, and repeatable analysis.
       icon: database
       media:
         video:
@@ -90,7 +90,7 @@ features:
           alt: Inquira workspace with linked local datasets
     - id: integrated-code-editor
       title: Integrated Code Editor
-      summary: Full control with a built-in editor, data-aware autocomplete, and slash commands for quick standard code patterns. Custom commands are planned next.
+      summary: Compare agent code with your edits, use data-aware autocomplete, rerun scripts, sync table names, undo or redo changes, and export .py files.
       icon: editor
       media:
         video:
@@ -101,8 +101,8 @@ features:
           src: "/media/landing/code-table.webp"
           alt: Inquira code editor with analysis output table
     - id: resume-persistence
-      title: Flawless Resume & Persistence
-      summary: Intermediate variables, artifacts, and results are saved continuously. Close the app and resume exactly where you left off.
+      title: Persistent Analysis Projects
+      summary: Workspaces save datasets, conversations, editor state, turn artifacts, tables, charts, and results so you can continue without rebuilding context.
       icon: clock
       media:
         video:
@@ -114,7 +114,7 @@ features:
           alt: Inquira resumed conversation with table output
     - id: power-user-controls
       title: Power-User Controls
-      summary: Built-in terminal access for extra control, package installs, and debugging when you want to step beyond the chat interface.
+      summary: Use the built-in workspace terminal for package installs, file checks, and debugging when you need more control than chat.
       icon: terminal
       media:
         video:
@@ -127,8 +127,8 @@ features:
 
 howItWorks:
   eyebrow: How It Works
-  title: Four Steps to AI-Powered Insights
-  description: Set up your workspace, connect a model, add data, and start analyzing in minutes.
+  title: Four Steps to Reproducible Local Analysis
+  description: Connect a model, create a local DuckDB workspace, then work through an inspectable Python loop.
   steps:
     - number: 1
       title: Create a Workspace
@@ -143,8 +143,8 @@ howItWorks:
       description: Import CSV, Excel, JSON, or Parquet files and let Inquira prepare them inside a fast local DuckDB workspace.
       shadowColor: orange
     - number: 4
-      title: Analyze Your Data
-      description: Ask questions in plain English and watch Inquira generate code, run the analysis locally, and return results.
+      title: Ask, Edit, and Run
+      description: Ask in plain English, inspect the generated Python, change it when needed, and rerun locally until the result is right.
       shadowColor: orange
 
 pricing:
@@ -157,10 +157,10 @@ pricing:
       description: Core desktop experience for individuals.
       features:
         - No forced login for basic usage
-        - Single-workspace experience
+        - Multiple local workspaces
         - Local DuckDB engine
-        - AI code generation
-        - Interactive visualizations
+        - Editable AI-generated Python
+        - Tables, charts, logs, and artifacts
       cta:
         label: Download Free
         href: "#download"

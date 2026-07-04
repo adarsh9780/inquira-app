@@ -26,7 +26,7 @@ test('docs content links do not point at missing top-level routes', () => {
   assert.doesNotMatch(welcomeDoc, /\]\(\/download\)/)
   assert.doesNotMatch(editionsDoc, /\]\(\/pricing\)/)
   assert.match(welcomeDoc, /\]\(\/#download\)/)
-  assert.match(editionsDoc, /\]\(\/#pricing\)/)
+  assert.match(editionsDoc, /homepage may hide pricing/)
 })
 
 test('public site links to an honest distribution doc and the doc explains the unsigned installer tradeoff', () => {
@@ -61,41 +61,72 @@ test('public site links to an honest distribution doc and the doc explains the u
   assert.match(installerScript, /Do you want to run xattr -dr/)
 })
 
-test('landing and docs highlight the expanded model, editor, and power-user feature set', () => {
+test('landing and docs highlight editable local Python workflows', () => {
   const landing = readLandingContent()
   const welcomeDoc = readFileSync(resolve(root, 'content/docs/welcome.md'), 'utf8')
+  const workspaceDoc = readFileSync(resolve(root, 'content/docs/features/workspace.md'), 'utf8')
   const landingFeatures = [
     ...landing.features.productDemos,
     ...landing.features.secondaryFeatures
   ]
   const landingFeatureCopy = landingFeatures.map((feature) => feature.summary).join('\n')
+  const landingCopy = [
+    landing.hero.badge,
+    landing.hero.title,
+    landing.hero.highlight,
+    landing.hero.description,
+    landing.features.title,
+    landing.features.description,
+    landingFeatureCopy,
+  ].join('\n')
 
-  assert.match(landingFeatureCopy, /Ollama-hosted local models/)
-  assert.match(landingFeatureCopy, /100\+ providers through OpenRouter/)
+  assert.match(landing.hero.description, /Python you can read, edit, and rerun/)
+  assert.match(landingCopy, /reviewable Python/)
+  assert.match(landingCopy, /saved artifacts/)
   assert.match(landingFeatureCopy, /data-aware autocomplete/)
-  assert.match(landingFeatureCopy, /slash commands/)
+  assert.match(landingFeatureCopy, /Compare agent code with your edits/)
+  assert.match(landingFeatureCopy, /sync table names/)
+  assert.match(landingFeatureCopy, /export \.py files/)
   assert.match(landingFeatures.map((feature) => feature.title).join('\n'), /Power-User Controls/)
-  assert.match(landingFeatureCopy, /Built-in terminal access/)
+  assert.match(landingFeatureCopy, /built-in workspace terminal/)
+  assert.doesNotMatch(landingCopy, /0\s*Cloud Dependencies/)
 
-  assert.match(welcomeDoc, /supports Ollama-hosted local models/)
-  assert.match(welcomeDoc, /100\+ providers through BYOK via OpenRouter/)
-  assert.match(welcomeDoc, /data-aware autocomplete suggestions/)
-  assert.match(welcomeDoc, /built-in `\/` commands/)
-  assert.match(welcomeDoc, /define their own commands/)
-  assert.match(welcomeDoc, /extra control, manual execution, and debugging/)
+  assert.match(welcomeDoc, /not a black-box data chatbot/)
+  assert.match(welcomeDoc, /inspectable Python workflow/)
+  assert.match(welcomeDoc, /agent-generated and user-edited code/)
+  assert.match(welcomeDoc, /OpenRouter, direct provider keys, or local Ollama setups/)
+  assert.match(workspaceDoc, /Switch between agent and edited versions/)
+  assert.match(workspaceDoc, /Run selected snippets/)
 })
 
-test('how it works section follows the workspace-to-analysis onboarding flow', () => {
+test('how it works section follows the inspect-edit-run onboarding flow', () => {
   const landing = readLandingContent()
   const flowText = [
     landing.howItWorks.title,
+    landing.howItWorks.description,
     ...landing.howItWorks.steps.flatMap((step) => [step.title, step.description])
   ].join('\n')
 
-  assert.match(flowText, /Four Steps to AI-Powered Insights/)
+  assert.match(flowText, /Four Steps to Reproducible Local Analysis/)
   assert.match(flowText, /Create a Workspace/)
   assert.match(flowText, /Add an API Key/)
   assert.match(flowText, /Add Datasets/)
-  assert.match(flowText, /Analyze Your Data/)
+  assert.match(flowText, /Ask, Edit, and Run/)
   assert.match(flowText, /Connect the model provider you want to use/)
+  assert.match(flowText, /inspect the generated Python/)
+  assert.match(flowText, /rerun locally/)
+})
+
+test('docs navigation labels the first-run guide as installation', () => {
+  const floatingNav = readFileSync(resolve(root, 'app/components/FloatingNav.vue'), 'utf8')
+  const docsContent = readFileSync(resolve(root, 'app/components/docs/DocsContent.vue'), 'utf8')
+  const docsSidebar = readFileSync(resolve(root, 'app/components/docs/DocsSidebar.vue'), 'utf8')
+  const installationDoc = readFileSync(resolve(root, 'content/docs/getting-started/installation.md'), 'utf8')
+
+  for (const source of [floatingNav, docsContent, docsSidebar]) {
+    assert.match(source, /label: 'Installation'/)
+    assert.doesNotMatch(source, /label: 'Getting Data In'/)
+  }
+  assert.match(installationDoc, /title: Installation and First Run/)
+  assert.match(installationDoc, /inspect-edit-rerun loop/)
 })
