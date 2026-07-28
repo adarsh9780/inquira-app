@@ -1,12 +1,12 @@
-const GITHUB_RELEASES_LATEST_URL = 'https://github.com/adarsh9780/inquira-ee/releases/latest'
+const PUBLIC_DISTRIBUTION_URL = 'https://inquiraai.com/docs/getting-started/distribution'
 
 export function fallbackDownloadManifest() {
   return {
     version: 'latest',
-    macosArm64Url: GITHUB_RELEASES_LATEST_URL,
-    windowsX64Url: GITHUB_RELEASES_LATEST_URL,
+    macosArm64Url: PUBLIC_DISTRIBUTION_URL,
+    windowsX64Url: PUBLIC_DISTRIBUTION_URL,
     publishedAt: '',
-    releaseNotesUrl: GITHUB_RELEASES_LATEST_URL,
+    releaseNotesUrl: PUBLIC_DISTRIBUTION_URL,
   }
 }
 

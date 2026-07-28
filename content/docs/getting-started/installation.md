@@ -11,7 +11,7 @@ This guide gets you from a fresh install to your first local analysis workflow.
 
 Download the current build from the [homepage](/#download).
 
-- **macOS**: The homepage opens guided installer instructions. The app is not yet signed and notarized, so the macOS flow is explicit about the Homebrew install and quarantine permission step.
+- **macOS**: The homepage opens guided installer instructions. The script downloads the latest Apple Silicon DMG, verifies its published SHA-256 checksum, installs the app, and asks before changing the quarantine flag.
 - **Windows**: The homepage links to the current Windows installer.
 
 Read [Desktop Distribution](/docs/getting-started/distribution) for details about the unsigned macOS tradeoff.
@@ -21,7 +21,7 @@ Read [Desktop Distribution](/docs/getting-started/distribution) for details abou
 1. Open Inquira.
 2. Create or select a workspace.
 3. Add a model provider key, or configure a local Ollama setup.
-4. Import a CSV, Excel, JSON, or Parquet file.
+4. Import a CSV, Excel, JSON, or Parquet file, or connect a read-only SQLite database.
 5. Ask a question in plain English.
 6. Review the generated Python.
 7. Edit the code if needed.
@@ -44,9 +44,10 @@ Supported formats:
 | Format | Extensions | Notes |
 | --- | --- | --- |
 | CSV | `.csv` | Good for flat files and exports |
-| Excel | `.xlsx`, `.xls` | Useful for spreadsheet workflows |
+| Excel | `.xlsx` | Useful for spreadsheet workflows |
 | Parquet | `.parquet` | Good for larger columnar datasets |
-| JSON | `.json` | Useful for structured exports |
+| JSON | `.json`, `.jsonl`, `.ndjson` | Useful for structured exports |
+| SQLite | `.sqlite`, `.sqlite3`, `.db` | Read-only tables and views |
 
 Inquira imports data into local DuckDB tables. Schema metadata is kept with the workspace so prompts, autocomplete, and generated code can refer to the right tables and columns.
 

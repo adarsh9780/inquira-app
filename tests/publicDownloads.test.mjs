@@ -8,11 +8,11 @@ import {
   normalizeDownloadManifest,
 } from '../app/utils/publicDownloads.js'
 
-test('normalizeDownloadManifest falls back to GitHub release URLs when manifest is missing', () => {
+test('normalizeDownloadManifest falls back to public distribution guidance when manifest is missing', () => {
   const manifest = normalizeDownloadManifest(null)
   assert.equal(manifest.version, 'latest')
-  assert.match(manifest.macosArm64Url, /github\.com\/adarsh9780\/inquira-ee\/releases\/latest$/)
-  assert.match(manifest.windowsX64Url, /github\.com\/adarsh9780\/inquira-ee\/releases\/latest$/)
+  assert.match(manifest.macosArm64Url, /inquiraai\.com\/docs\/getting-started\/distribution$/)
+  assert.match(manifest.windowsX64Url, /inquiraai\.com\/docs\/getting-started\/distribution$/)
 })
 
 test('normalizeDownloadManifest preserves public R2 URLs from latest.json', () => {

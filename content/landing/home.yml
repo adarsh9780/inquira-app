@@ -200,14 +200,14 @@ download:
     helper: Enter your email to receive product updates. Download will proceed regardless.
   mac:
     title: Download for macOS
-    description: Opens the guided installer instructions with the shell command.
+    description: Opens a guided installer that downloads and verifies the latest release.
   windows:
     title: Download for Windows
     description: Direct installer download.
-  note: macOS uses a guided shell installer for now because the app is not yet signed and notarized.
+  note: macOS uses a checksum-verified guided installer because the app is not yet signed and notarized.
   sourceLink:
-    label: View source on GitHub
-    href: "https://github.com/adarsh9780/inquira-ce"
+    label: Read the release security model
+    href: "/docs/getting-started/distribution"
   distributionLink:
     label: Read how desktop distribution works
     href: "/docs/getting-started/distribution"
@@ -215,15 +215,15 @@ download:
     eyebrow: macOS Install
     stepsTitle: What the script does
     steps:
-      - Installs Homebrew if your Mac does not already have it.
-      - Installs Inquira through Homebrew and, if you approve, gives macOS the manual permission it needs to run the app without Apple's paid developer ID.
-      - Leaves future upgrades to Homebrew with `brew upgrade --cask inquira`.
+      - Reads the latest release manifest from Inquira's public download service.
+      - Downloads the Apple Silicon DMG and verifies its SHA-256 checksum before opening it.
+      - Installs Inquira in Applications and asks before removing Apple's quarantine flag.
     commandTitle: Run this command in Terminal
     futurePlanTitle: Future notarization plan
-    futurePlanBody: We plan to move to proper signed and notarized macOS distribution once the project has sustainable support to cover Apple's developer program costs responsibly. Until then, we are keeping the source public and the install flow explicit.
+    futurePlanBody: We plan to move to proper signed and notarized macOS distribution once the project has sustainable support to cover Apple's developer program costs responsibly. Until then, releases remain checksum-verified and the install flow stays explicit.
     futurePlanLink:
-      label: Read why Apple's gatekeeping makes this harder for independent developers
-      href: "/docs/getting-started/distribution#why-apple-gatekeeping-makes-this-harder"
+      label: Read the macOS trust and installation details
+      href: "/docs/getting-started/distribution#macos"
     fullNoteLink:
       label: Read the full distribution note
       href: "/docs/getting-started/distribution"

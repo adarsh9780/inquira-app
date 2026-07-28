@@ -90,9 +90,16 @@ Recommended environment variables:
 - `STUDIO_GITHUB_CLIENT_SECRET=<github oauth client secret>`
 - `STUDIO_GITHUB_MODERATORS=adarshmaurya7@gmail.com`
 
-The landing page download buttons read `latest.json` from Cloudflare R2 so new desktop releases show up automatically without editing this repo.
+The landing page download buttons read `latest.json` from Cloudflare R2 so new
+Inquira Go desktop releases show up automatically without editing this repo.
 
 Important: this repository consumes `latest.json`, but it does not publish that file. A website deploy from `master` updates the site and docs, while download targets only change when the separate release process updates the R2 manifest.
+
+The production publisher now lives in the private `inquira-go` repository. A
+stable GitHub Release builds the native macOS and Windows installers, attaches
+them to the maintainer-only GitHub Release, and publishes the public installers
+and manifest to R2. `scripts/uploadPublicDownloadsToR2.mjs` remains available as
+a manual recovery path and always uploads `latest.json` last.
 
 ## Nuxt Studio
 
