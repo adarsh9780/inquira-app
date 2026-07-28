@@ -1,66 +1,75 @@
 ---
 title: Desktop Distribution
-description: How Inquira is currently distributed, what we do and do not guarantee, and how to build it yourself.
+description: How Inquira desktop releases are built, verified, and delivered.
 ---
 
 # Desktop Distribution
 
-This page explains exactly how the current desktop builds are distributed.
+Inquira currently publishes Apple Silicon macOS and x64 Windows installers.
 
-## Short Version
+## Automated Release Path
 
-- The macOS and Windows installers are built by a single independent developer.
-- Windows is currently distributed as a direct installer download from our public download bucket.
-- On macOS, the app is **not yet signed or notarized through Apple's paid developer program**.
-- On macOS, the recommended install path is a small shell script hosted at `https://inquiraai.com/install.sh`.
-- If you do not want to trust the distributed binary, you are free to build the app yourself from source on GitHub.
+Every stable Inquira Go release follows one controlled path:
 
-## Why We Are Doing It This Way
+1. The release tag must point to a commit on the protected development line.
+2. That exact commit must already have a successful continuous-integration run.
+3. GitHub builds macOS on a native Apple Silicon runner and Windows on a native Windows runner.
+4. The workflow verifies the embedded application version and bundled runtime metadata.
+5. SHA-256 checksums are generated for both installers.
+6. Installers are attached to the private maintainer GitHub Release.
+7. The same files are uploaded to the public Cloudflare R2 download bucket.
+8. `latest.json` is uploaded last, after every versioned object succeeds.
 
-Inquira is currently developed and released by a single developer with limited funds. Apple's paid developer program is required for the normal signed and notarized macOS distribution flow, and the project does not yet have the budget to support that cost responsibly.
+Publishing the latest pointer last means an interrupted release cannot direct
+users to an installer that has not finished uploading.
 
-Rather than pretending otherwise, we want to be explicit:
+## Why Downloads Use Cloudflare R2
 
-- the current macOS distribution model is a practical workaround
-- it is not the same as a signed and notarized App Store-style install
-- the source code is public so you can inspect it and build it yourself if that better matches your trust model
+The source repository is private, so its GitHub Release assets require GitHub
+repository access. They cannot serve normal public downloads. Cloudflare R2 is
+the public distribution layer used by the website and guided installer.
 
-## Why Apple Gatekeeping Makes This Harder
+Versioned installers and their checksums are available under
+`https://downloads.inquiraai.com/v<version>/`. The homepage reads
+`https://downloads.inquiraai.com/latest.json` to find the current files.
 
-Apple presents Gatekeeper and notarization as a trust and safety layer, but for independent developers it also functions as a paid distribution gate. In practice, that means a solo developer shipping a free or early-stage app is asked to pay Apple first before macOS will treat the app like a normal citizen.
+## macOS
 
-That does not mean Gatekeeper is useless. It does mean the current system puts meaningful distribution power in Apple’s hands, even when the developer is being explicit, publishing the source, and not trying to hide what the installer does.
+The macOS application is not signed or notarized through Apple's paid developer
+program. The guided installer therefore:
 
-So the current Inquira install flow is intentionally honest:
+- downloads the current Apple Silicon DMG over HTTPS;
+- verifies the SHA-256 value from the release manifest;
+- copies Inquira into `/Applications`;
+- asks before removing the macOS quarantine attribute.
 
-- we tell you the app is not yet signed or notarized
-- we tell you exactly what the installer script does
-- we leave the source public so you can inspect or build it yourself
-- we do not pretend Apple’s paid trust signals are the same thing as transparency
-
-## What the Current macOS Experience Means
-
-If you download or install the current macOS app, Gatekeeper may warn that the app is from an unidentified developer or may mark it as damaged. That does **not** automatically mean the app contains malware. It means the app does not yet carry Apple's paid trust signals for public Mac distribution.
-
-For users who are comfortable with that tradeoff, we provide a small installer script that uses Homebrew under the hood. The script explains what it will do, installs Homebrew if needed, installs the `inquira` cask, and explicitly asks before removing the quarantine flag from the installed app.
-
-The current macOS install command is:
+Run the guided installer with:
 
 ```bash
 curl -fsSL https://inquiraai.com/install.sh | bash
 ```
 
-## Build It Yourself
+The script does not install Homebrew and does not silently alter Gatekeeper
+settings. Rerun the same command to upgrade.
 
-If you prefer to avoid the distributed binary entirely, build from source instead:
+## Windows
 
-- Source repository: [Inquira CE on GitHub](https://github.com/adarsh9780/inquira-ce)
-- Project docs: [Development](/docs/development)
+The Windows x64 NSIS installer is downloaded directly from the public release
+bucket. It is not currently Authenticode-signed, so Microsoft Defender
+SmartScreen may show an unknown-publisher warning.
 
-That path gives you the strongest possible transparency because you can inspect the code and produce the app on your own machine.
+Trusted signing for a directly distributed executable is not available for
+free. Microsoft Store MSIX distribution could provide free Store signing in a
+future release, but it is a separate packaging and publishing path.
 
-## What We Plan To Do Next
+## Verification
 
-We plan to move to proper signed and notarized macOS distribution once Inquira has a user base that justifies it.
+Each release directory contains:
 
-Until then, this page explains exactly how the desktop app is currently shipped.
+- the macOS DMG;
+- the Windows installer;
+- `manifest.json`;
+- `SHA256SUMS.txt`.
+
+You can compare a downloaded file against `SHA256SUMS.txt` before opening it.
+The macOS guided installer performs this verification automatically.

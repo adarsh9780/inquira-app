@@ -2,14 +2,11 @@
 set -euo pipefail
 
 APP_NAME="Inquira"
-TAP_NAME="adarsh9780/inquira"
-CASK_NAME="inquira"
 APP_PATH="/Applications/Inquira.app"
-BREW_INSTALL_URL="https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
-GUM_VERSION="0.17.0"
+MANIFEST_URL="https://downloads.inquiraai.com/latest.json"
 
 TMP_DIR="$(mktemp -d)"
-GUM_BIN=""
+MOUNT_POINT="${TMP_DIR}/mounted"
 
 BOLD='\033[1m'
 INFO_COLOR='\033[38;5;244m'
@@ -19,12 +16,61 @@ ACCENT_COLOR='\033[38;5;173m'
 RESET='\033[0m'
 
 cleanup() {
+  if mount | grep -Fq "on ${MOUNT_POINT} "; then
+    hdiutil detach "$MOUNT_POINT" -quiet >/dev/null 2>&1 || true
+  fi
   rm -rf "${TMP_DIR}"
 }
 trap cleanup EXIT
 
-tty_available() {
-  [[ -r /dev/tty && -w /dev/tty ]]
+info() {
+  printf "${INFO_COLOR}==>${RESET} %s\n" "$1"
+}
+
+success() {
+  printf "${SUCCESS_COLOR}✓${RESET} %s\n" "$1"
+}
+
+warn() {
+  printf "${WARN_COLOR}Warning:${RESET} %s\n" "$1" >&2
+}
+
+section() {
+  printf "\n${ACCENT_COLOR}${BOLD}%s${RESET}\n" "$1"
+}
+
+prompt_yes_no() {
+  local question="$1"
+  local reply=""
+
+  if [[ ! -r /dev/tty || ! -w /dev/tty ]]; then
+    return 1
+  fi
+  read -r -p "${question} [y/N] " reply < /dev/tty
+  [[ "${reply:-}" =~ ^[Yy]([Ee][Ss])?$ ]]
+}
+
+require_supported_macos() {
+  if [[ "$(uname -s)" != "Darwin" ]]; then
+    warn "This installer is for macOS only."
+    warn "Use the Windows download from https://inquiraai.com on Windows."
+    exit 1
+  fi
+
+  case "$(uname -m)" in
+    arm64|aarch64) ;;
+    *)
+      warn "The current Inquira macOS release supports Apple Silicon only."
+      exit 1
+      ;;
+  esac
+
+  for command in curl hdiutil plutil shasum ditto; do
+    if ! command -v "$command" >/dev/null 2>&1; then
+      warn "Required macOS command is missing: $command"
+      exit 1
+    fi
+  done
 }
 
 download_file() {
@@ -33,225 +79,147 @@ download_file() {
   curl -fsSL --proto '=https' --tlsv1.2 -o "$output" "$url"
 }
 
-verify_checksum() {
-  local asset="$1"
-  local checksums_file="$2"
-  local asset_path="$3"
-  local expected=""
-
-  expected="$(awk -v asset="$asset" '$2 == asset { print $1 }' "$checksums_file" | head -n1)"
-  if [[ -z "$expected" ]]; then
-    return 1
-  fi
-
-  if command -v shasum >/dev/null 2>&1; then
-    local actual=""
-    actual="$(shasum -a 256 "$asset_path" | awk '{print $1}')"
-    [[ "$actual" == "$expected" ]]
-    return
-  fi
-
-  if command -v sha256sum >/dev/null 2>&1; then
-    local actual=""
-    actual="$(sha256sum "$asset_path" | awk '{print $1}')"
-    [[ "$actual" == "$expected" ]]
-    return
-  fi
-
-  return 1
+manifest_value() {
+  local key="$1"
+  local manifest_path="$2"
+  plutil -extract "$key" raw -o - "$manifest_path"
 }
 
-bootstrap_gum() {
-  if command -v gum >/dev/null 2>&1; then
-    GUM_BIN="$(command -v gum)"
+load_release() {
+  local manifest_path="$1"
+
+  info "Reading the current release manifest"
+  download_file "$MANIFEST_URL" "$manifest_path"
+
+  RELEASE_VERSION="$(manifest_value version "$manifest_path")"
+  RELEASE_URL="$(manifest_value macos_arm64_url "$manifest_path")"
+  RELEASE_SHA256="$(manifest_value macos_arm64_sha256 "$manifest_path" | tr '[:upper:]' '[:lower:]')"
+
+  if [[ ! "$RELEASE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    warn "The release manifest contains an invalid version."
+    exit 1
+  fi
+  if [[ ! "$RELEASE_URL" =~ ^https://downloads\.inquiraai\.com/v[0-9]+\.[0-9]+\.[0-9]+/[^/]+\.dmg$ ]]; then
+    warn "The release manifest contains an unexpected macOS download URL."
+    exit 1
+  fi
+  if [[ ! "$RELEASE_SHA256" =~ ^[0-9a-f]{64}$ ]]; then
+    warn "The release manifest contains an invalid macOS checksum."
+    exit 1
+  fi
+}
+
+download_and_verify_release() {
+  local dmg_path="$1"
+  local actual_sha256=""
+
+  info "Downloading ${APP_NAME} ${RELEASE_VERSION}"
+  download_file "$RELEASE_URL" "$dmg_path"
+
+  actual_sha256="$(shasum -a 256 "$dmg_path" | awk '{print $1}')"
+  if [[ "$actual_sha256" != "$RELEASE_SHA256" ]]; then
+    warn "The downloaded DMG did not match the published SHA-256 checksum."
+    exit 1
+  fi
+  success "SHA-256 checksum verified"
+}
+
+mount_release() {
+  local dmg_path="$1"
+
+  mkdir -p "$MOUNT_POINT"
+  info "Opening the verified disk image"
+  hdiutil attach "$dmg_path" -mountpoint "$MOUNT_POINT" -nobrowse -readonly -quiet
+
+  SOURCE_APP="$(find "$MOUNT_POINT" -maxdepth 2 -type d -name 'Inquira.app' -print -quit)"
+  if [[ -z "$SOURCE_APP" || ! -d "$SOURCE_APP" ]]; then
+    warn "The verified disk image does not contain Inquira.app."
+    exit 1
+  fi
+}
+
+remove_existing_app() {
+  if [[ ! -e "$APP_PATH" ]]; then
     return 0
   fi
-
-  if ! tty_available; then
-    return 1
-  fi
-
-  if ! command -v curl >/dev/null 2>&1 || ! command -v tar >/dev/null 2>&1; then
-    return 1
-  fi
-
-  local arch=""
-  case "$(uname -m)" in
-    arm64|aarch64) arch="arm64" ;;
-    x86_64|amd64) arch="x86_64" ;;
-    *) return 1 ;;
-  esac
-
-  local asset="gum_${GUM_VERSION}_Darwin_${arch}.tar.gz"
-  local base_url="https://github.com/charmbracelet/gum/releases/download/v${GUM_VERSION}"
-  local asset_path="${TMP_DIR}/${asset}"
-  local checksum_path="${TMP_DIR}/checksums.txt"
-
-  download_file "${base_url}/${asset}" "$asset_path" || return 1
-  download_file "${base_url}/checksums.txt" "$checksum_path" || return 1
-  verify_checksum "$asset" "$checksum_path" "$asset_path" || return 1
-
-  tar -xzf "$asset_path" -C "$TMP_DIR" >/dev/null 2>&1 || return 1
-
-  GUM_BIN="$(find "$TMP_DIR" -type f -name gum | head -n1 || true)"
-  if [[ -z "$GUM_BIN" ]]; then
-    return 1
-  fi
-
-  chmod +x "$GUM_BIN" >/dev/null 2>&1 || true
-}
-
-info() {
-  local message="$1"
-  if [[ -n "$GUM_BIN" ]]; then
-    "$GUM_BIN" log --level info "$message"
-  else
-    printf "${INFO_COLOR}==>${RESET} %s\n" "$message"
-  fi
-}
-
-success() {
-  local message="$1"
-  if [[ -n "$GUM_BIN" ]]; then
-    printf '%s %s\n' "$("$GUM_BIN" style --foreground "#00b894" --bold "✓")" "$message"
-  else
-    printf "${SUCCESS_COLOR}✓${RESET} %s\n" "$message"
-  fi
-}
-
-warn() {
-  local message="$1"
-  if [[ -n "$GUM_BIN" ]]; then
-    "$GUM_BIN" log --level warn "$message"
-  else
-    printf "${WARN_COLOR}Warning:${RESET} %s\n" "$message" >&2
-  fi
-}
-
-section() {
-  local message="$1"
-  if [[ -n "$GUM_BIN" ]]; then
-    printf '%s\n' "$("$GUM_BIN" style --foreground "#cc8252" --bold "$message")"
-  else
-    printf "\n${ACCENT_COLOR}${BOLD}%s${RESET}\n" "$message"
-  fi
-}
-
-prompt_yes_no() {
-  local question="$1"
-
-  if ! tty_available; then
-    return 1
-  fi
-
-  if [[ -n "$GUM_BIN" ]]; then
-    "$GUM_BIN" confirm "$question" < /dev/tty > /dev/tty
-    return $?
-  fi
-
-  local reply=""
-  read -r -p "${question} [y/N] " reply < /dev/tty
-  [[ "${reply:-}" =~ ^[Yy]([Ee][Ss])?$ ]]
-}
-
-require_macos() {
-  if [[ "$(uname -s)" != "Darwin" ]]; then
-    warn "This installer is for macOS only."
-    warn "Use the Windows download from https://inquiraai.com for Windows installs."
-    exit 1
-  fi
-}
-
-ensure_homebrew() {
-  if command -v brew >/dev/null 2>&1; then
-    success "Homebrew already available"
-    return 0
-  fi
-
-  info "Homebrew is required to install ${APP_NAME}."
-  if ! prompt_yes_no "Homebrew is not installed. Do you want to install it now?"; then
-    warn "Homebrew installation declined. Aborting."
+  if ! prompt_yes_no "Inquira is already installed. Replace it with ${RELEASE_VERSION}?"; then
+    warn "Installation cancelled. The existing application was not changed."
     exit 1
   fi
 
-  /bin/bash -c "$(curl -fsSL "${BREW_INSTALL_URL}")"
-
-  if [[ -x /opt/homebrew/bin/brew ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  elif [[ -x /usr/local/bin/brew ]]; then
-    eval "$(/usr/local/bin/brew shellenv)"
+  if [[ -w "$(dirname "$APP_PATH")" ]]; then
+    rm -rf "$APP_PATH"
+  else
+    sudo rm -rf "$APP_PATH"
   fi
-
-  if ! command -v brew >/dev/null 2>&1; then
-    warn "Homebrew installed, but brew is not on PATH in this shell yet."
-    warn "Open a new terminal and rerun this installer."
-    exit 1
-  fi
-
-  success "Homebrew installed"
 }
 
-install_inquira() {
-  info "Tapping ${TAP_NAME}"
-  brew tap "${TAP_NAME}"
+install_application() {
+  remove_existing_app
+  info "Installing ${APP_NAME} in /Applications"
 
-  info "Installing ${APP_NAME} via Homebrew Cask"
-  brew install --cask "${CASK_NAME}"
-  success "${APP_NAME} installed via Homebrew"
+  if [[ -w "$(dirname "$APP_PATH")" ]]; then
+    ditto "$SOURCE_APP" "$APP_PATH"
+  else
+    sudo ditto "$SOURCE_APP" "$APP_PATH"
+  fi
+  success "${APP_NAME} ${RELEASE_VERSION} installed"
 }
 
 handle_quarantine() {
-  if [[ ! -d "${APP_PATH}" ]]; then
-    warn "${APP_PATH} was not found after installation."
-    return 1
-  fi
-
   echo
-  info "macOS may still block ${APP_NAME} because the app is not signed or notarized yet."
-  info "If you approve, this script can remove the quarantine flag from ${APP_PATH}."
+  info "This release is checksum-verified but is not signed or notarized by Apple."
+  info "macOS may block it until the quarantine attribute is removed."
 
-  if prompt_yes_no "Do you want to run xattr -dr com.apple.quarantine on ${APP_NAME}?"; then
-    xattr -dr com.apple.quarantine "${APP_PATH}"
-    success "Quarantine flag removed for ${APP_NAME}"
+  if prompt_yes_no "Remove the quarantine attribute from ${APP_NAME}?"; then
+    if [[ -w "$APP_PATH" ]]; then
+      xattr -dr com.apple.quarantine "$APP_PATH"
+    else
+      sudo xattr -dr com.apple.quarantine "$APP_PATH"
+    fi
+    success "Quarantine attribute removed"
   else
-    info "Skipped quarantine removal."
-    info "If macOS blocks the app later, you can run:"
-    printf "  xattr -dr com.apple.quarantine %s\n" "${APP_PATH}"
+    info "The quarantine attribute was left unchanged."
+    printf "If macOS blocks the app, run:\n  sudo xattr -dr com.apple.quarantine %s\n" "$APP_PATH"
   fi
 }
 
 print_next_steps() {
   section "Next steps"
   cat <<EOF
-Updates:
-  brew upgrade --cask ${CASK_NAME}
+Open Inquira:
+  open "${APP_PATH}"
+
+Update:
+  Rerun this installer command.
 
 Uninstall:
-  brew uninstall --cask ${CASK_NAME}
+  sudo rm -rf "${APP_PATH}"
 
-If macOS still blocks the app later:
-  xattr -dr com.apple.quarantine ${APP_PATH}
-
-We plan to move to proper signed and notarized macOS distribution once the project has sustainable support to cover Apple's developer program costs.
+Release details:
+  https://inquiraai.com/docs/getting-started/distribution
 EOF
 }
 
 main() {
-  require_macos
-  bootstrap_gum || true
+  require_supported_macos
 
   section "Inquira macOS installer"
   cat <<EOF
 This installer will:
-  1. Install Homebrew if it is missing.
-  2. Tap ${TAP_NAME}.
-  3. Install ${APP_NAME} with Homebrew Cask.
-  4. Ask before removing the macOS quarantine flag from ${APP_PATH}.
+  1. Read the current release manifest from downloads.inquiraai.com.
+  2. Download the Apple Silicon DMG and verify its SHA-256 checksum.
+  3. Install Inquira in /Applications.
+  4. Ask before removing the macOS quarantine attribute.
 EOF
 
-  ensure_homebrew
-  install_inquira
-  handle_quarantine || true
+  local manifest_path="${TMP_DIR}/latest.json"
+  local dmg_path="${TMP_DIR}/inquira.dmg"
+  load_release "$manifest_path"
+  download_and_verify_release "$dmg_path"
+  mount_release "$dmg_path"
+  install_application
+  handle_quarantine
   print_next_steps
 }
 

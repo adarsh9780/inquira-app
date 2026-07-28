@@ -143,7 +143,9 @@ async function main() {
   )
   const bucket = args.bucket || process.env.R2_BUCKET || process.env.CLOUDFLARE_R2_BUCKET
   const releaseNotesUrl =
-    args['release-notes-url'] || process.env.PUBLIC_RELEASE_NOTES_URL || `https://github.com/adarsh9780/inquira-ee/releases/tag/${versionPrefix}`
+    args['release-notes-url'] ||
+    process.env.PUBLIC_RELEASE_NOTES_URL ||
+    'https://inquiraai.com/docs/getting-started/distribution'
 
   if (!bucket) {
     throw new Error('Missing R2 bucket. Set R2_BUCKET or CLOUDFLARE_R2_BUCKET.')
@@ -177,13 +179,16 @@ async function main() {
     await copyFile(windowsSource, path.join(versionDir, windowsName))
 
     const manifest = {
+      schema_version: 1,
+      product: 'inquira-go',
       version,
       macos_arm64_url: `${baseUrl}/${versionPrefix}/${macosName}`,
       windows_x64_url: `${baseUrl}/${versionPrefix}/${windowsName}`,
       published_at: new Date().toISOString(),
       release_notes_url: releaseNotesUrl,
       macos_arm64_sha256: macosSha,
-      windows_x64_sha256: windowsSha
+      windows_x64_sha256: windowsSha,
+      source_repository_url: 'https://github.com/adarsh9780/inquira-go'
     }
     const manifestJson = `${JSON.stringify(manifest, null, 2)}\n`
 
@@ -194,11 +199,13 @@ async function main() {
     await writeFile(path.join(stageDir, 'latest.json'), manifestJson, 'utf8')
     await writeFile(path.join(versionDir, 'manifest.json'), manifestJson, 'utf8')
 
+    // Publish immutable payloads first and latest.json last. If an upload fails,
+    // the public latest pointer continues to reference the previous complete release.
     const filesToUpload = [
-      { relativePath: 'latest.json', contentType: 'application/json' },
+      { relativePath: `${versionPrefix}/${macosName}`, contentType: 'application/x-apple-diskimage' },
+      { relativePath: `${versionPrefix}/${windowsName}`, contentType: 'application/vnd.microsoft.portable-executable' },
       { relativePath: `${versionPrefix}/manifest.json`, contentType: 'application/json' },
-      { relativePath: `${versionPrefix}/${macosName}`, contentType: 'application/octet-stream' },
-      { relativePath: `${versionPrefix}/${windowsName}`, contentType: 'application/octet-stream' }
+      { relativePath: 'latest.json', contentType: 'application/json' }
     ]
 
     for (const file of filesToUpload) {
